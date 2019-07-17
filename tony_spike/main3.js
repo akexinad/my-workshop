@@ -216,7 +216,7 @@ class OliveMesh extends THREE.Mesh {
 
 
 console.log('SILVERTOWN ====>', silvertown);
-console.log('SAMPLE COMPARTMENT DATA ====>', sampleCompartmentsData);
+console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
 
 
 console.log('PROJECT 1 COMPARTMENTS ====>', silvertown[0].scenarios[0].structures[0].compartments);

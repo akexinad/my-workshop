@@ -1,4 +1,4 @@
-const sampleCompartmentsData = [
+const compartmentStack = [
     {
         "id": "5d49ef51-e46c-4f14-83d5-b95c98f35427",
         "structureId": "00000000-0000-0000-0000-000000000000",
