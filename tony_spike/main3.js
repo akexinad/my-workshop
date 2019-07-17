@@ -2,19 +2,20 @@ function createRenderer() {
     const renderer = new THREE.WebGLRenderer({
         antialias: true
     });
+    
     renderer.setSize(window.innerWidth, window.innerHeight);
-
     renderer.setClearColor('white');
-
     renderer.shadowMap.enabled = true;
 
     const output = document.querySelector('#output');
     output.appendChild(renderer.domElement);
+    
     return renderer;
 }
 
 function createScene() {
     const scene = new THREE.Scene();
+    
     return scene;
 }
 
@@ -27,33 +28,41 @@ function createCamera() {
     );
 
     camera.position.x = -30;
-    camera.position.y = 50;
-    camera.position.z = 30;
+    camera.position.y = 10;
+    camera.position.z = -30;
+
+    camera.up = new THREE.Vector3( 0, 0, 1 );
+    
     return camera;
 }
 
 function createLight() {
     const pointLight = new THREE.PointLight('#FFFFFF', 1.2);
+
     pointLight.position.x = 4;
-    pointLight.position.y = 30;
+    pointLight.position.y = 100;
     pointLight.castShadow = true;
     pointLight.shadow.mapSize.width = 2048;
     pointLight.shadow.mapSize.height = 2048;
+    
     return pointLight;
 }
 
 function createAxesHelper() {
     const axesHelper = new THREE.AxesHelper(100);
+    
     return axesHelper;
 }
 
 function createLightHelper(light) {
     const helper = new THREE.PointLightHelper(light);
+    
     return helper;
 }
 
 function addOrbitControls(camera, renderer) {
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    
     return controls;
 }
 
@@ -93,13 +102,16 @@ class Point {
 
 class Ring extends THREE.LineLoop {
 
-    constructor(points) {
+    constructor(compartmentGeometry) {
         const ring = new THREE.BufferGeometry();
         const newPoints = [];
 
+        // console.log('COMPARTMENT GEOMETRY ====> ', compartmentGeometry);
+        
+
         // Instantiate new Point classes from each coordinate of the polygon.
-        points.forEach(point => {
-            newPoints.push(new Point(point.x, point.y, point.z));
+        compartmentGeometry.forEach(coordinate => {
+            newPoints.push(new Point(coordinate.x, coordinate.y, coordinate.z));
         });
         
         if (newPoints[0] === newPoints[newPoints.length - 1]) {
@@ -136,9 +148,11 @@ class Ring extends THREE.LineLoop {
 
 class OliveGeometry extends THREE.ExtrudeBufferGeometry {
 
-    constructor(data) {
+    constructor(compartment) {
 
-        const ring = new Ring(data);
+        // console.log('Data Inside OliveGeometry ====>', compartment);
+        
+        const ring = new Ring(compartment.geometry);
         const groupedCoordinates = [];
         const vector3Array = [];
 
@@ -148,14 +162,18 @@ class OliveGeometry extends THREE.ExtrudeBufferGeometry {
             groupedCoordinates.push(ringArray.slice(i * 3, (i + 1) * 3));
         }
 
-        groupedCoordinates.forEach( coord => {
-            vector3Array.push( new THREE.Vector3(coord[0], coord[1], coord[2]) );
+        groupedCoordinates.forEach( coordinate => {
+            vector3Array.push( new THREE.Vector3(coordinate[0], coordinate[1], coordinate[2]) );
         });
 
         const shape = new THREE.Shape(vector3Array);
 
+        // console.log('HEIGHT ====>', compartment.height);
+        
+
         const extrusionSettings = {
-            depth: ring.geometry.getAttribute('vertices').getZ(0),
+            depth: compartment.height,
+            // depth: ring.geometry.getAttribute('vertices').getZ(0),
             steps: 1,
             bevelEnabled: false
         };
@@ -179,9 +197,9 @@ class OliveGeometry extends THREE.ExtrudeBufferGeometry {
 
 class OliveMesh extends THREE.Mesh {
 
-    constructor(data, colour) {
+    constructor(compartment, colour) {
 
-        const geometry = new OliveGeometry(data);
+        const geometry = new OliveGeometry(compartment);
 
         const material = new THREE.MeshLambertMaterial({
             color: colour
@@ -198,9 +216,8 @@ class OliveMesh extends THREE.Mesh {
 
 
 console.log('SILVERTOWN ====>', silvertown);
-console.log("======= LOOP ====>");
 
-// console.log(silvertown[0].scenarios[0].structures[0].compartments);
+console.log('FIRST COMPARTMENT ====>', silvertown[0].scenarios[0].structures[0].compartments);
 // console.log("Silvertown geometry ====>", silvertown[0].scenarios[0].structures[0].compartments[0].geometry);
 
 
@@ -220,9 +237,8 @@ scene.add(axes, light, lightHelper);
 
 silvertown.forEach( project => {
     project.scenarios[0].structures[0].compartments.forEach( compartment => {
-        console.log(compartment.geometry);
 
-        const mesh = new OliveMesh(compartment.geometry, '#D40000');
+        const mesh = new OliveMesh(compartment, '#D40000');
         
         scene.add(mesh);     
     })
