@@ -216,17 +216,15 @@ class OliveMesh extends THREE.Mesh {
 
 
 console.log('SILVERTOWN ====>', silvertown);
-console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
-
-
-console.log('PROJECT 1 COMPARTMENTS ====>', silvertown[0].scenarios[0].structures[0].compartments);
 console.log("SILVERTOWN STRUCTURES ====>", silvertown[0].scenarios[0].structures[0]);
+console.log('SILVERTOWN FIRST COMPARTMENTS ====>', silvertown[0].scenarios[0].structures[0].compartments);
+
+console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
 
 
 const project1Compartments = silvertown[0].scenarios[0].structures[0].compartments;
 const silvertownStructure = silvertown[0].scenarios[0].structures[0];
 
-// console.log(project1Structure);
 
 
 
@@ -257,16 +255,21 @@ scene.add(axes, light, lightHelper);
 
 function addCompartmentMesh(structureData, groupName, colour) {
     
-    const group = new THREE.Group();
-    group.name = groupName;
+    const structureGroup = new THREE.Group();
+    structureGroup.name = 'structures';
+
+    const compartmentGroup = new THREE.Group();
+    compartmentGroup.name = 'compartments';
+
+    structureGroup.add(compartmentGroup);
 
     structureData.compartments.forEach( compartment => {
-        const mesh = new OliveMesh(compartment, colour);
+        const compartments = new OliveMesh(compartment, colour);
 
-        group.add(mesh)
-    })
+        compartmentGroup.add(compartments);
+    });
     
-    scene.add(group);
+    scene.add(structureGroup);
 }
 
 addCompartmentMesh(silvertownStructure, 'buildingOne', 'red');
@@ -274,12 +277,13 @@ addCompartmentMesh(silvertownStructure, 'buildingOne', 'red');
 console.log('THE SCENE ==========>', scene);
 
 
-//////////////////////////////////////
 
-// scene.add(compartment);
-// scene.add(oliveMesh);
 
-//////////////////////////////////////
+
+
+
+
+
 
 addOrbitControls(camera, renderer);
 
