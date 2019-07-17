@@ -27,9 +27,9 @@ function createCamera() {
        1000
     );
 
-    camera.position.x = -30;
-    camera.position.y = 30;
-    camera.position.z = 5;
+    camera.position.x = -150;
+    camera.position.y = -30;
+    camera.position.z = 60;
 
     camera.up = new THREE.Vector3( 0, 0, 1 );
     
@@ -220,7 +220,7 @@ console.log('SAMPLE COMPARTMENT DATA ====>', sampleCompartmentsData);
 
 
 console.log('PROJECT 1 COMPARTMENTS ====>', silvertown[0].scenarios[0].structures[0].compartments);
-// console.log("Silvertown geometry ====>", silvertown[0].scenarios[0].structures[0].compartments[0].geometry);
+console.log("SILVERTOWN STRUCTURES ====>", silvertown[0].scenarios[0].structures[0]);
 
 
 const project1Compartments = silvertown[0].scenarios[0].structures[0].compartments;
@@ -255,21 +255,21 @@ scene.add(axes, light, lightHelper);
 //     scene.add(mesh);
 // })
 
-// const buildingOne = new THREE.Group();
-const buildingOne = new THREE.Group({
-    name: 'buildingOne'
-});
-// buildingOne.name = 'buildingOne';
-
-sampleCompartmentsData.forEach( compartment => {
-    const mesh = new OliveMesh(compartment, '#D40000');
-
-    buildingOne.add(mesh)
+function addCompartmentMesh(compartmentData, groupName, colour) {
     
-    // scene.add(mesh)
-})
+    const group = new THREE.Group();
+    group.name = groupName;
 
-scene.add(buildingOne);
+    compartmentData.forEach( compartment => {
+        const mesh = new OliveMesh(compartment, colour);
+
+        group.add(mesh)
+    })
+    
+    scene.add(group);
+}
+
+addCompartmentMesh(sampleCompartmentsData, 'buildingOne', 'red');
 
 console.log('THE SCENE ==========>', scene);
 
