@@ -21,10 +21,10 @@ function createScene() {
 
 function createCamera() {
     const camera = new THREE.PerspectiveCamera(
-       45,
-       window.innerWidth / window.innerHeight,
-       0.1,
-       1000
+        60,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
     );
 
     camera.position.x = -150;
@@ -224,7 +224,7 @@ console.log("SILVERTOWN STRUCTURES ====>", silvertown[0].scenarios[0].structures
 
 
 const project1Compartments = silvertown[0].scenarios[0].structures[0].compartments;
-const project1Structure = silvertown[0].scenarios[0].structures[0];
+const silvertownStructure = silvertown[0].scenarios[0].structures[0];
 
 // console.log(project1Structure);
 
@@ -255,12 +255,12 @@ scene.add(axes, light, lightHelper);
 //     scene.add(mesh);
 // })
 
-function addCompartmentMesh(compartmentData, groupName, colour) {
+function addCompartmentMesh(structureData, groupName, colour) {
     
     const group = new THREE.Group();
     group.name = groupName;
 
-    compartmentData.forEach( compartment => {
+    structureData.compartments.forEach( compartment => {
         const mesh = new OliveMesh(compartment, colour);
 
         group.add(mesh)
@@ -269,7 +269,7 @@ function addCompartmentMesh(compartmentData, groupName, colour) {
     scene.add(group);
 }
 
-addCompartmentMesh(sampleCompartmentsData, 'buildingOne', 'red');
+addCompartmentMesh(silvertownStructure, 'buildingOne', 'red');
 
 console.log('THE SCENE ==========>', scene);
 
