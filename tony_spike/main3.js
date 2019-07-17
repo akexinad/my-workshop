@@ -83,9 +83,9 @@ class Point {
         this._point.addAttribute('vertex', new THREE.BufferAttribute(vertex, 3));
         this.srid = srid;
         
-        this.X = this._point.getAttribute('vertex').getX(0);
-        this.Y = this._point.getAttribute('vertex').getY(0);
-        this.Z = this._point.getAttribute('vertex').getZ(0);
+        this.x = this._point.getAttribute('vertex').getX(0);
+        this.y = this._point.getAttribute('vertex').getY(0);
+        this.z = this._point.getAttribute('vertex').getZ(0);
     }   
 }
 
@@ -112,8 +112,10 @@ class Ring extends THREE.LineLoop {
 
         // Instantiate new Point classes from each coordinate of the polygon.
         compartmentGeometry.forEach(coordinate => {
-            newPoints.push(new Point(coordinate.x, coordinate.y, coordinate.z));
+            newPoints.push(new Point(coordinate.x, coordinate.y, coordinate.z, coordinate.srid));
         });
+
+        console.log('POINTS INSIDE THE RING CLASS ====>', newPoints);
         
         if (newPoints[0] === newPoints[newPoints.length - 1]) {
             newPoints.pop();
@@ -123,7 +125,7 @@ class Ring extends THREE.LineLoop {
         
         // Create an array of all the coordinates in order to instantiate
         // a new Float32Array which can then be used to instantiate a new Ring.
-        newPoints.forEach( vertex => verticesList.push(vertex.X, vertex.Y, vertex.Z));
+        newPoints.forEach( vertex => verticesList.push(vertex.x, vertex.y, vertex.z));
         
         const vertices = new Float32Array(verticesList);
         
@@ -222,7 +224,7 @@ console.log('SILVERTOWN FIRST COMPARTMENTS ====>', silvertown[0].scenarios[0].st
 console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
 
 
-const project1Compartments = silvertown[0].scenarios[0].structures[0].compartments;
+const silvertownCompartments = silvertown[0].scenarios[0].structures[0].compartments;
 const silvertownStructure = silvertown[0].scenarios[0].structures[0];
 
 
@@ -253,7 +255,7 @@ scene.add(axes, light, lightHelper);
 //     scene.add(mesh);
 // })
 
-function addCompartmentMesh(structureData, groupName, colour) {
+function addCompartmentMesh(structureData, colour) {
     
     const structureGroup = new THREE.Group();
     structureGroup.name = 'structures';
@@ -272,7 +274,7 @@ function addCompartmentMesh(structureData, groupName, colour) {
     scene.add(structureGroup);
 }
 
-addCompartmentMesh(silvertownStructure, 'buildingOne', 'red');
+addCompartmentMesh(silvertownStructure, 'red');
 
 console.log('THE SCENE ==========>', scene);
 
