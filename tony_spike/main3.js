@@ -226,7 +226,7 @@ console.log('PROJECT 1 COMPARTMENTS ====>', silvertown[0].scenarios[0].structure
 const project1Compartments = silvertown[0].scenarios[0].structures[0].compartments;
 const project1Structure = silvertown[0].scenarios[0].structures[0];
 
-console.log(project1Structure);
+// console.log(project1Structure);
 
 
 
@@ -255,13 +255,21 @@ scene.add(axes, light, lightHelper);
 //     scene.add(mesh);
 // })
 
+// const buildingOne = new THREE.Group();
+const buildingOne = new THREE.Group({
+    name: 'buildingOne'
+});
+// buildingOne.name = 'buildingOne';
+
 sampleCompartmentsData.forEach( compartment => {
     const mesh = new OliveMesh(compartment, '#D40000');
-    // const compartmentArray = [];
-    // compartmentArray.push(mesh);
-    scene.add(mesh)
-    // scene.add(compartmentArray);
+
+    buildingOne.add(mesh)
+    
+    // scene.add(mesh)
 })
+
+scene.add(buildingOne);
 
 console.log('THE SCENE ==========>', scene);
 
