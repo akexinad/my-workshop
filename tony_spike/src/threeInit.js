@@ -113,7 +113,7 @@ function createRaycaster() {
             
             intersectedCompartment = intersectedTower[ 0 ];
             intersectedCompartment.currentHex = intersectedCompartment.material.emissive.getHex();
-            intersectedCompartment.material.emissive.setHex( 0xff0000 );
+            intersectedCompartment.material.emissive.setHex( 0x00ff00 );
         }
 
     } else {
