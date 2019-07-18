@@ -1,4 +1,7 @@
 const mouse = new THREE.Vector2();
+let INTERSECTED;
+const raycaster = new THREE.Raycaster();
+
 
 function onWindowResize() {
 
@@ -45,9 +48,9 @@ function createCamera() {
         1000
     );
 
-    camera.position.x = -150;
-    camera.position.y = -30;
-    camera.position.z = 60;
+    camera.position.x = -50;
+    camera.position.y = -130;
+    camera.position.z = 80;
 
     camera.up = new THREE.Vector3( 0, 0, 1 );
     
@@ -57,8 +60,8 @@ function createCamera() {
 function createLight() {
     const pointLight = new THREE.PointLight('#FFFFFF', 1.2);
 
-    pointLight.position.x = 100;
-    pointLight.position.y = 100;
+    pointLight.position.x = 10;
+    pointLight.position.y = 10;
     pointLight.position.z = 100;
     pointLight.castShadow = true;
     pointLight.shadow.mapSize.width = 2048;
@@ -85,64 +88,35 @@ function addOrbitControls(camera, renderer) {
     return controls;
 }
 
-function createRaycaster() {
-    const raycaster = new THREE.Raycaster();
-    let INTERSECTED = null;
-
-    console.log(raycaster);
-    
-
-
-    const compartmentGroup = scene.children;
-    console.log('COMPARTMENT GROUP INSIDE RAYCASTER', compartmentGroup);
-    
-    
+function render() {
     raycaster.setFromCamera( mouse, camera );
 
-    const intersects = raycaster.intersectObjects( compartmentGroup, true );
+    var intersects = raycaster.intersectObjects( scene.children );
 
-    console.log('Intersects ====>', intersects);
-
-    if ( intersects.length > 0 ) {
-        INTERSECTED = intersects[0];
-
-        console.log('INTERSECTED ====>', INTERSECTED);
-        
-
-        INTERSECTED.object.material.emissive.setHex( 0x00ff00 );
-        
-        // INTERSECTED.forEach( intersect => {
-        //     console.log('Intersecr inside the loop ====>', intersect.object.material.emissive.setHex( 0x00ff00 ));
-            
-        //     // intersect.material.emissive.setHex( 0x00ff00 );
-        // });
-
-        // console.log('INTERSECTED ====>', INTERSECTED);
-        // console.log('INTERSECTED COLOUR ====>', INTERSECTED.material.emissive.setHex( 0x00ff00 ));
-        
-    }
+    console.log(scene.children);
+    
     
 
-    // if ( intersects.length > 0 ) {
+    if ( intersects.length > 0 ) {
 
+        if ( INTERSECTED != intersects[ 0 ].object ) {
 
-    //     if ( INTERSECTED != intersects[ 0 ].object ) {
+            if ( INTERSECTED )
+            
+            INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
 
-    //         if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+            INTERSECTED = intersects[ 0 ].object;
+            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            INTERSECTED.material.emissive.setHex( 0xff0000 );
+        }
 
-    //         INTERSECTED = intersects[ 0 ].object;
-    //         INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-    //         // INTERSECTED.material.emissive.setHex( 0xff0000 );
-    //         INTERSECTED.material.emissive.setHex( 0x00ff00 );
-    //     }
+    } else {
 
-    // } else {
-
-    //     if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-
-    //     INTERSECTED = null;
-
-    // }
+        if ( INTERSECTED )
+        
+        INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+        INTERSECTED = null;
+    }
 
     renderer.render( scene, camera );
 }
@@ -163,5 +137,5 @@ addOrbitControls(camera, renderer);
 function animate() {
     // renderer.render(scene, camera);
     requestAnimationFrame(animate);
-    createRaycaster();
+    render();
 }

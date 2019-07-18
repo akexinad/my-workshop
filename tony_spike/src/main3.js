@@ -163,8 +163,8 @@ class OliveBuild {
         
         // const structureGroup = new THREE.Group();
         // structureGroup.name = 'structures';
-        const compartmentGroup = new THREE.Group();
-        compartmentGroup.name = 'compartments';
+        // const compartmentGroup = new THREE.Group();
+        // compartmentGroup.name = 'compartments';
 
         // structureGroup.add(compartmentGroup);
 
@@ -174,8 +174,9 @@ class OliveBuild {
             const compartmentMesh = new OliveMesh(compartment, meshColour);
             compartmentMesh.position.set(0, 0, zPosition);
             
-            compartmentGroup.add(compartmentMesh);
-            scene.add(compartmentGroup)
+            // compartmentGroup.add(compartmentMesh);
+            // scene.add(compartmentGroup)
+            scene.add(compartmentMesh)
         });
 
     }
