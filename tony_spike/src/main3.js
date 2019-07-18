@@ -157,7 +157,7 @@ class OliveMesh extends THREE.Mesh {
 
 class OliveBuild {
 
-    constructor(data, colour) {
+    constructor(data, name, colour) {
 
         const meshColour = colour;
         
@@ -172,11 +172,12 @@ class OliveBuild {
             
             const zPosition = compartment.geometry[0].z;
             const compartmentMesh = new OliveMesh(compartment, meshColour);
+            compartmentMesh.name = name;
             compartmentMesh.position.set(0, 0, zPosition);
             
             // compartmentGroup.add(compartmentMesh);
-            // scene.add(compartmentGroup)
-            scene.add(compartmentMesh)
+            // scene.add(compartmentGroup);
+            scene.add(compartmentMesh);
         });
 
     }
@@ -209,8 +210,8 @@ console.log('SILVERTOWN FIRST COMPARTMENTS ====>', silvertown[0].scenarios[0].st
 console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
 
 
-new OliveBuild(towerStack, 'red');
-new OliveBuild(towerStack2, 'blue');
+new OliveBuild(towerStack, 'tower1', 'red');
+new OliveBuild(towerStack2, 'tower2', 'blue');
 
 
 console.log('THE SCENE ==========>', scene);

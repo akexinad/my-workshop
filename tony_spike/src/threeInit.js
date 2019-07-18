@@ -1,7 +1,6 @@
 const mouse = new THREE.Vector2();
-let INTERSECTED;
 const raycaster = new THREE.Raycaster();
-
+let intersectedCompartment;
 
 function onWindowResize() {
 
@@ -17,6 +16,13 @@ function onDocumentMouseClick(event) {
 
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+}
+
+function createElement(type, text) {
+    const output = document.querySelector('#output');
+    const element = document.createElement(type)
+    element.innerText = text;
+    output.appendChild(element);
 }
 
 function createRenderer() {
@@ -88,43 +94,48 @@ function addOrbitControls(camera, renderer) {
     return controls;
 }
 
-function render() {
+function createRaycaster() {
     raycaster.setFromCamera( mouse, camera );
 
-    var intersects = raycaster.intersectObjects( scene.children );
-
-    console.log(scene.children);
-    
-    
+    const intersects = raycaster.intersectObjects( scene.children );
 
     if ( intersects.length > 0 ) {
 
-        if ( INTERSECTED != intersects[ 0 ].object ) {
+        if ( intersectedCompartment != intersects[ 0 ].object ) {
 
-            if ( INTERSECTED )
+            if ( intersectedCompartment )
             
-            INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+            intersectedCompartment.material.emissive.setHex( intersectedCompartment.currentHex );
 
-            INTERSECTED = intersects[ 0 ].object;
-            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-            INTERSECTED.material.emissive.setHex( 0xff0000 );
+            intersectedCompartment = intersects[ 0 ].object;
+            const intersectedTower = scene.children.filter( children => children.name === intersectedCompartment.name );
+            intersectedCompartment = intersectedTower[ 0 ];
+            
+            intersectedCompartment.currentHex = intersectedCompartment.material.emissive.getHex();
+            intersectedCompartment.material.emissive.setHex( 0xff0000 );
         }
 
     } else {
 
-        if ( INTERSECTED )
+        if ( intersectedCompartment )
         
-        INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-        INTERSECTED = null;
+        intersectedCompartment.material.emissive.setHex( intersectedCompartment.currentHex );
+        intersectedCompartment = null;
     }
+}
+
+function render() {
+    createRaycaster();
+    
 
     renderer.render( scene, camera );
 }
 
 window.addEventListener( 'resize', onWindowResize, false );
 document.addEventListener( 'click', onDocumentMouseClick );
+const addCompartment = createElement('button', 'Add Compartment');
+const removeCompartment = createElement('button', 'Remove Compartment');
 
-// const raycaster = createRaycaster();
 const renderer = createRenderer();
 const scene = createScene();
 const camera = createCamera(scene);
