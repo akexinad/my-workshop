@@ -2,6 +2,10 @@ const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 let selectedCompartment;
 
+function msg(msg) {
+    console.log(msg);
+}
+
 function onWindowResize() {
 
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -126,23 +130,27 @@ function createRaycaster() {
 }
 
 function addCompartment() {
-    // console.log('compartment added!');
-    
     const selection = raycaster.intersectObjects( scene.children );
-    console.log(selection);
+    msg(selection);
 
     if (selection.length > 0) {
         const selectedTower = selection[0].object;
-        console.log(selectedTower.name);
+        return msg(selectedTower.name);
     }
 
-    return console.log('Select a tower motherfucker!!!');
-    
-    
+    return msg('Select a tower motherfucker!!!');
 }
 
 function removeCompartment() {
-    return console.log('compartment removed!');
+    const selection = raycaster.intersectObjects( scene.children );
+    msg(selection);
+
+    if (selection.length > 0) {
+        const selectedTower = selection[0].object;
+        return msg(selectedTower.name);
+    }
+
+    return console.log('Select a tower motherfucker!!!');
 }
 
 function render() {
