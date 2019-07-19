@@ -1,6 +1,6 @@
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
-let intersectedCompartment;
+let selectedCompartment;
 
 function onWindowResize() {
 
@@ -12,17 +12,17 @@ function onWindowResize() {
 }
 
 function onDocumentMouseClick(event) {
-    console.log(event);
-
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
 
-function createElement(type, text) {
+function createButton(text, fn) {
     const output = document.querySelector('#output');
-    const element = document.createElement(type)
-    element.innerText = text;
-    output.appendChild(element);
+    const btn = document.createElement('button');
+    btn.innerText = text;
+    output.appendChild(btn);
+
+    btn.addEventListener('click', fn);
 }
 
 function createRenderer() {
@@ -97,32 +97,48 @@ function addOrbitControls(camera, renderer) {
 function createRaycaster() {
     raycaster.setFromCamera( mouse, camera );
 
-    const intersects = raycaster.intersectObjects( scene.children );
+    const selection = raycaster.intersectObjects( scene.children );
 
-    if ( intersects.length > 0 ) {
+    if ( selection.length > 0 ) {
 
-        if ( intersectedCompartment != intersects[ 0 ].object ) {
+        if ( selectedCompartment != selection[ 0 ].object ) {
 
-            if ( intersectedCompartment )
+            if ( selectedCompartment )
             
-            intersectedCompartment.material.emissive.setHex( intersectedCompartment.currentHex );
+            selectedCompartment.material.emissive.setHex( selectedCompartment.currentHex );
 
-            intersectedCompartment = intersects[ 0 ].object;
+            selectedCompartment = selection[ 0 ].object;
 
-            const intersectedTower = scene.children.filter( children => children.name === intersectedCompartment.name );
+            const intersectedTower = scene.children.filter( children => children.name === selectedCompartment.name );
             
-            intersectedCompartment = intersectedTower[ 0 ];
-            intersectedCompartment.currentHex = intersectedCompartment.material.emissive.getHex();
-            intersectedCompartment.material.emissive.setHex( 0x00ff00 );
+            selectedCompartment = intersectedTower[ 0 ];
+            selectedCompartment.currentHex = selectedCompartment.material.emissive.getHex();
+            selectedCompartment.material.emissive.setHex( 0x00ff00 );
         }
 
     } else {
 
-        if ( intersectedCompartment )
+        if ( selectedCompartment )
         
-        intersectedCompartment.material.emissive.setHex( intersectedCompartment.currentHex );
-        intersectedCompartment = null;
+        selectedCompartment.material.emissive.setHex( selectedCompartment.currentHex );
+        selectedCompartment = null;
     }
+}
+
+function addCompartment() {
+    console.log('compartment added!');
+    
+    const selection = raycaster.intersectObjects( scene.children );
+    console.log(selection);
+
+    if (selection.length > 0) {
+        
+    }
+    
+}
+
+function removeCompartment() {
+    return console.log('compartment removed!');
 }
 
 function render() {
@@ -132,8 +148,9 @@ function render() {
 
 window.addEventListener( 'resize', onWindowResize, false );
 document.addEventListener( 'click', onDocumentMouseClick );
-const addCompartmentBtn = createElement('button', 'Add Compartment');
-const removeCompartmentBtn = createElement('button', 'Remove Compartment');
+
+const addCompartmentBtn = createButton('Add Compartment', addCompartment);
+const removeCompartmentBtn = createButton('Remove Compartment', removeCompartment);
 
 const renderer = createRenderer();
 const scene = createScene();

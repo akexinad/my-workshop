@@ -200,21 +200,18 @@ const silvertownStructure = silvertown[0].scenarios[0].structures[0];
 
 
 
-// const oliveMesh = new OliveMesh(silverTownData, '#D40000');
-// console.log("OLIVE MESH ====>", oliveMesh);
-
-
-console.log('SILVERTOWN ====>', silvertown);
-console.log("SILVERTOWN STRUCTURES ====>", silvertown[0].scenarios[0].structures[0]);
-console.log('SILVERTOWN FIRST COMPARTMENTS ====>', silvertown[0].scenarios[0].structures[0].compartments);
-console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
+// console.log('SILVERTOWN ====>', silvertown);
+// console.log("SILVERTOWN STRUCTURES ====>", silvertown[0].scenarios[0].structures[0]);
+// console.log('SILVERTOWN FIRST COMPARTMENTS ====>', silvertown[0].scenarios[0].structures[0].compartments);
+// console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
 
 
 new OliveBuild(towerStack, 'tower1', 'red');
 new OliveBuild(towerStack2, 'tower2', 'blue');
+new OliveBuild(towerStack3, 'tower3', 'green');
 
 
-console.log('THE SCENE ==========>', scene);
+// console.log('THE SCENE ==========>', scene);
 
 
 scene.add(light, lightHelper);
