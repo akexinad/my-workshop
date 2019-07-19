@@ -126,14 +126,12 @@ class OliveGeometry extends THREE.ExtrudeBufferGeometry {
 
 class OliveMesh extends THREE.Mesh {
 
-    constructor(compartment, colour) {
+    constructor(compartment) {
 
         const geometry = new OliveGeometry(compartment);
         // const zPosition = compartment.geometry[0].z;
         
-        const material = new THREE.MeshLambertMaterial({
-            color: colour
-        });
+        const material = new THREE.MeshLambertMaterial();
 
         super(geometry, material);
         // this.position.set(0, 0, zPosition)
@@ -171,8 +169,9 @@ class OliveBuild {
         data.forEach( compartment => {
             
             const zPosition = compartment.geometry[0].z;
-            const compartmentMesh = new OliveMesh(compartment, meshColour);
+            const compartmentMesh = new OliveMesh(compartment);
             compartmentMesh.name = name;
+            compartmentMesh.material.emissive.setHex( colour );
             compartmentMesh.position.set(0, 0, zPosition);
             
             // compartmentGroup.add(compartmentMesh);
@@ -206,9 +205,15 @@ const silvertownStructure = silvertown[0].scenarios[0].structures[0];
 // console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
 
 
-new OliveBuild(towerStack, 'tower1', 'red');
-new OliveBuild(towerStack2, 'tower2', 'blue');
-new OliveBuild(towerStack3, 'tower3', 'green');
+const tower1 = new OliveBuild(towerStack, 'tower1', 0xff0000); 
+const tower2 = new OliveBuild(towerStack2, 'tower2', 0x0000ff );
+const tower3 = new OliveBuild(towerStack3, 'tower3', 0x00ff00 );
+
+console.log(tower1);
+console.log(tower2);
+console.log(tower3);
+
+
 
 
 // console.log('THE SCENE ==========>', scene);

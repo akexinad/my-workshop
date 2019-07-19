@@ -2,8 +2,8 @@ const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 let selectedCompartment;
 
-function msg(msg) {
-    console.log(msg);
+function msg(msg, variable) {
+    console.log(msg, variable);
 }
 
 function onWindowResize() {
@@ -98,60 +98,85 @@ function addOrbitControls(camera, renderer) {
     return controls;
 }
 
+let currentSelection;
+
 function createRaycaster() {
+
     raycaster.setFromCamera( mouse, camera );
 
-    const selection = raycaster.intersectObjects( scene.children );
+    let selection = raycaster.intersectObjects( scene.children );
 
-    if ( selection.length > 0 ) {
+    
+    if (selection.length > 0) {
+        
+        if ( currentSelection !=- selection[ 0 ].object ) {
 
-        if ( selectedCompartment != selection[ 0 ].object ) {
-
-            if ( selectedCompartment )
+            if (currentSelection) {
+                currentSelection.forEach( compartment => {
+                    compartment.material.emissive.setHex( currentSelection.colour );
+                });
+            }
             
-            selectedCompartment.material.emissive.setHex( selectedCompartment.currentHex );
+            currentSelection = scene.children.filter( compartments => {
+                return compartments.name === selection[0].object.name;
+            });
+    
+            currentSelection.colour = currentSelection[0].material.emissive.getHex();
 
-            selectedCompartment = selection[ 0 ].object;
-
-            const intersectedTower = scene.children.filter( children => children.name === selectedCompartment.name );
-            
-            selectedCompartment = intersectedTower[ 0 ];
-            selectedCompartment.currentHex = selectedCompartment.material.emissive.getHex();
-            selectedCompartment.material.emissive.setHex( 0x00ff00 );
+            currentSelection.forEach( compartment => {
+                compartment.material.emissive.setHex( 0xffff00 );
+            });
+        }
+        
+    } else {
+        
+        if (currentSelection) {
+            currentSelection.forEach(compartment => {
+                compartment.material.emissive.setHex( currentSelection.colour );
+            });
         }
 
-    } else {
 
-        if ( selectedCompartment )
+    }
+    
+}
+
+// function addCompartment() {
+//     // msg('SCENE CHLDREN ====>', scene.children);
+//     const selection = raycaster.intersectObjects( scene.children );
+//     // msg('SELECTION ====>', selection);
+
+//     if (selection.length > 0) {
+
+//         msg('SELECTED TOWER ====>', newSelection);
         
-        selectedCompartment.material.emissive.setHex( selectedCompartment.currentHex );
-        selectedCompartment = null;
-    }
-}
+//         newSelection.forEach( compartment => {
+//             msg(compartment.object); //yellow
+//             // compartment.material.emissive.setHex( 0xffff00 )
+//         });
+        
+//         // const highestCompartment = selection[0].object;
+        
+//         // msg('highest compartment ====>', highestCompartment);
+        
+        
+        
+//     }
 
-function addCompartment() {
-    const selection = raycaster.intersectObjects( scene.children );
-    msg(selection);
+//     return msg('Select a tower motherfucker!!!');
+// }
 
-    if (selection.length > 0) {
-        const selectedTower = selection[0].object;
-        return msg(selectedTower.name);
-    }
+// function removeCompartment() {
+//     const selection = raycaster.intersectObjects( scene.children );
+//     msg('selection ====>', selection);
 
-    return msg('Select a tower motherfucker!!!');
-}
+//     if (selection.length > 0) {
+//         const newSelection = selection[0].object;
+//         return msg('selected tower name ====>', newSelection.name);
+//     }
 
-function removeCompartment() {
-    const selection = raycaster.intersectObjects( scene.children );
-    msg(selection);
-
-    if (selection.length > 0) {
-        const selectedTower = selection[0].object;
-        return msg(selectedTower.name);
-    }
-
-    return console.log('Select a tower motherfucker!!!');
-}
+//     return msg('Select a tower motherfucker!!!');
+// }
 
 function render() {
     createRaycaster();
@@ -161,8 +186,8 @@ function render() {
 window.addEventListener( 'resize', onWindowResize, false );
 document.addEventListener( 'click', onDocumentMouseClick );
 
-const addCompartmentBtn = createButton('Add Compartment', addCompartment);
-const removeCompartmentBtn = createButton('Remove Compartment', removeCompartment);
+// const addCompartmentBtn = createButton('Add Compartment', addCompartment);
+// const removeCompartmentBtn = createButton('Remove Compartment', removeCompartment);
 
 const renderer = createRenderer();
 const scene = createScene();
