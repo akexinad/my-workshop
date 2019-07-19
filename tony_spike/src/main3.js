@@ -209,9 +209,7 @@ const tower1 = new OliveBuild(towerStack, 'tower1', 0xff0000);
 const tower2 = new OliveBuild(towerStack2, 'tower2', 0x0000ff );
 const tower3 = new OliveBuild(towerStack3, 'tower3', 0x00ff00 );
 
-console.log(tower1);
-console.log(tower2);
-console.log(tower3);
+
 
 
 
@@ -220,6 +218,3 @@ console.log(tower3);
 
 
 scene.add(light, lightHelper);
-
-// renderer.render(scene, camera)
-animate();

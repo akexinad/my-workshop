@@ -20,22 +20,13 @@ function onDocumentMouseClick(event) {
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
 
-function createButton(text, fn) {
-    const output = document.querySelector('#output');
-    const btn = document.createElement('button');
-    btn.innerText = text;
-    output.appendChild(btn);
-
-    btn.addEventListener('click', fn);
-}
-
 function createRenderer() {
     const renderer = new THREE.WebGLRenderer({
         antialias: true
     });
     
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor('white');
+    renderer.setClearColor('grey');
     renderer.shadowMap.enabled = true;
 
     const output = document.querySelector('#output');
@@ -98,96 +89,8 @@ function addOrbitControls(camera, renderer) {
     return controls;
 }
 
-let currentSelection;
-
-function createRaycaster() {
-
-    raycaster.setFromCamera( mouse, camera );
-
-    let selection = raycaster.intersectObjects( scene.children );
-
-    
-    if (selection.length > 0) {
-        
-        if ( currentSelection !=- selection[ 0 ].object ) {
-
-            if (currentSelection) {
-                currentSelection.forEach( compartment => {
-                    compartment.material.emissive.setHex( currentSelection.colour );
-                });
-            }
-            
-            currentSelection = scene.children.filter( compartments => {
-                return compartments.name === selection[0].object.name;
-            });
-    
-            currentSelection.colour = currentSelection[0].material.emissive.getHex();
-
-            currentSelection.forEach( compartment => {
-                compartment.material.emissive.setHex( 0xffff00 );
-            });
-        }
-        
-    } else {
-        
-        if (currentSelection) {
-            currentSelection.forEach(compartment => {
-                compartment.material.emissive.setHex( currentSelection.colour );
-            });
-        }
-
-
-    }
-    
-}
-
-// function addCompartment() {
-//     // msg('SCENE CHLDREN ====>', scene.children);
-//     const selection = raycaster.intersectObjects( scene.children );
-//     // msg('SELECTION ====>', selection);
-
-//     if (selection.length > 0) {
-
-//         msg('SELECTED TOWER ====>', newSelection);
-        
-//         newSelection.forEach( compartment => {
-//             msg(compartment.object); //yellow
-//             // compartment.material.emissive.setHex( 0xffff00 )
-//         });
-        
-//         // const highestCompartment = selection[0].object;
-        
-//         // msg('highest compartment ====>', highestCompartment);
-        
-        
-        
-//     }
-
-//     return msg('Select a tower motherfucker!!!');
-// }
-
-// function removeCompartment() {
-//     const selection = raycaster.intersectObjects( scene.children );
-//     msg('selection ====>', selection);
-
-//     if (selection.length > 0) {
-//         const newSelection = selection[0].object;
-//         return msg('selected tower name ====>', newSelection.name);
-//     }
-
-//     return msg('Select a tower motherfucker!!!');
-// }
-
-function render() {
-    createRaycaster();
-    renderer.render( scene, camera );
-}
-
 window.addEventListener( 'resize', onWindowResize, false );
 document.addEventListener( 'click', onDocumentMouseClick );
-
-// const addCompartmentBtn = createButton('Add Compartment', addCompartment);
-// const removeCompartmentBtn = createButton('Remove Compartment', removeCompartment);
 
 const renderer = createRenderer();
 const scene = createScene();
@@ -198,8 +101,3 @@ const lightHelper = createLightHelper(light);
 
 addOrbitControls(camera, renderer);
 
-function animate() {
-    // renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-    render();
-}
