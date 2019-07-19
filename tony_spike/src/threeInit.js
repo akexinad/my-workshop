@@ -126,14 +126,18 @@ function createRaycaster() {
 }
 
 function addCompartment() {
-    console.log('compartment added!');
+    // console.log('compartment added!');
     
     const selection = raycaster.intersectObjects( scene.children );
     console.log(selection);
 
     if (selection.length > 0) {
-        
+        const selectedTower = selection[0].object;
+        console.log(selectedTower.name);
     }
+
+    return console.log('Select a tower motherfucker!!!');
+    
     
 }
 
