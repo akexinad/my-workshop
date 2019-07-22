@@ -57,18 +57,22 @@ function createButton(text, callback) {
 
 const addCompartmentBtn = createButton( 'Add Compartment', addCompartment );
 
-function addCompartment() {
-
+function addCompartment() { 
+    
     let topCompartment;
     let newCompartment;
     
     // if (!selectedTower || !selectedTower instanceof OliveMesh || !selectedTower instanceof OliveClone) {
     //     return msg( 'Choose a selectedTower motherfucker!' );
     // }
-    
-    msg('SELECTED TOWER =====>', selectedTower);
 
-    topCompartment = selectedTower[ 0 ];
+
+    
+    msg('SELECTED TOWER REVERSED=====>', selectedTower.reverse());
+
+    const lastIndex = selectedTower.length - 1;
+    
+    topCompartment = selectedTower[ lastIndex ];
 
     const highlightedColor = topCompartment.material.emissive.getHex();
     
@@ -78,7 +82,8 @@ function addCompartment() {
     msg('TOP COMPARTMENT =====>', topCompartment);
     msg('ADDED COMPARTMENT ====>', newCompartment);
 
-    selectedTower.unshift(newCompartment);
+    // selectedTower.unshift(newCompartment);
+    selectedTower.push(newCompartment);
     msg('TOWER AFTER ADDITION ====>', selectedTower);
 
     scene.add(newCompartment);

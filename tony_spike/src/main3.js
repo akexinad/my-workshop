@@ -227,7 +227,6 @@ class OliveClone extends THREE.Mesh {
         super(geometry, material);
         this.name = name;
         this.position.set(0, 0, newZPosition);
-        // this.parent = scene;
     }
 }
 
