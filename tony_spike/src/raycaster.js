@@ -1,3 +1,4 @@
+let selection;
 let selectedTower;
 const selectedColour = 0xffff00;
 
@@ -5,7 +6,7 @@ function createRaycaster() {
 
     raycaster.setFromCamera( mouse, camera );
 
-    let selection = raycaster.intersectObjects( scene.children );
+    selection = raycaster.intersectObjects( scene.children );
     
     if (selection.length > 0) {
         
@@ -16,6 +17,8 @@ function createRaycaster() {
                     compartment.material.emissive.setHex( selectedTower.originalColour );
                 });
             }
+
+            // msg('Selected Tower in create raycaster', selectedTower)
             
             selectedTower = scene.children.filter( compartments => {
                 return compartments.name === selection[0].object.name;
@@ -41,54 +44,47 @@ function createRaycaster() {
     
 }
 
-
-
 function createButton(text, callback) {
+
     const output = document.querySelector( '#output' );
     const btn = document.createElement( 'button' );
+
     btn.innerText = text;
     output.appendChild( btn );
 
     btn.addEventListener( 'click', callback );
 }
 
+const addCompartmentBtn = createButton( 'Add Compartment', addCompartment );
 
 function addCompartment() {
 
-    if (!selectedTower) {
-        return msg( 'Choose a tower motherfucker!' );
-    }
-
-    const topCompartment = selectedTower[ 0 ];
-
-    const towerName = topCompartment.name;
-    // const topCompartmentColour = topCompartment.material.emissive.getHex();
-    const topCompartmentHeight = topCompartment.geometry.parameters.options.depth;
-    const topCompartmentZPosition = topCompartment.position.z;
-    const newZPosition = topCompartmentZPosition + topCompartmentHeight;
-
-    const newCompartment = new THREE.Mesh( topCompartment.geometry.clone(), topCompartment.material.clone() );
-
-    newCompartment.name = towerName;
-    newCompartment.position.set(0, 0, newZPosition)
+    let topCompartment;
+    let newCompartment;
     
-    // newCompartment.material.emissive.setHex( topCompartmentColour );
+    // if (!selectedTower || !selectedTower instanceof OliveMesh || !selectedTower instanceof OliveClone) {
+    //     return msg( 'Choose a selectedTower motherfucker!' );
+    // }
+    
+    msg('SELECTED TOWER =====>', selectedTower);
+
+    topCompartment = selectedTower[ 0 ];
+
+    const highlightedColor = topCompartment.material.emissive.getHex();
+    
+    newCompartment = new OliveClone(topCompartment);
+    newCompartment.material.emissive.setHex( highlightedColor );
+    
+    msg('TOP COMPARTMENT =====>', topCompartment);
+    msg('ADDED COMPARTMENT ====>', newCompartment);
 
     selectedTower.unshift(newCompartment);
+    msg('TOWER AFTER ADDITION ====>', selectedTower);
 
-    msg('TOP COMPARTMENT', topCompartment);
-    msg('NEW COMPARTMENT', newCompartment);
-    msg('TOWER ======>', selectedTower);
-    
-    
-
-    
     scene.add(newCompartment);
-    
-    
-}
 
-const addCompartmentBtn = createButton('Add Compartment', addCompartment);
+    msg('selectedTower after adding it to the scene ====>', selectedTower);
+}
 
 
 function render() {

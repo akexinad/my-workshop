@@ -129,17 +129,29 @@ class OliveMesh extends THREE.Mesh {
     constructor(compartment) {
 
         const geometry = new OliveGeometry(compartment);
-        // const zPosition = compartment.geometry[0].z;
+        const zPosition = compartment.geometry[0].z;
         
-        const material = new THREE.MeshLambertMaterial();
+        // const material = new THREE.MeshLambertMaterial();
+        const material = new THREE.MeshLambertMaterial({
+            color: '#d40000'
+        });
 
         super(geometry, material);
-        // this.position.set(0, 0, zPosition)
+        this.position.set(0, 0, zPosition);
+        // this.geometry.height = compartment.height;
     }
 }
 
 
-// const silvertownCompartments = silvertown[0].scenarios[0].structures[0].compartments;
+const silvertownCompartments = silvertown[0].scenarios[0].structures[0].compartments;
+const silvertownCompartment = silvertownCompartments[0];
+// console.log(silvertownCompartment);
+
+const silvertownCompartmentMesh = new OliveMesh(silvertownCompartment)
+scene.add(silvertownCompartmentMesh)
+// msg('COMPARTMENT MESH =======>', silvertownCompartmentMesh);
+
+
 // silvertownCompartments.forEach(compartment => {
 //     const oliveMesh = new OliveMesh(compartment, 'red');
 //     console.log('OLIVE MESH ====>', oliveMesh);
@@ -157,7 +169,7 @@ class OliveBuild {
 
     constructor(data, name, colour) {
 
-        const meshColour = colour;
+        // const meshColour = colour;
         
         // const structureGroup = new THREE.Group();
         // structureGroup.name = 'structures';
@@ -176,9 +188,9 @@ class OliveBuild {
             
             // compartmentGroup.add(compartmentMesh);
             // scene.add(compartmentGroup);
+
             scene.add(compartmentMesh);
         });
-
     }
 }
 
@@ -188,8 +200,44 @@ const silvertownStructure = silvertown[0].scenarios[0].structures[0];
 
 
 
+// ==================
+// CLONE
+// ==================
 
 
+class OliveClone extends THREE.Mesh {
+
+    constructor(compartmentMesh) {
+
+        // msg('COMPARTMENT INSIDE OLIVE CLONE 2 =====>', compartmentMesh);
+
+        const name = compartmentMesh.name;
+        const shape = compartmentMesh.geometry.parameters.shapes;
+        const options = compartmentMesh.geometry.parameters.options;
+        const color = compartmentMesh.material.emissive.getHex();
+        const height = compartmentMesh.geometry.parameters.options.depth;
+        const zPosition = compartmentMesh.position.z;
+        const newZPosition = zPosition + height;
+
+        const geometry = new THREE.ExtrudeBufferGeometry(shape, options);
+        const material = new THREE.MeshLambertMaterial({
+            color
+        });
+
+        super(geometry, material);
+        this.name = name;
+        this.position.set(0, 0, newZPosition);
+        // this.parent = scene;
+    }
+}
+
+const towerStack3Compartment = towerStack3[0];
+// msg('TOWER STACK COMPARTMENT =====>', towerStack3Compartment);
+const towerCompartmentMesh = new OliveMesh(towerStack3Compartment);
+msg('TOWER STACK COMPARTMENT MESH ======>', towerCompartmentMesh);
+
+const oliveClone2 = new OliveClone(towerCompartmentMesh);
+msg('OLIVE CLONE # 2 =====>', oliveClone2);
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -206,8 +254,8 @@ const silvertownStructure = silvertown[0].scenarios[0].structures[0];
 
 
 const tower1 = new OliveBuild(towerStack, 'tower1', 0xff0000); 
-const tower2 = new OliveBuild(towerStack2, 'tower2', 0x0000ff );
-const tower3 = new OliveBuild(towerStack3, 'tower3', 0x00ff00 );
+const tower2 = new OliveBuild(towerStack2, 'tower2', 0x0000ff);
+const tower3 = new OliveBuild(towerStack3, 'tower3', 0x00ff00);
 
 
 
