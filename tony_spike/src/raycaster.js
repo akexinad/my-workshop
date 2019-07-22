@@ -66,13 +66,9 @@ function addCompartment() {
     //     return msg( 'Choose a selectedTower motherfucker!' );
     // }
 
-
+    // const lastIndex = selectedTower.length - 1;
     
-    msg('SELECTED TOWER REVERSED=====>', selectedTower.reverse());
-
-    const lastIndex = selectedTower.length - 1;
-    
-    topCompartment = selectedTower[ lastIndex ];
+    topCompartment = selectedTower[ 0 ];
 
     const highlightedColor = topCompartment.material.emissive.getHex();
     
@@ -82,8 +78,8 @@ function addCompartment() {
     msg('TOP COMPARTMENT =====>', topCompartment);
     msg('ADDED COMPARTMENT ====>', newCompartment);
 
-    // selectedTower.unshift(newCompartment);
-    selectedTower.push(newCompartment);
+    selectedTower.unshift(newCompartment);
+    // selectedTower.push(newCompartment);
     msg('TOWER AFTER ADDITION ====>', selectedTower);
 
     scene.add(newCompartment);

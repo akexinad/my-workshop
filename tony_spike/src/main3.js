@@ -31,7 +31,7 @@ class Point {
 
 class Ring extends THREE.LineLoop {
 
-    constructor(compartmentGeometry) {
+    constructor(compartmentGeometryPoints) {
         const ring = new THREE.BufferGeometry();
         const newPoints = [];
 
@@ -39,8 +39,8 @@ class Ring extends THREE.LineLoop {
         
 
         // Instantiate new Point classes from each coordinate of the polygon.
-        compartmentGeometry.forEach(coordinate => {
-            newPoints.push(new Point(coordinate.x, coordinate.y, coordinate.z, coordinate.srid));
+        compartmentGeometryPoints.forEach(point => {
+            newPoints.push(new Point(point.x, point.y, point.z, point.srid));
         });
 
         // console.log('POINTS INSIDE THE RING CLASS ====>', newPoints);
@@ -64,10 +64,6 @@ class Ring extends THREE.LineLoop {
 }
 
 
-// const oliveRing = new Ring(silverTownData);
-// console.log("OLIVE RING ====>", oliveRing);
-
-
 
 
 // ==================
@@ -75,15 +71,13 @@ class Ring extends THREE.LineLoop {
 // ==================
 
 
-
-
 class OliveGeometry extends THREE.ExtrudeBufferGeometry {
 
-    constructor(compartment) {
+    constructor(compartmentGeometry) {
 
         // console.log('Data Inside OliveGeometry ====>', compartment);
         
-        const ring = new Ring(compartment.geometry);
+        const ring = new Ring(compartmentGeometry.points);
         const groupedCoordinates = [];
         const vector3Array = [];
 
@@ -102,7 +96,7 @@ class OliveGeometry extends THREE.ExtrudeBufferGeometry {
         // console.log('HEIGHT ====>', compartment.height);   
 
         const extrusionSettings = {
-            depth: compartment.height,
+            depth: compartmentGeometry.height,
             // depth: ring.geometry.getAttribute('vertices').getZ(0),
             steps: 1,
             bevelEnabled: false
@@ -111,10 +105,6 @@ class OliveGeometry extends THREE.ExtrudeBufferGeometry {
         super(shape, extrusionSettings);
     }   
 }
-
-
-// const oliveGeometry = new OliveGeometry(silverTownData);
-// console.log("OLIVE GEOMETRY ====>", oliveGeometry);
 
 
 
@@ -128,8 +118,8 @@ class OliveMesh extends THREE.Mesh {
 
     constructor(compartment) {
 
-        const geometry = new OliveGeometry(compartment);
-        const zPosition = compartment.geometry[0].z;
+        const geometry = new OliveGeometry(compartment.geometry);
+        const zPosition = compartment.geometry.points[0].z;
         
         // const material = new THREE.MeshLambertMaterial();
         const material = new THREE.MeshLambertMaterial({
@@ -138,25 +128,12 @@ class OliveMesh extends THREE.Mesh {
 
         super(geometry, material);
         this.position.set(0, 0, zPosition);
+        this.castShadow = true;
+        this.recieveShadow = true;
         // this.geometry.height = compartment.height;
     }
 }
 
-
-const silvertownCompartments = silvertown[0].scenarios[0].structures[0].compartments;
-const silvertownCompartment = silvertownCompartments[0];
-// console.log(silvertownCompartment);
-
-const silvertownCompartmentMesh = new OliveMesh(silvertownCompartment)
-scene.add(silvertownCompartmentMesh)
-// msg('COMPARTMENT MESH =======>', silvertownCompartmentMesh);
-
-
-// silvertownCompartments.forEach(compartment => {
-//     const oliveMesh = new OliveMesh(compartment, 'red');
-//     console.log('OLIVE MESH ====>', oliveMesh);
-//     scene.add(oliveMesh)
-// })
 
 
 
@@ -167,35 +144,27 @@ scene.add(silvertownCompartmentMesh)
 
 class OliveBuild {
 
-    constructor(data, name, colour) {
+    constructor(scenario) {
 
-        // const meshColour = colour;
-        
-        // const structureGroup = new THREE.Group();
-        // structureGroup.name = 'structures';
-        // const compartmentGroup = new THREE.Group();
-        // compartmentGroup.name = 'compartments';
+        scenario.structures.forEach( structure => {
 
-        // structureGroup.add(compartmentGroup);
+            // msg('STRUCTURE INSIDE OLIVE BUILD =====>', structure);
 
-        data.forEach( compartment => {
-            
-            const zPosition = compartment.geometry[0].z;
-            const compartmentMesh = new OliveMesh(compartment);
-            compartmentMesh.name = name;
-            compartmentMesh.material.emissive.setHex( colour );
-            compartmentMesh.position.set(0, 0, zPosition);
-            
-            // compartmentGroup.add(compartmentMesh);
-            // scene.add(compartmentGroup);
+            structure.compartments.forEach(compartment => {
 
-            scene.add(compartmentMesh);
+                const zPosition = compartment.geometry.points[0].z;
+                const compartmentMesh = new OliveMesh(compartment);
+                compartmentMesh.name = compartment.structureId;
+                // compartmentMesh.material.emissive.setHex( 0xff0000 );
+                compartmentMesh.position.set(0, 0, zPosition);
+
+                msg('MESH INSIDE OLIVE BUILD ====>', compartmentMesh);
+                
+                scene.add(compartmentMesh); 
+            });
         });
     }
 }
-
-const silvertownStructure = silvertown[0].scenarios[0].structures[0];
-// new OliveBuild(silvertownStructure, 'red');
 
 
 
@@ -230,13 +199,7 @@ class OliveClone extends THREE.Mesh {
     }
 }
 
-const towerStack3Compartment = towerStack3[0];
-// msg('TOWER STACK COMPARTMENT =====>', towerStack3Compartment);
-const towerCompartmentMesh = new OliveMesh(towerStack3Compartment);
-msg('TOWER STACK COMPARTMENT MESH ======>', towerCompartmentMesh);
 
-const oliveClone2 = new OliveClone(towerCompartmentMesh);
-msg('OLIVE CLONE # 2 =====>', oliveClone2);
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -246,15 +209,29 @@ msg('OLIVE CLONE # 2 =====>', oliveClone2);
 
 
 
-// console.log('SILVERTOWN ====>', silvertown);
-// console.log("SILVERTOWN STRUCTURES ====>", silvertown[0].scenarios[0].structures[0]);
-// console.log('SILVERTOWN FIRST COMPARTMENTS ====>', silvertown[0].scenarios[0].structures[0].compartments);
-// console.log('SAMPLE COMPARTMENT DATA ====>', compartmentStack);
+
+// const tower1 = new OliveBuild(towerStack, 'tower1', 0xff0000); 
+// const tower2 = new OliveBuild(towerStack2, 'tower2', 0x0000ff);
+// const tower3 = new OliveBuild(towerStack3, 'tower3', 0x00ff00);
 
 
-const tower1 = new OliveBuild(towerStack, 'tower1', 0xff0000); 
-const tower2 = new OliveBuild(towerStack2, 'tower2', 0x0000ff);
-const tower3 = new OliveBuild(towerStack3, 'tower3', 0x00ff00);
+const silvertownProject = silvertownProjectData[0];
+msg('SILVER TOWN PROJECT ====>', silvertownProject);
+
+const silvertownScenario = silvertownProject.scenarios[0];
+msg('SCENARIO', silvertownScenario);
+
+msg('SCNERARIO STRUCTURES ====>', silvertownScenario.structures);
+
+// silvertownScenario.structures.forEach( structure => {
+//     structure.compartments.forEach( compartment => {
+//         msg(compartment);
+//     })
+// });
+
+// Scenario = Project.scenario
+
+new OliveBuild(silvertownScenario);
 
 
 
