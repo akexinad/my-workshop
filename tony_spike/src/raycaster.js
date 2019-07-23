@@ -62,11 +62,10 @@ function addCompartment() {
     let topCompartment;
     let newCompartment;
     
-    // if (!selectedTower || !selectedTower instanceof OliveMesh || !selectedTower instanceof OliveClone) {
-    //     return msg( 'Choose a selectedTower motherfucker!' );
-    // }
+    if (!selectedTower) {
+        return msg( 'Pick a tower!' );
+    }
 
-    // const lastIndex = selectedTower.length - 1;
     
     topCompartment = selectedTower[ 0 ];
 
@@ -79,7 +78,6 @@ function addCompartment() {
     msg('ADDED COMPARTMENT ====>', newCompartment);
 
     selectedTower.unshift(newCompartment);
-    // selectedTower.push(newCompartment);
     msg('TOWER AFTER ADDITION ====>', selectedTower);
 
     scene.add(newCompartment);

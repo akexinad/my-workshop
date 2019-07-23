@@ -37,8 +37,6 @@ class Ring extends THREE.LineLoop {
             newPoints.push(new Point(point.x, point.y, point.z, point.srid));
         });
 
-        // console.log('POINTS INSIDE THE RING CLASS ====>', newPoints);
-        
         if (newPoints[0] === newPoints[newPoints.length - 1]) {
             newPoints.pop();
         }
@@ -54,6 +52,7 @@ class Ring extends THREE.LineLoop {
         ring.addAttribute('vertices', new THREE.BufferAttribute(vertices, 3));
 
         super(ring);
+        this.olivePoints = newPoints;
     }
 }
 
@@ -69,10 +68,11 @@ class OliveGeometry extends THREE.ExtrudeBufferGeometry {
 
     constructor(compartmentGeometry) {
 
-        const ring = new Ring(compartmentGeometry.points);
         const groupedCoordinates = [];
         const vector3Array = [];
-
+        
+        const ring = new Ring(compartmentGeometry.points);
+        
         const ringArray = ring.geometry.getAttribute('vertices').array;
 
         for (let i = 0, end = ringArray.length / 3; i < end; i++) {
@@ -92,6 +92,7 @@ class OliveGeometry extends THREE.ExtrudeBufferGeometry {
         };
 
         super(shape, extrusionSettings);
+        this.oliveRing = ring;
     }   
 }
 
@@ -115,6 +116,7 @@ class OliveMesh extends THREE.Mesh {
         });
 
         super(geometry, material);
+        this.oliveGeometry = geometry;
         this.position.set(0, 0, zPosition);
     }
 }
@@ -198,8 +200,6 @@ const silvertownScenario = silvertownProjectData[0].scenarios[0];
 
 
 new OliveBuild(silvertownScenario);
-
-
 
 
 
