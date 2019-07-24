@@ -143,6 +143,7 @@ class OliveBuild {
                 compartmentMesh.position.set(0, 0, zPosition);
 
                 scene.add(compartmentMesh); 
+                msg(compartmentMesh)
             });
         });
     }
@@ -202,6 +203,9 @@ const silvertownScenario = silvertownProjectData[0].scenarios[0];
 new OliveBuild(silvertownScenario);
 
 
+console.log(scene);
+console.log(camera);
+console.log(renderer);
 
 
 // console.log('THE SCENE ==========>', scene);
