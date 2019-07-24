@@ -1,4 +1,4 @@
-const polygonData = [
+const polygon1 = [
 
     {
         "X": -17518.131982921277,

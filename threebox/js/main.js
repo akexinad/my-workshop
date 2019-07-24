@@ -24,31 +24,20 @@ map.on('style.load', function() {
     map.addLayer({
         id: 'custom_layer',
         type: 'custom',
-        onAdd: function(map, mbxContext){
+        onAdd(map, mbxContext){
             tb = new Threebox(
                 map, 
                 mbxContext,
                 {defaultLights: false}
             );
 
-            const options = {
+            const defaultOptions = {
                 rotation: {
                     x: 0, y: 0, z: 45
                 }
-            }
-            
-            function rotate() {
-                return {
-                    rotation:
-                    {
-                        x: 0,
-                        y: 0,
-                        z: 45
-                    }
-                }
-            }
+            };
 
-            function createTBObject3D(obj, coords, options={ rotation: {x: 0, y: 0, z: 0} }) {
+            function createTBObject3D( obj, coords, options ) {
                 obj = tb.Object3D({
                     obj,
                     units: 'meters'
@@ -57,134 +46,24 @@ map.on('style.load', function() {
                 .set(options);
 
                 tb.add(obj);
-            }
+            };
             
-            // Function that create and return the THREE mesh
-            function createCube() {
-                const geometry = new THREE.BoxGeometry(300, 300, 300);
-                const material = new THREE.MeshLambertMaterial({
-                    color: "#BADA55"
-                })
-                const mesh = new THREE.Mesh(geometry, material);
-                mesh.castShadow = true;
-                mesh.recieveShadow = true;
-                return mesh;
-            }
-
-            // store function in variable in order to later pass into tb.Object() method.
-            let cube = createCube();
-
-            function createPrism() {
-                const geometry = new THREE.BoxGeometry(200, 800, 2000);
-                const material = new THREE.MeshLambertMaterial({
-                    color: "#4d0000"
-                })
-                const mesh = new THREE.Mesh(geometry, material);
-                mesh.castShadow = true;
-                mesh.recieveShadow = true;
-                return mesh;
-            }
-            let rectangle = createPrism(200, 800, 200);
-
-            function createLight() {
-                const pointLight = new THREE.DirectionalLight("#FFFFFF", 1.8); // color, brightness
-                pointLight.castShadow = true;
-                pointLight.shadow.mapSize.width = 2048;
-                pointLight.shadow.mapSize.height = 2048;
-                return pointLight;
-            }
+            
+            
+            
             let light = createLight();
+            createTBObject3D(light, coords.coloniaSantaRegina, defaultOptions);
+            
             let light2 = createLight();
+            createTBObject3D(light2, coords.marcialla, defaultOptions);
 
-            function createExtrusion(length, width, height) {
-                const shape = new THREE.Shape();
-                shape.moveTo( 0, 0 );
-                shape.lineTo( 0, width );
-                shape.lineTo( length, width );
-                shape.lineTo( length, 0 );
-                shape.lineTo( 0, 0 );
-
-                const extrudeSettings = {
-                    steps: 20,
-                    depth: height,
-                    bevelEnabled: true,
-                    // bevelThickness: 1,
-                    // bevelSize: 1,
-                    // bevelOffset: 0,
-                    // bevelSegments: 1
-                };
-
-                const geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-                const material = new THREE.MeshLambertMaterial({
-                    color: "brown"
-                });
-                const mesh = new THREE.Mesh( geometry, material );
-
-                return mesh;
-            }
-
-            const square = [
-                {
-                    X: 500,
-                    Y: 0
-                },
-                {
-                    X: 500,
-                    Y: 500
-                },
-                {
-                    X: 0,
-                    Y: 500
-                },
-                {
-                    X: 0,
-                    Y: 0
-                }
-            ];
-
-            // console.log(pol);
-            // pol.forEach(vertice => console.log(vertice.X, vertice.Y));
-
-            // console.log(polygonData);
+            let cube = createCube();
+            createTBObject3D(cube, coords.monteriggioni, defaultOptions);
             
-            // polygonData.forEach( vertice => console.log(vertice.X, vertice.Y ));
+            let rectangle = createPrism(200, 800, 200);
+            createTBObject3D(rectangle, coords.leTolfe, defaultOptions);
             
-            function extrudePolygon(polygon, height) {
-                const shape = new THREE.Shape();
-                shape.moveTo(polygon[0].X, polygon[0].Y);
-                polygon.forEach( vertice => shape.lineTo( vertice.X, vertice.Y ));
-                
-                const extrudeSettings = {
-                    steps: 20,
-                    depth: height,
-                    bevelEnabled: false,
-                    // bevelThickness: 1,
-                    // bevelSize: 1,
-                    // bevelOffset: 0,
-                    // bevelSegments: 1
-                };
 
-                const geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-                const material = new THREE.MeshLambertMaterial({
-                    color: "#D40000"
-                });
-                const mesh = new THREE.Mesh( geometry, material );
-
-                return mesh;
-            }
-
-            let extrusion = createExtrusion(300, 600, 1000);
-            let polygonModel = extrudePolygon(polygonData, 1000);
-
-
-            // the returned THREE mesh is then passed into the THREEBOX Object3d method.
-            // Coordinates and rotation properties are also set.
-
-            createTBObject3D(cube, coords.monteriggioni, options);
-            
-            createTBObject3D(rectangle, coords.leTolfe);
-            
-            // Options on how to render a sphere
             const sphere = tb.sphere({
                 radius: 300,
                 units: 'meters',
@@ -196,15 +75,13 @@ map.on('style.load', function() {
 
             tb.add(sphere);
 
-            createTBObject3D(light, coords.coloniaSantaRegina);
-            
-            createTBObject3D(light2, coords.marcialla);
 
-            createTBObject3D(polygonModel, coords.siena);
+            let polygonModel = extrudePolygon(polygon1, 1000);
+            createTBObject3D(polygonModel, coords.siena, defaultOptions);
             
         },
         
-        render: function(gl, matrix){
+        render(gl, matrix){
             tb.update();
         }
     });
