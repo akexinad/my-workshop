@@ -31,7 +31,8 @@ map.on('style.load', function() {
                 map, 
                 mbxContext,
                 {
-                    defaultLights: false
+                    defaultLights: false,
+                    passiveRendering: false
                 }
             );
 
@@ -56,8 +57,8 @@ map.on('style.load', function() {
             let light = createLight();
             createTBObject3D(light, coords.coloniaSantaRegina, defaultOptions);
             
-            let light2 = createLight();
-            createTBObject3D(light2, coords.marcialla, defaultOptions);
+            // let light2 = createLight();
+            // createTBObject3D(light2, coords.marcialla, defaultOptions);
 
             let light3 = createLight();
             createTBObject3D(light3, coords.northPole, defaultOptions);
@@ -67,13 +68,6 @@ map.on('style.load', function() {
             
             let rectangle = createPrism(200, 800, 200);
             // createTBObject3D(rectangle, coords.leTolfe, defaultOptions);
-            
-
-            
-
-
-            // let polygonModel = extrudePolygon(polygon1, 1000);
-            // createTBObject3D(polygonModel, coords.siena, defaultOptions);
 
             console.log(silvertownProjectData);
             
@@ -83,26 +77,14 @@ map.on('style.load', function() {
             console.log(tonyScenario);
             
             
+            const options = {
+                rotation: {
+                    x: 0, y: 0, z: -180
+                }
+            }
 
-            silvertownScenario.structures.forEach( structure => {
-            // tonyScenario.structures.forEach( structure => {
-
-                const revCompartments = structure.compartments.reverse();
-
-                revCompartments.forEach( compartment => {
-
-                    const options = {
-                        rotation: {
-                            x: 0, y: 0, z: -180
-                        }
-                    }
-
-                    let mesh = new OliveMesh( compartment );
-                    
-                    createTBObject3D(mesh, coords.silvertown, options);
-                });
-            });
-
+            new OliveWorld(silvertownScenario, createTBObject3D, coords.silvertown, options);
+            
 
             
             // console.log(towerStack3);
@@ -111,32 +93,8 @@ map.on('style.load', function() {
             //     let mesh = new OliveMesh( compartment );
             //     createTBObject3D(mesh, coords.siena, defaultOptions);
             // });
-            
 
 
-            const projectTestDataScenario = projectTestData2[0].scenarios[0]
-            const projectTestData2Scenario = projectTestData3[0].scenarios[0]
-            const projectTestData3Scenario = projectTestData4[0].scenarios[0]
-
-            
-
-
-            // projectTestData3Scenario.structures.forEach( structure => {
-                
-            //     const revCompartments = structure.compartments.reverse();
-                
-            //     revCompartments.forEach( compartment => {
-
-            //         let mesh = new OliveMesh( compartment );
-                    
-            //         createTBObject3D(mesh, coords.siena, defaultOptions);
-            //     });
-            // });
-
-
-            
-            
-            
         },
         
         render(gl, matrix){

@@ -19,7 +19,7 @@ class OlivePolygon extends THREE.Shape {
         const verticesArray = [];
         
         geometryPoints.forEach( point => {
-            verticesArray.push( new OlivePoint(point.x, point.y, point.z, point.srid) );
+            verticesArray.push( new THREE.Vector2( point.x, point.y ) );
         });
 
         super(verticesArray);
@@ -81,9 +81,9 @@ const compartmentMesh = new OliveMesh( silvertownCompartment );
 
 
 
-class OliveBuilder {
+class OliveWorld {
 
-    constructor(scenario) {
+    constructor(scenario, threeboxFunction, coordinates, options) {
 
         scenario.structures.forEach( structure => {
 
@@ -91,7 +91,7 @@ class OliveBuilder {
 
                 const compartmentMesh = new OliveMesh(compartment);
 
-                return compartmentMesh;
+                threeboxFunction(compartmentMesh, coordinates, options);
             });
         });
     }
