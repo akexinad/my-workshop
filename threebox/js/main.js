@@ -8,7 +8,8 @@ const coords = {
     tognazza: [11.286397, 43.346272],
     coloniaSantaRegina: [11.366084, 43.321416],
     marcialla: [11.142095, 43.575049],
-    silvertown: [0.0322217087648, 51.5022068109]
+    silvertown: [0.0322217087648, 51.5022068109],
+    northPole: [12.869345, 83.892289]
 }
 
 
@@ -52,13 +53,14 @@ map.on('style.load', function() {
             };
             
             
-            
-            
             let light = createLight();
             createTBObject3D(light, coords.coloniaSantaRegina, defaultOptions);
             
             let light2 = createLight();
             createTBObject3D(light2, coords.marcialla, defaultOptions);
+
+            let light3 = createLight();
+            createTBObject3D(light3, coords.northPole, defaultOptions);
 
             let cube = createCube();
             // createTBObject3D(cube, coords.monteriggioni, defaultOptions);
@@ -81,8 +83,6 @@ map.on('style.load', function() {
             console.log(tonyScenario);
             
             
-            let group = new THREE.Group();
-            group.name = "LELELELELELELELELELEELLELELELELELELE"
 
             silvertownScenario.structures.forEach( structure => {
             // tonyScenario.structures.forEach( structure => {
@@ -100,7 +100,6 @@ map.on('style.load', function() {
                     let mesh = new OliveMesh( compartment );
                     
                     createTBObject3D(mesh, coords.silvertown, options);
-                    
                 });
             });
 
@@ -114,7 +113,6 @@ map.on('style.load', function() {
             // });
             
 
-            console.log(projectTestData3);
 
             const projectTestDataScenario = projectTestData2[0].scenarios[0]
             const projectTestData2Scenario = projectTestData3[0].scenarios[0]

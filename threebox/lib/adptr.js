@@ -16,20 +16,12 @@ class OlivePolygon extends THREE.Shape {
 
     constructor( geometryPoints ) {
 
-        // console.log(geometryPoints);
-        
-
         const verticesArray = [];
         
         geometryPoints.forEach( point => {
             verticesArray.push( new OlivePoint(point.x, point.y, point.z, point.srid) );
         });
 
-        // const lastIndex = verticesArray[ verticesArray.length - 1 ];
-        // console.log('first vertex', verticesArray[0]);
-        // console.log('last vertex', verticesArray[ Number(lastIndex)]);
-        // console.log(verticesArray[0] === verticesArray[lastIndex]);
-        
         super(verticesArray);
         this.olivePoints = verticesArray;
     }
@@ -44,7 +36,6 @@ class OliveBufferGeometry extends THREE.ExtrudeBufferGeometry {
     constructor( compartmentGeometry ) {
 
         const shape = new OlivePolygon( compartmentGeometry.points );
-        // const shape = new OlivePolygon( compartmentGeometry );
         
         const extrusionSettings = {
             depth: compartmentGeometry.height,
@@ -71,7 +62,6 @@ class OliveMesh extends THREE.Mesh {
         const geometry = new OliveBufferGeometry( compartment.geometry );
 
         const zPosition = compartment.geometry.points[0].z;
-        // const zPosition = compartment.geometry[0].z;
 
         const material = new THREE.MeshLambertMaterial({
             color: '#D40000'
@@ -79,9 +69,7 @@ class OliveMesh extends THREE.Mesh {
 
         super(geometry, material);
         this.position.set(0, 0, zPosition);
-        this.name = compartment.structureId;
         this.compartmentId = compartment.id;
-        console.log(this);
     }
 }
 
