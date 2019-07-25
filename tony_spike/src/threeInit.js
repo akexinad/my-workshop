@@ -100,4 +100,3 @@ const light = createLight();
 const lightHelper = createLightHelper(light);
 
 addOrbitControls(camera, renderer);
-
