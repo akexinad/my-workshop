@@ -41,14 +41,13 @@ map.on('style.load', function() {
                 }
             };
 
-            function createTBObject3D( obj, coords, options ) {
+            function createTBObject3D( obj, coords ) {
                 obj = tb.Object3D({
                     obj,
                     units: 'meters'
                 })
                 .setCoords(coords)
                 .set({ rotation: { x: 0, y: 0, z: 180 } })
-                // .set(options);
 
                 tb.add(obj);
             };
@@ -58,7 +57,7 @@ map.on('style.load', function() {
             // createTBObject3D(light, coords.silvertown, defaultOptions);
             
             let light2 = createAmbientLight();
-            createTBObject3D(light2, coords.monteriggioni, defaultOptions);
+            // createTBObject3D(light2, coords.monteriggioni, defaultOptions);
 
             let light3 = createLight();
             createTBObject3D(light3, coords.northPole, defaultOptions);
@@ -75,13 +74,7 @@ map.on('style.load', function() {
             const silvertownStructure = silvertownProjectData[0].scenarios[0].structures[10];
             const tonyScenario = polygon2[0].scenarios[0];
             // console.log(tonyScenario);
-            
-            
-            const silvertownRotation = {
-                rotation: {
-                    x: 0, y: 0, z: -180
-                }
-            }
+
 
             // new OliveWorld(silvertownScenario, createTBObject3D, coords.silvertown);
 

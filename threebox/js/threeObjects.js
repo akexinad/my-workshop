@@ -28,11 +28,11 @@ function createPrism() {
 
 
 function createLight() {
-    const pointLight = new THREE.DirectionalLight("#FFFFFF", 1.8); // color, brightness
-    pointLight.castShadow = true;
-    pointLight.shadow.mapSize.width = 2048;
-    pointLight.shadow.mapSize.height = 2048;
-    return pointLight;
+    const light = new THREE.DirectionalLight("#FFFFFF", 1.8); // color, brightness
+    light.castShadow = true;
+    light.shadow.mapSize.width = 2048;
+    light.shadow.mapSize.height = 2048;
+    return light;
 };
 
 function createAmbientLight() {
