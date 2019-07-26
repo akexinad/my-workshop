@@ -63,8 +63,11 @@ class OliveMesh extends THREE.Mesh {
 
         const zPosition = compartment.geometry.points[0].z;
 
-        const material = new THREE.MeshLambertMaterial({
-            color: '#D40000'
+        const material = new THREE.MeshStandardMaterial({
+            color: 'green',
+            transparent: true,
+            opacity: 1,
+            side: THREE.FrontSide
         });
 
         super(geometry, material);
@@ -83,8 +86,14 @@ const compartmentMesh = new OliveMesh( silvertownCompartment );
 
 class OliveWorld {
 
-    constructor(scenario, threeboxFunction, coordinates, options) {
+    constructor(scenario, threeboxFunction, coordinates) {
 
+        const options = {
+            rotation: {
+                x: 0, y: 0, z: -180
+            }
+        }
+        
         scenario.structures.forEach( structure => {
 
             structure.compartments.forEach(compartment => {

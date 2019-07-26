@@ -35,8 +35,8 @@
     
             // Set up a THREE.js scene
             this.renderer = new THREE.WebGLRenderer( { 
-                alpha: true, 
-                antialias: true,
+                alpha: false, 
+                antialias: false,
                 canvas: map.getCanvas(),
                 context: glContext
             } );

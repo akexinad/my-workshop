@@ -35,7 +35,11 @@ function createLight() {
     return pointLight;
 };
 
-
+function createAmbientLight() {
+    const light = new THREE.AmbientLight( 0x404040  );
+    
+    return light;
+};
 
 
 function createExtrusion(length, width, height) {
@@ -91,3 +95,72 @@ function extrudePolygon(polygon, height) {
 
     return mesh;
 }
+
+
+
+function createTowerShape( points ) {
+
+    const vector2Arr = [];
+
+    // points.reverse();
+
+    points.forEach( point => {
+        vector2Arr.push( new THREE.Vector2( point.x, point.y ) );
+    });
+
+    const shape = new THREE.Shape( vector2Arr );
+
+    return shape;
+};
+
+
+function createTowerGeometry( geometry ) {
+
+    // const shape = createTowerShape( geometry );
+    const shape = createTowerShape( geometry.points );
+
+    const options = {
+        depth: geometry.height,
+        steps: 1,
+        bevelEnabled: false
+    }
+    
+    const geom = new THREE.ExtrudeBufferGeometry( shape, options );
+
+    return geom;
+};
+
+
+function createTowerMesh( compartment ) {
+
+    const geom = createTowerGeometry( compartment.geometry );
+
+    const material = new THREE.MeshLambertMaterial({
+        color: '#D40000',
+        transparent: true,
+        opacity: 0.8
+    });
+
+    const mesh = new THREE.Mesh( geom, material );
+    // mesh.position.set(0, 0, compartment.geometry[ 0 ].z)
+    mesh.position.set(0, 0, compartment.geometry.points[ 0 ].z)
+
+    console.log(mesh);
+    
+
+    return mesh;
+};
+
+
+
+function buildTower(structure, threeboxFn, coords, options) {
+
+    // structure.forEach( compartment => {
+    structure.compartments.forEach( compartment => {
+
+        const mesh = createTowerMesh( compartment );
+
+        threeboxFn(mesh, coords, options);
+    });
+};
+
