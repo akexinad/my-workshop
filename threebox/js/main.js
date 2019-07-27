@@ -31,7 +31,7 @@ map.on('style.load', function() {
                 map, 
                 mbxContext,
                 {
-                    defaultLights: false,
+                    defaultLights: true,
                 }
             );
 
@@ -41,13 +41,13 @@ map.on('style.load', function() {
                 }
             };
 
-            function createTBObject3D( obj, coords ) {
+            function createTBObject3D( obj, coords, z ) {
                 obj = tb.Object3D({
                     obj,
                     units: 'meters'
                 })
                 .setCoords(coords)
-                .set({ rotation: { x: 0, y: 0, z: 180 } })
+                .set({ rotation: { x: 0, y: 0, z } });
 
                 tb.add(obj);
             };
@@ -68,39 +68,19 @@ map.on('style.load', function() {
             let rectangle = createPrism(200, 800, 200);
             // createTBObject3D(rectangle, coords.leTolfe, defaultOptions);
 
-            console.log(silvertownProjectData);
-            
-            const silvertownScenario = silvertownProjectData[0].scenarios[0];
-            const silvertownStructure = silvertownProjectData[0].scenarios[0].structures[10];
-            const tonyScenario = polygon2[0].scenarios[0];
-            // console.log(tonyScenario);
-
-
-            // new OliveWorld(silvertownScenario, createTBObject3D, coords.silvertown);
-
-            silvertownScenario.structures.forEach( structure => {
-                structure.compartments.forEach( compartment => {
-
-                    const compartmentMesh = new OliveMesh( compartment );
-                    createTBObject3D( compartmentMesh, coords.silvertown);
-                    
-                });
-            });
-
-            console.log(towerStack3);
-            console.log(silvertownStructure);
-            
+            // console.log(silvertownProjectData);
             
 
-            // buildTower(towerStack, createTBObject3D, coords.silvertown, defaultOptions);
-            // buildTower(towerStack2, createTBObject3D, coords.silvertown, defaultOptions);
-            // buildTower(towerStack3, createTBObject3D, coords.silvertown, defaultOptions);
-            // buildTower(silvertownStructure, createTBObject3D, coords.silvertown, defaultOptions);
+            
+            // console.log(towerStack3);
 
 
+            const silvertown = new OliveWorld( tb, silvertownProjectData );
+
+            silvertown.renderScenario( 0, coords.silvertown, 180 );
         },
         
-        render(gl, matrix){
+        render(){
             tb.update();
         }
     });

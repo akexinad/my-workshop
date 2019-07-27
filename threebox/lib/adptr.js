@@ -8,7 +8,7 @@ class OlivePoint extends THREE.Vector3 {
 }
 
 const point = new OlivePoint(3, 4, 5, 4236);
-// console.log(point);
+console.log(point);
 
 
 
@@ -64,10 +64,9 @@ class OliveMesh extends THREE.Mesh {
         const zPosition = compartment.geometry.points[0].z;
 
         const material = new THREE.MeshStandardMaterial({
-            color: 'green',
+            color: 'grey',
             transparent: true,
-            opacity: 1,
-            side: THREE.FrontSide
+            opacity: 100,
         });
 
         super(geometry, material);
@@ -86,22 +85,48 @@ const compartmentMesh = new OliveMesh( silvertownCompartment );
 
 class OliveWorld {
 
-    constructor(scenario, threeboxFunction, coordinates) {
+    constructor( tb, projectData ) {
 
-        const options = {
-            rotation: {
-                x: 0, y: 0, z: -180
-            }
-        }
+        this.tb = tb;
+        this.projectData = projectData;
         
+        function createTBObject3D( obj, coordinates, z ) {
+            
+            obj = this.tb.Object3D({
+                obj,
+                units: 'meters'
+            })
+            .setCoords(coordinates)
+            .set({ 
+                rotation: {
+                    x: 0, y: 0, z
+                }
+            });
+            
+            tb.add(obj);
+            
+        }
+
+        this.createTBObject3D = createTBObject3D;
+
+    }
+
+    renderScenario( index, coordinates, zRotation ) {
+
+        const scenario = this.projectData[ 0 ].scenarios[ index ];
+
         scenario.structures.forEach( structure => {
 
-            structure.compartments.forEach(compartment => {
+            structure.compartments.forEach( compartment => {
 
-                const compartmentMesh = new OliveMesh(compartment);
+                compartment = new OliveMesh(compartment);
 
-                threeboxFunction(compartmentMesh, coordinates, options);
+                this.createTBObject3D( compartment, coordinates, zRotation );
+                
             });
+            
         });
+
     }
+    
 }
