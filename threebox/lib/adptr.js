@@ -2,9 +2,12 @@ class OlivePoint extends THREE.Vector3 {
 
     constructor( x, y, z, srid ) {
 
-        super(x, y, z);
+        super( x, y, z );
+
         this.srid = srid;
+
     }
+
 }
 
 const point = new OlivePoint(3, 4, 5, 4236);
@@ -23,8 +26,11 @@ class OlivePolygon extends THREE.Shape {
         });
 
         super(verticesArray);
+
         this.olivePoints = verticesArray;
+
     }
+
 }
 
 const polygon = new OlivePolygon(polygon1);
@@ -44,8 +50,11 @@ class OliveBufferGeometry extends THREE.ExtrudeBufferGeometry {
         };
 
         super( shape, extrusionSettings );
+
         this.olivePolygon = shape;
+
     }
+
 }
 
 const silvertownCompartmentGeometry = silvertownProjectData[0].scenarios[0].structures[0].compartments[0].geometry;
@@ -55,9 +64,9 @@ const extrusion = new OliveBufferGeometry(silvertownCompartmentGeometry);
 
 
 
-class OliveMesh extends THREE.Mesh {
+class OliveCompartment extends THREE.Mesh {
 
-    constructor(compartment) {
+    constructor( compartment ) {
 
         const geometry = new OliveBufferGeometry( compartment.geometry );
 
@@ -69,16 +78,19 @@ class OliveMesh extends THREE.Mesh {
             opacity: 1,
         });
 
-        super(geometry, material);
-        this.position.set(0, 0, zPosition);
+        super( geometry, material );
+
+        this.position.set( 0, 0, zPosition );
         this.compartmentId = compartment.id;
+
     }
+
 }
 
 
 const silvertownCompartment = silvertownProjectData[0].scenarios[0].structures[0].compartments[0];
 
-const compartmentMesh = new OliveMesh( silvertownCompartment );
+const compartmentMesh = new OliveCompartment( silvertownCompartment );
 // console.log(compartmentMesh);
 
 
@@ -97,7 +109,7 @@ class OliveWorld {
                 obj,
                 units: 'meters'
             })
-            .setCoords(coordinates)
+            .setCoords( coordinates )
             .set({ 
                 rotation: {
                     x: 0, y: 0, z
@@ -107,7 +119,6 @@ class OliveWorld {
             tb.add(obj);
             
         }
-
 
     }
 
@@ -124,7 +135,7 @@ class OliveWorld {
 
             structure.compartments.forEach( compartment => {
 
-                compartment = new OliveMesh(compartment);
+                compartment = new OliveCompartment( compartment );
 
                 this.createTBObject3D( compartment, coordinates, zRotation );
                 

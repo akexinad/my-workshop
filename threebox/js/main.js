@@ -27,6 +27,7 @@ map.on('style.load', function() {
         id: 'custom_layer',
         type: 'custom',
         onAdd(map, mbxContext){
+
             tb = new Threebox(
                 map, 
                 mbxContext,
@@ -38,10 +39,13 @@ map.on('style.load', function() {
             const silvertown = new OliveWorld( tb, silvertownProjectData );
 
             silvertown.renderScenario( 0, coords.silvertown, 180 );
+
         },
         
         render(){
+
             tb.update();
+            
         }
     });
 });
