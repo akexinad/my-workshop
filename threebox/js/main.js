@@ -17,9 +17,9 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
     center: coords.silvertown,
-    zoom: 13,
+    zoom: 15,
     pitch: 60,
-    bearing: 0
+    bearing: 180
 });
 
 map.on('style.load', function() {
@@ -34,46 +34,6 @@ map.on('style.load', function() {
                     defaultLights: true,
                 }
             );
-
-            const defaultOptions = {
-                rotation: {
-                    x: 0, y: 0, z: 0
-                }
-            };
-
-            function createTBObject3D( obj, coords, z ) {
-                obj = tb.Object3D({
-                    obj,
-                    units: 'meters'
-                })
-                .setCoords(coords)
-                .set({ rotation: { x: 0, y: 0, z } });
-
-                tb.add(obj);
-            };
-            
-            
-            let light = createLight();
-            // createTBObject3D(light, coords.silvertown, defaultOptions);
-            
-            let light2 = createAmbientLight();
-            // createTBObject3D(light2, coords.monteriggioni, defaultOptions);
-
-            let light3 = createLight();
-            createTBObject3D(light3, coords.northPole, defaultOptions);
-
-            let cube = createCube();
-            // createTBObject3D(cube, coords.monteriggioni, defaultOptions);
-            
-            let rectangle = createPrism(200, 800, 200);
-            // createTBObject3D(rectangle, coords.leTolfe, defaultOptions);
-
-            // console.log(silvertownProjectData);
-            
-
-            
-            // console.log(towerStack3);
-
 
             const silvertown = new OliveWorld( tb, silvertownProjectData );
 

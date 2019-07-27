@@ -61,12 +61,12 @@ class OliveMesh extends THREE.Mesh {
 
         const geometry = new OliveBufferGeometry( compartment.geometry );
 
-        const zPosition = compartment.geometry.points[0].z;
+        const zPosition = compartment.geometry.points[ 0 ].z;
 
         const material = new THREE.MeshStandardMaterial({
             color: 'grey',
             transparent: true,
-            opacity: 100,
+            opacity: 1,
         });
 
         super(geometry, material);
@@ -89,6 +89,7 @@ class OliveWorld {
 
         this.tb = tb;
         this.projectData = projectData;
+        this.createTBObject3D = createTBObject3D;
         
         function createTBObject3D( obj, coordinates, z ) {
             
@@ -107,11 +108,15 @@ class OliveWorld {
             
         }
 
-        this.createTBObject3D = createTBObject3D;
 
     }
 
     renderScenario( index, coordinates, zRotation ) {
+
+        
+        if ( this.projectData[ 0 ].scenarios[ index ] === undefined ) {
+            throw new Error( `There is no scenario with index ${ index }` );
+        }
 
         const scenario = this.projectData[ 0 ].scenarios[ index ];
 
