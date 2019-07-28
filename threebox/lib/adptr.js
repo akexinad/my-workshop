@@ -78,7 +78,13 @@ class OliveCompartment extends THREE.Mesh {
 
         const zPosition = compartment.geometry.points[ 0 ].z;
 
-        const material = new THREE.MeshStandardMaterial({
+        // Issues wih extrusion transparency.
+        // https://stackoverflow.com/questions/10857233/in-three-js-alpha-channel-works-inconsistently
+        // https://stackoverflow.com/questions/12626716/inconsistent-alpha-channel-in-three-js
+        // https://stackoverflow.com/questions/11165345/three-js-webgl-transparent-planes-hiding-other-planes-behind-them
+        // https://stackoverflow.com/questions/15994944/transparent-objects-in-threejs
+        
+        const material = new THREE.MeshLambertMaterial({
             color: 'grey',
             transparent: true,
             opacity: 1,
