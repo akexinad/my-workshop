@@ -1,0 +1,12 @@
+
+- Graphics are normally made of a collection of triangles.
+
+- The basic steps to render something on the screen are as follows:
+    1. You initialize WebGL.
+    2. Issue a draw call and start creating triangles.
+    3. It takes all the points in the draw call and it goes to the VERTEX SHADER where you give each vertex a position in 2D screen space, and any other info you want to attach .
+        - Transforms each vertex into a position and gives it a color.
+    4. Next is the RASTERIZATION process, which fills in the triangles by calculating which pixels are in between.
+    5. Next is the FRAGMENT SHADER where it gives each pixel a color, from the information provided from the rasterizer and uniforms.
+    6. Then it goes to the FRAME BUFFER.
+    7. And then out to the SCREEN.
