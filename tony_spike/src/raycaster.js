@@ -2,7 +2,6 @@ let selection;
 let selectedStructure;
 const selectedColour = 0xffff00;
 
-msg('Selected structure in raycaster', selectedStructure)
 
 function createRaycaster() {
 
@@ -58,6 +57,9 @@ function createButton(text, callback) {
 const addCompartmentBtn = createButton( 'Add Compartment', addCompartment );
 
 function addCompartment() { 
+
+    msg('Selected structure ====>', selectedStructure)
+
     
     let topCompartment;
     let newCompartment;
