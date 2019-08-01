@@ -1,6 +1,8 @@
 let selection;
-let selectedTower;
+let selectedStructure;
 const selectedColour = 0xffff00;
+
+msg('Selected structure in raycaster', selectedStructure)
 
 function createRaycaster() {
 
@@ -10,36 +12,34 @@ function createRaycaster() {
     
     if (selection.length > 0) {
         
-        if ( selectedTower !=- selection[ 0 ].object ) {
+        if ( selectedStructure !=- selection[ 0 ].object ) {
 
-            if (selectedTower) {
-                selectedTower.forEach( compartment => {
-                    compartment.material.emissive.setHex( selectedTower.originalColour );
+            if (selectedStructure) {
+                selectedStructure.forEach( compartment => {
+                    compartment.material.emissive.setHex( selectedStructure.originalColour );
                 });
             }
-
-            // msg('Selected Tower in create raycaster', selectedTower)
             
-            selectedTower = scene.children.filter( compartments => {
+            selectedStructure = scene.children.filter( compartments => {
                 return compartments.name === selection[0].object.name;
             });
     
-            selectedTower.originalColour = selectedTower[0].material.emissive.getHex();
+            selectedStructure.originalColour = selectedStructure[0].material.emissive.getHex();
 
-            selectedTower.forEach( compartment => {
+            selectedStructure.forEach( compartment => {
                 compartment.material.emissive.setHex( selectedColour );
             });
         }
         
     } // else {
         
-        // if (selectedTower) {
-        //     selectedTower.forEach(compartment => {
-        //         compartment.material.emissive.setHex( selectedTower.originalColour );
+        // if (selectedStructure) {
+        //     selectedStructure.forEach(compartment => {
+        //         compartment.material.emissive.setHex( selectedStructure.originalColour );
         //     });
         // }
 
-        // selectedTower = null;
+        // selectedStructure = null;
     // }
     
 }
@@ -62,12 +62,12 @@ function addCompartment() {
     let topCompartment;
     let newCompartment;
     
-    if (!selectedTower) {
+    if (!selectedStructure) {
         return msg( 'Pick a tower!' );
     }
 
     
-    topCompartment = selectedTower[ 0 ];
+    topCompartment = selectedStructure[ 0 ];
 
     const highlightedColor = topCompartment.material.emissive.getHex();
     
@@ -77,12 +77,12 @@ function addCompartment() {
     msg('TOP COMPARTMENT =====>', topCompartment);
     msg('ADDED COMPARTMENT ====>', newCompartment);
 
-    selectedTower.unshift(newCompartment);
-    msg('TOWER AFTER ADDITION ====>', selectedTower);
+    selectedStructure.unshift(newCompartment);
+    msg('TOWER AFTER ADDITION ====>', selectedStructure);
 
     scene.add(newCompartment);
 
-    msg('selectedTower after adding it to the scene ====>', selectedTower);
+    msg('selectedStructure after adding it to the scene ====>', selectedStructure);
 }
 
 

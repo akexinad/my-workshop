@@ -118,6 +118,8 @@ class OliveMesh extends THREE.Mesh {
         super(geometry, material);
         this.oliveGeometry = geometry;
         this.position.set(0, 0, zPosition);
+        this.compartmentId = compartment.id;
+        this.structureId = compartment.structureId;
     }
 }
 
@@ -143,7 +145,6 @@ class OliveBuild {
                 compartmentMesh.position.set(0, 0, zPosition);
 
                 scene.add(compartmentMesh); 
-                msg(compartmentMesh)
             });
         });
     }
