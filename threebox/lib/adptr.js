@@ -79,9 +79,9 @@ class OliveCompartment extends THREE.Mesh {
         const zPosition = compartment.geometry.points[ 0 ].z;
 
         const material = new THREE.MeshStandardMaterial({
-            color: 'grey',
+            color: '#D40000',
             transparent: true,
-            opacity: 1,
+            opacity: 1
         });
 
         super( geometry, material );

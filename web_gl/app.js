@@ -84,9 +84,9 @@ function initializeDemo() {
     const triangleVertices =
     [ // X,   Y ===> and make sure the vertices are counter clockwise.
                         // R, G, B
-        0.0, 0.5,       1.0, 1.0, 0.0,
-        -0.5, -0.5,     0.7, 0.0, 1.0,
-        0.5, -0.5,      0.1, 1.0, 0.6
+        0.0, 0.5,       1.0, 0.0, 0.0,
+        -0.5, -0.5,     0.0, 1.0, 0.0,
+        0.5, -0.5,      0.0, 0.0, 1.0
     ];
 
     // BUFFER = A chunk of memory that can be allocated for any purpose.
