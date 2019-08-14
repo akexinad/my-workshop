@@ -9,3 +9,14 @@ C:\Users\cecd304\me\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netc
 C:\Users\cecd304\me\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfo.cs
 C:\Users\cecd304\me\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.dll
 C:\Users\cecd304\me\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.pdb
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csprojAssemblyReference.cache
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csproj.CoreCompileInputs.cache
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfoInputs.cache
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfo.cs
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.dll
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.pdb
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.deps.json
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtimeconfig.json
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtimeconfig.dev.json
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.dll
+D:\code\workshop\c_sharp\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.pdb

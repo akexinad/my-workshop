@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cecd304\\me\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {}
+    "D:\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cecd304\\me\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {
+    "D:\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cecd304\\me\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
+        "projectUniqueName": "D:\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
         "projectName": "ConsoleApp1",
-        "projectPath": "C:\\Users\\cecd304\\me\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
-        "packagesPath": "C:\\Users\\cecd304\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cecd304\\me\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\obj\\",
+        "projectPath": "D:\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
+        "packagesPath": "C:\\Users\\danny\\.nuget\\packages\\",
+        "outputPath": "D:\\code\\workshop\\c_sharp\\ConsoleApp1\\ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cecd304\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\danny\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
