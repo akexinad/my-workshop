@@ -1,0 +1,11 @@
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/bin/Debug/netcoreapp2.2/MicrosoftDocumentation.deps.json
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/bin/Debug/netcoreapp2.2/MicrosoftDocumentation.runtimeconfig.json
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/bin/Debug/netcoreapp2.2/MicrosoftDocumentation.runtimeconfig.dev.json
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/bin/Debug/netcoreapp2.2/MicrosoftDocumentation.dll
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/bin/Debug/netcoreapp2.2/MicrosoftDocumentation.pdb
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/obj/Debug/netcoreapp2.2/MicrosoftDocumentation.csprojAssemblyReference.cache
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/obj/Debug/netcoreapp2.2/MicrosoftDocumentation.csproj.CoreCompileInputs.cache
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/obj/Debug/netcoreapp2.2/MicrosoftDocumentation.AssemblyInfoInputs.cache
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/obj/Debug/netcoreapp2.2/MicrosoftDocumentation.AssemblyInfo.cs
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/obj/Debug/netcoreapp2.2/MicrosoftDocumentation.dll
+/Users/akexinad/code/workshop/c_sharp/microsoft_docs/MicrosoftDocumentation/MicrosoftDocumentation/obj/Debug/netcoreapp2.2/MicrosoftDocumentation.pdb
