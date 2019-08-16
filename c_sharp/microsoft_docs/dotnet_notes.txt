@@ -1,0 +1,75 @@
+.NET FRAMEWORK
+==============
+
+- .NET is the entire framework and is composed of these parts starting from the bottom of the architecture...
+
+
+
+
+COMMON LANGUAGE RUNTIME [CLR]
+=============================
+
+- There needs to be a way to translate the code coming out of .NET into machine instructions.
+- This is the job the CLR.
+- The CLR is a virtual machine component of .NET that compile INTERMEDIATE LANGUAGE [IL]* into NATIVE CODE/MACHINE INSTRUCTIONS.
+    
+    * INTERMEDIATE LANGUAGE [IL]
+    ----------------------------
+
+    - IL is a term given to a language that is used in a compiler with the purpose of translating high-level programming languages like C# into NATIVE CODE that the machine can understand and thus be instructed to take certain actions.
+
+
+
+
+FRAMEWORK CLASS LIBRARY [FCL]
+=============================
+
+- In order to understand the FCL, we need to understand the...
+
+    * COMMON LANGUAGE INFRASTRUCTURE [CLI]
+    --------------------------------------
+
+    - The CLI Is an open specification developed by Microsoft and standardized by ISO and ECMA [European Computer Manufacturers Association].
+    - It describes executable code and a runtime environment that allows multiple high-level languages to be used on different computer platforms without being rewritten for specific architectures. This implies it is platform agnostic.
+    - The CLI ensures that high-level programming languages can be compiled to IL, which then can be compiled to native code.
+
+- The FCL is the FIRST IMPLEMENTATION of the CLI. It provides a foundational set of STANDARD LIBRARIES*.
+
+    * STANDARD LIBRARIES
+    --------------------
+
+    - The Standard Libraries of the CLI encapsulate a large number of common functions, such as file reading and writing, XML document manipulation, exception handling, application globalization, network communication, threading and reflection, which makes the programmer's job easier.
+
+- In particular, the FCL implements the BASE CLASS LIBRARY, which holds the following libraries:
+    - System
+    - System.Collections
+    - System.Collections.Generic
+    - System.Diagnostics
+    - System.Globalization
+
+- And so one. See the full list: https://en.wikipedia.org/wiki/Standard_Libraries_(CLI)#Base_Class_Library
+
+
+
+
+WINDOWS FORMS [WINFORMS]
+========================
+
+- Winforms is a graphical (GUI) class library included as a part of Microsoft .NET Framework or Mono Framework, providing a platform to write rich client applications for desktop, laptop, and tablet PCs. While it is seen as a replacement for the earlier and more complex C++ based Microsoft Foundation Class Library, it does not offer a comparable paradigm and only acts as a platform for the user interface tier in a multi-tier solution.
+
+
+
+
+ASP.NET
+=======
+
+- is an open-source server-side web application framework designed for web development to produce dynamic web pages developed by Microsoft to allow programmers to build dynamic web sites, applications and services.
+- ASP = Active Server Pages.
+
+
+
+
+ADO.NET
+=======
+
+- 
