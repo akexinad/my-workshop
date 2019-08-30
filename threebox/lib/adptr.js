@@ -69,6 +69,16 @@ const extrusion = new OliveBufferGeometry(silvertownCompartmentGeometry);
 // console.log(extrusion);
 
 
+class OlivePolygonBufferGeometry extends THREE.ShapeBufferGeometry {
+
+    constructor( structureFootprint ) {
+
+        const shape = new OlivePolygon( structureFootprint.points );
+
+        super( shape );
+    }
+}
+
 
 class OliveCompartment extends THREE.Mesh {
 
@@ -88,9 +98,7 @@ class OliveCompartment extends THREE.Mesh {
 
         this.position.set( 0, 0, zPosition );
         this.compartmentId = compartment.id;
-
     }
-
 }
 
 
@@ -100,11 +108,28 @@ const compartmentMesh = new OliveCompartment( silvertownCompartment );
 console.log(compartmentMesh);
 
 
+class OliveFootprint extends THREE.Mesh {
+
+    constructor( structure ) {
+
+        const geometry = new OlivePolygonBufferGeometry( structure.footprint );
+        const material = new THREE.MeshLambertMaterial({
+            color: '#d40000',
+            transparent: true,
+            opacity: 1
+        });
+
+        super( geometry, material );
+
+        this.olivePolygonGeometry = geometry;
+        this.structureId = this.structureId;
+    }
+}
+
 
 class OliveWorld {
 
     constructor( tb, projectData ) {
-
         this.tb = tb;
         this.projectData = projectData;
         this.createTBObject3D = createTBObject3D;
@@ -123,13 +148,10 @@ class OliveWorld {
             });
             
             tb.add(obj);
-            
         }
-
     }
 
-    renderScenario( index, coordinates, zRotation ) {
-
+    buildCompartments( index, coordinates, zRotation ) {
         
         if ( this.projectData[ 0 ].scenarios[ index ] === undefined ) {
             throw new Error( `There is no scenario with index ${ index }` );
@@ -138,17 +160,26 @@ class OliveWorld {
         const scenario = this.projectData[ 0 ].scenarios[ index ];
 
         scenario.structures.forEach( structure => {
-
             structure.compartments.forEach( compartment => {
-
                 compartment = new OliveCompartment( compartment );
 
                 this.createTBObject3D( compartment, coordinates, zRotation );
-                
             });
-            
         });
-
     }
+
+    buildFootprints( index, coordinates, zRotation ) {
+
+        if ( this.projectData[ 0 ].scenarios[ index ] === undefined ) {
+            throw new Error( `There is no scenario with index ${ index }` );
+        }
+
+        const scenario = this.projectData[ 0 ].scenarios[ index ];
     
+        scenario.structures.forEach( structure => {
+            const footprint = new OliveFootprint( structure );
+
+            this.createTBObject3D( footprint, coordinates, zRotation ); 
+        });
+    }
 }
