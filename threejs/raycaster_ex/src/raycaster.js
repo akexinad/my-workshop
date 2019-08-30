@@ -5,6 +5,9 @@ const selectedColour = 0xffff00;
 function createRaycaster() {
     raycaster.setFromCamera(mouse, camera);
 
+    console.log(selection);
+    
+
     selection = raycaster.intersectObjects(scene.children);
 
     if (selection.length > 0) {
@@ -18,7 +21,7 @@ function createRaycaster() {
             }
 
             selectedStructure = scene.children.filter(compartments => {
-                return compartments.name === selection[0].object.name;
+                return compartments.structureId === selection[0].object.structureId;
             });
 
             selectedStructure.originalColour = selectedStructure[0].material.emissive.getHex();

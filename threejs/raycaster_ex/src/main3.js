@@ -141,7 +141,7 @@ class OliveBuild {
 
                 const zPosition = compartment.geometry.points[0].z;
                 const compartmentMesh = new OliveMesh(compartment);
-                compartmentMesh.name = compartment.structureId;
+                compartmentMesh.structureId = compartment.structureId;
                 compartmentMesh.position.set(0, 0, zPosition);
 
                 scene.add(compartmentMesh); 
