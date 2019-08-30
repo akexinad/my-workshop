@@ -71,9 +71,8 @@ function displayModels() {
                 }
             );
 
-            displaySilvertown();
-            // displayEuston();
-            displayEuston2D();
+            displayProject(tb, eustonProjectData, coords.euston);
+            displayProject(tb, silvertownProjectData, coords.silvertown, false);
         },
         
         render() {
@@ -82,21 +81,16 @@ function displayModels() {
     });
 }
 
-
-
-function displaySilvertown() {
-    const silvertown = new OliveWorld(tb, silvertownProjectData);
-    silvertown.buildCompartments(0, coords.silvertown, 180);
-}
-
-function displayEuston() {
-    const euston = new OliveWorld(tb, eustonProjectData);
-    euston.buildCompartments(0, coords.euston, 180);
-}
-
-function displayEuston2D() {
-    const euston = new OliveWorld(tb, eustonProjectData);
-    euston.buildFootprints(0, coords.euston, 180);
+function displayProject(threebox, projectData, coords, in3D = true) {
+    const project = new OliveWorld(threebox, projectData);
+    
+    if (in3D === false) {
+        project.buildFootprints(0, coords, 180);
+        return project;
+    }
+    
+    project.buildCompartments(0, coords, 180);
+    return project;
 }
 
 
