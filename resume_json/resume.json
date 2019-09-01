@@ -1,0 +1,283 @@
+{
+    "basics": 
+    {
+        "name": "Danny Ceccattini",
+        "label": "Software Developer",
+        "picture": "https://media.licdn.com/dms/image/C5603AQGpfc_ueQhjyg/profile-displayphoto-shrink_200_200/0?e=1573084800&v=beta&t=H1JQ1my0xEc6leUK24D0uQl5FUlBASof6s1qSf5i0qg",
+        "summary": "Full-Stack developer.\nLover of all things engineering and plain old problem-solving.\nTechnical precision, critical thinking, novelty, curiosity and teamwork is what I look for and admire.",
+        "email": "danny.ceccattini@gmail.com",
+        "location":
+        {
+            "city": "Sydney",
+            "countryCode": "AU"
+        },
+        "profiles":
+        [
+            {
+                "url": "https://github.com/akexinad",
+                "username": "akexinad",
+                "network": "github"
+            }
+        ]
+    },
+    "languages":
+    [
+        {
+            "language": "English",
+            "fluency": "Native Speaker"
+        },
+        {
+            "language": "Italian",
+            "fluency": "Native Speaker"
+        }
+    ],
+    "education": 
+    [
+        {
+            "endDate": "2019-03-12",
+            "startDate": "2018-12-06",
+            "studyType": "Immersive",
+            "area": "Software Engineering",
+            "institution": "General Assembly"
+        },
+        {
+            "endDate": "2014-12-31",
+            "startDate": "2013-01-01",
+            "studyType": "Masters",
+            "area": "Interntional Relations and Poilitical Economy",
+            "institution": "Macquarie University",
+            "awards": "Graduated with GPA of 4/4 | With Honours | Awarded the Vice Chancellor's Award of Academic Excellence."
+        }
+    ],
+    "awards":
+    [
+        {
+            "title": "Vice Chancellor's Commendation for Academic Excellence",
+            "date": "2014-11-01",
+            "awarder": "Maqcuarie University",
+            "summary": "Graduated with high distinction average | GPA of 4.0/4.0 | With Honours"
+        }
+    ],
+    "interests":
+    [
+        {
+            "name": "Code",
+            "keywords":
+            [
+                "Open-source library contributions",
+                "Arduino"
+            ]
+        },
+        {
+            "name": "Horology",
+            "keywords":
+            [
+                "Watchmaking",
+                "Mechanical Watch Repairs"
+            ]
+        },
+        {
+            "name": "Engineering",
+            "keywords":
+            [
+                "Welding",
+                "Machine Turning",
+                "F1"
+            ]
+        },
+        {
+            "name": "Film",
+            "keywords":
+            [
+                "Federico Fellini",
+                "Denis Villeneuve",
+                "Mad Max"
+            ]
+        },
+        {
+            "name": "Gastronomy",
+            "keywords":
+            [
+                "Winemaking",
+                "Meat Curing",
+                "Tuscan Cuisine"
+            ]
+        },
+        {
+            "name": "Back of Bourke",
+            "keywords":
+            [
+                "Camp",
+                "Fire Trailing",
+                "Trekking",
+                "FJ76"
+            ]
+        },
+        {
+            "name": "Reading",
+            "keywords":
+            [
+                "Computer Science/Engineering",
+                "Sociology/Economics"
+            ]
+        }
+    ],
+    "skills": 
+    [
+        {
+            "keywords":
+            [
+                "HTML | JSX",
+                "CSS | Flexbox",
+                "Javascript | ES6 | Typescript",
+                "Angular 8 | RxJS",
+                "React",
+                "Redux"
+            ],
+            "name": "Frontend"
+        },
+        {
+            "keywords":
+            [
+                "Node",
+                "Ruby",
+                ".NET",
+                "C#",
+                "Postgres"
+            ],
+            "name": "Backend"
+        },
+        {
+            "keywords":
+            [
+                "AWS",
+                "Heroku",
+                "Docker"
+            ],
+            "name": "Devops"
+        },
+        {
+            "keywords":
+            [
+                "Mapbox",
+                "ArcGIS",
+                "Google Maps",
+                "OAuth"
+            ],
+            "name": "Third Party API's"
+        },
+        {
+            "keywords":
+            [
+                "RxJS",
+                "Underscore",
+                "Lodash",
+                "jQuery",
+                "THREE",
+                "Threebox",
+                "Orbit Controls",
+                "Drag Controls"
+            ],
+            "name": "Libraries"
+        },
+        {
+            "keywords":
+            [
+                "Jasmine",
+                "Karma",
+                "XUnit",
+                "Jest",
+                "RSpec",
+                "Cypress"
+            ],
+            "name": "Test Driven Development"
+        }
+    ],
+    "work": 
+    [
+        {
+            "summary": "Junior Full-Stack developer. Part of a small team responsible for building a decision analysis application designed to be utilised by financial, engineering and construction professionals.",
+            "website": "https://www.lendlease.com",
+            "company": "Lendlease",
+            "position": "Junior Full Stack Developer",
+            "startDate": "2019-05-01",
+            "highlights": 
+            [
+                "Angular 8 | RxJS | THREE.js",
+                ".NET | C#",
+                "TDD | Jasime | Karma | XUnit",
+                "Docker | Postgres | AWS",
+                "Jasmine | Karma | XUnit"
+            ]
+        },
+        {
+            "highlights": 
+            [
+                "Vanilla Javascipt | jQuery | React | Vue",
+                "Ruby | Ruby On Rails | Node",
+                "TDD | RSpec | Jest",
+                "Heroku",
+                "Wikipedia, Google and ArcGIS API's"
+            ],
+            "summary": "Junior Web Developer, built a variety of projects inspired by wikipedia, parksNSW utilising .",
+            "website": "https://generalassemb.ly",
+            "company": "General Assembly",
+            "position": "Junior Web Developer",
+            "startDate": "2018-12-06",
+            "endDate": "2019-03-12"
+        },
+        {
+            "highlights": 
+            [
+                "Responsible for pricing and general coordination of industrial constructions and structural engineering projects.",
+                "Scheduled works to ensure safe and smooth work-flow for all on-site contractors and meetings with industry professionals.",
+                "General correspondence with clients, contractors, respective authorities and preparing verbal and written reports to office administrators."
+            ],
+            "summary": "DEME Industrial specializes in industrial construction and structural engineering consultancy and fabrication",
+            "company": "DEME Industrial",
+            "position": "Project Manager",
+            "startDate": "2018-01-29",
+            "endDate": "2018-12-01"
+        },
+        {
+            "highlights": 
+            [
+                "Oversaw production of preformed structural columns for residential and commercial high-rises.",
+                "Developed a series of Excel databases quantifying volume materials, overall production costs as well as a series of calculations with the aim of reducing costs and improving efficiency."
+            ],
+            "summary": "HL-Luxicon was a joint venture between Luxicon Industrial and Hi-Lite Engineering born out of the necessity to provide in-house structural and mechanical engineering solutions to bathroom/kitchen pod manufacturing and installations.",
+            "company": "HL-Luxicon Preform Systems",
+            "position": "Operations Manager",
+            "startDate": "2017-08-01",
+            "endDate": "2017-12-20"
+        },
+        {
+            "highlights": 
+            [
+                "Responsible for the formulation and execution of test scripts and test plans of the Calvin Klein and Tommy Hilfiger websites for 28 EU and non-EU states.",
+                "Worked within a team of supply chain, customer service and operation specialists, as well as software developers and UX designers to ensure a complete integration between the various platforms necessary for the online sales of Calvin Klein and Tommy Hilfiger. Such platforms involve numerous postal carriers, financial service institutions, payment services and SAP supply chain operations and customer relations."
+            ],
+            "summary": "PVH is a fashion and lifestyle company, operating three main business groups – Calvin Klein, Tommy Hilfiger and Heritage.",
+            "website": "https://www.pvh.com",
+            "company": "PVH Corp",
+            "position": "UAT Project Assistant",
+            "startDate": "2017-02-01",
+            "endDate": "2017-06-28"
+        },
+        {
+            "highlights":
+            [
+                "Responsible for scheduling and coordinating civil and structural works, contractors, as well as technical correspondence with engineers, architects and various local and federal government authorities.",
+                "Responsible for general correspondence with on-site contractors, office clientele and authorities."
+            ],
+            "company": "Self-Employed",
+            "position": "Site Foreman",
+            "startDate": "2007-01-01",
+            "endDate": "2016-12-20"
+        }
+    ],
+    "meta": 
+    {
+        "theme": "stackoverflow"
+    }
+    }
