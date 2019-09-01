@@ -39,7 +39,7 @@
             "studyType": "Immersive",
             "area": "Software Engineering",
             "institution": "General Assembly"
-        },
+        }
         {
             "endDate": "2014-12-31",
             "startDate": "2013-01-01",
@@ -139,6 +139,7 @@
         {
             "keywords":
             [
+                "RESTful API development",
                 "Node",
                 "Ruby",
                 ".NET",
