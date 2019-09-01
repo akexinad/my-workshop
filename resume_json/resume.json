@@ -191,24 +191,25 @@
                 "RSpec",
                 "Cypress"
             ],
-            "name": "Test Driven Development"
+            "name": "Test-Driven Development"
         }
     ],
     "work": 
     [
         {
-            "summary": "Junior Full-Stack developer. Part of a small team responsible for building a decision analysis application designed to be utilised by financial, engineering and construction professionals.",
+            "summary": "Currently part of a small team of 3D-modelling specialists, structural engineers and CAD specialists building a decision analysis application designed for financial, engineering and construction professionals.",
             "website": "https://www.lendlease.com",
             "company": "Lendlease",
             "position": "Junior Full Stack Developer",
             "startDate": "2019-05-01",
             "highlights": 
             [
-                "Angular 8 | RxJS | THREE.js",
+                "Angular 8 | RxJS | THREE.js | Threebox",
                 ".NET | C#",
-                "TDD | Jasime | Karma | XUnit",
-                "Docker | Postgres | AWS",
-                "Jasmine | Karma | XUnit"
+                "TDD | Jasmine | Karma | XUnit",
+                "PostgreSQL | PostGIS",
+                "AWS Microservices | Docker",
+                "API's | Mapbox | ArcGIS"
             ]
         },
         {
@@ -218,9 +219,9 @@
                 "Ruby | Ruby On Rails | Node",
                 "TDD | RSpec | Jest",
                 "Heroku",
-                "Wikipedia, Google and ArcGIS API's"
+                "API's | Wikipedia | Google | ArcGIS"
             ],
-            "summary": "Junior Web Developer, built a variety of projects inspired by wikipedia, parksNSW utilising .",
+            "summary": "Designed and built a variety of projects inspired by wikipedia, parksNSW, Cards Against Humanity and various flight search-engines.",
             "website": "https://generalassemb.ly",
             "company": "General Assembly",
             "position": "Junior Web Developer",
