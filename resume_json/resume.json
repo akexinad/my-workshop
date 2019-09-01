@@ -64,15 +64,17 @@
             "name": "Code",
             "keywords":
             [
+                "New Languages / Frameworks",
                 "Open-source library contributions",
-                "Arduino"
+                "Arduino",
+                "Excel VBA for small business"
             ]
         },
         {
             "name": "Horology",
             "keywords":
             [
-                "Watchmaking",
+                "Independent Watchmakers",
                 "Mechanical Watch Repairs"
             ]
         },
@@ -91,7 +93,7 @@
             [
                 "Federico Fellini",
                 "Denis Villeneuve",
-                "Mad Max"
+                "Neorealism"
             ]
         },
         {
@@ -100,11 +102,11 @@
             [
                 "Winemaking",
                 "Meat Curing",
-                "Tuscan Cuisine"
+                "Pappardelle"
             ]
         },
         {
-            "name": "Back of Bourke",
+            "name": "Outdoors",
             "keywords":
             [
                 "Camp",
@@ -117,8 +119,10 @@
             "name": "Reading",
             "keywords":
             [
-                "Computer Science/Engineering",
-                "Sociology/Economics"
+                "Computer Science",
+                "Engineering",
+                "Sociology",
+                "Economics"
             ]
         }
     ],
@@ -127,10 +131,14 @@
         {
             "keywords":
             [
-                "HTML | JSX",
-                "CSS | Flexbox",
-                "Javascript | ES6 | Typescript",
-                "Angular 8 | RxJS",
+                "HTML",
+                "JSX",
+                "CSS", 
+                "Flexbox",
+                "Javascript",
+                "ES6",
+                "Typescript",
+                "Angular 8",
                 "React",
                 "Redux"
             ],
@@ -280,6 +288,6 @@
     ],
     "meta": 
     {
-        "theme": "elegant"
+        "theme": "stackoverflow"
     }
     }
