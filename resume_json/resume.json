@@ -112,7 +112,7 @@
                 "Camp",
                 "Fire Trailing",
                 "Trekking",
-                "FJ76"
+                "Desert Trailing"
             ]
         },
         {
@@ -206,7 +206,7 @@
     "work": 
     [
         {
-            "summary": "Currently part of a small team of 3D-modelling specialists, structural engineers and CAD specialists building a decision analysis application designed for financial, engineering and construction professionals.",
+            "summary": "Currently part of a small team of 3D-modelling and CAD specialists, structural engineers and architiects building a decision analysis application designed for financial, engineering and construction professionals.",
             "website": "https://www.lendlease.com",
             "company": "Lendlease",
             "position": "Junior Full Stack Developer",
@@ -217,7 +217,7 @@
                 ".NET | C#",
                 "TDD | Jasmine | Karma | XUnit",
                 "PostgreSQL | PostGIS",
-                "AWS Microservices | Docker",
+                "AWS | Docker",
                 "API's | Mapbox | ArcGIS"
             ]
         },
