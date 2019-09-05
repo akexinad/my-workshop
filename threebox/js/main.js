@@ -31,14 +31,14 @@ var map = new mapboxgl.Map({
 const lines = new Array();
 const arcSegments = 25;
 const lineQuantity = 50;
-for (const i = 0; i < lineQuantity; i++){
+for (let i = 0; i < lineQuantity; i++){
     const line = new Array();
     const destination = [300*(Math.random()-0.5), 140*(Math.random()-0.5)];
     const maxElevation = Math.pow(Math.abs(destination[0]*destination[1]), 0.5) * 80000;
     const increment = destination.map(function(direction){
         return direction/arcSegments;
     })
-    for (const l = 0; l<=arcSegments; l++){
+    for (let l = 0; l<=arcSegments; l++){
         const waypoint = increment.map(function(direction){
             return direction * l
         })
