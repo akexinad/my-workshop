@@ -15,8 +15,13 @@
         [
             {
                 "url": "https://github.com/akexinad",
-                "username": "akexinad",
+                "username": "GitHub",
                 "network": "github"
+            },
+            {
+                "url": "https://www.linkedin.com/in/dannyceccattini/",
+                "username": "LinkedIn",
+                "network": "linkedin"
             }
         ]
     },
@@ -56,6 +61,12 @@
             "date": "2014-11-01",
             "awarder": "Maqcuarie University",
             "summary": "High-Distinction Average | GPA of 4.0/4.0 | With Honours"
+        },
+        {
+            "title": "The Adam Weishaupt Award for 'Being A Deep One'",
+            "date": "2019-03-10",
+            "awarder": "General Assembly",
+            "summary": "For contributions to the critical discussion on the future of AI and ethical implications."
         }
     ],
     "interests":
@@ -93,7 +104,7 @@
             [
                 "Federico Fellini",
                 "Denis Villeneuve",
-                "Neorealism"
+                "Italian Neorealism"
             ]
         },
         {

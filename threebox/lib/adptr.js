@@ -12,7 +12,7 @@ class OlivePoint extends THREE.Vector3 {
 
 const silvertownPoint = silvertownProjectData[0].scenarios[0].structures[0].compartments[6].geometry.points[3];
 const point = new OlivePoint(silvertownPoint.x, silvertownPoint.y, silvertownPoint.z, silvertownPoint.srid);
-console.log(point);
+// console.log(point);
 
 
 
@@ -40,7 +40,7 @@ class OlivePolygon extends THREE.Shape {
 }
 
 const polygon = new OlivePolygon(polygon1);
-console.log(polygon);
+// console.log(polygon);
 
 
 class OliveBufferGeometry extends THREE.ExtrudeBufferGeometry {
@@ -80,6 +80,25 @@ class OlivePolygonBufferGeometry extends THREE.ShapeBufferGeometry {
 }
 
 
+class OliveBoundary {
+    constructor(footprint) {
+
+        const lines = [];
+    
+        footprint.points.forEach((point) => {
+            // add vertices to an array.
+            const values = Object.values(point);
+    
+            // remove the srid value.
+            values.pop();
+    
+            lines.push(values);
+        });
+
+        this.vertices = lines;
+    }
+}
+
 class OliveCompartment extends THREE.Mesh {
 
     constructor( compartment ) {
@@ -105,7 +124,7 @@ class OliveCompartment extends THREE.Mesh {
 const silvertownCompartment = silvertownProjectData[0].scenarios[0].structures[0].compartments[0];
 
 const compartmentMesh = new OliveCompartment( silvertownCompartment );
-console.log(compartmentMesh);
+// console.log(compartmentMesh);
 
 
 class OliveFootprint extends THREE.Mesh {

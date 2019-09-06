@@ -17,7 +17,7 @@ const coords = {
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
-    center: coords.silvertown,
+    center: coords.euston,
     zoom: 15,
     pitch: 0,
     bearing: 180
@@ -26,7 +26,7 @@ var map = new mapboxgl.Map({
 function addMarker() {
 
     // create a HTML element for marker
-    var el = document.createElement('div');
+    const el = document.createElement('div');
     el.className = 'marker';
 
     // instantiate the marker and add it to the map 
@@ -71,8 +71,29 @@ function displayModels() {
                 }
             );
 
-            displayProject(tb, eustonProjectData, coords.euston);
+            displayProject(tb, eustonProjectData, coords.euston, false);
             displayProject(tb, silvertownProjectData, coords.silvertown, false);
+
+            const footPrint = eustonProjectData[0].scenarios[0].structures[0].footprint;
+            const boundary = new OliveBoundary(footPrint);
+
+            console.log(boundary);
+            
+            
+            const lineMesh = tb.line({
+                geometry: boundary.vertices,
+                color: 0x000000,
+                width: 5,
+                opacity: 1
+            });
+
+            console.log(lineMesh);
+            
+            
+
+            tb.add(lineMesh);
+            
+            
         },
         
         render() {
@@ -102,3 +123,5 @@ document.getElementById('2d')
 
 document.getElementById('3d')
     .addEventListener('click', display3d);
+
+// DRAWING A LINE
