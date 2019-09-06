@@ -17,43 +17,11 @@ const coords = {
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
-    center: coords.silvertown,
+    center: coords.euston,
     zoom: 15,
     pitch: 0,
     bearing: 180
 });
-
-
-//////////////////////////////////////////////////////////////////
-
-// randomly generate some line arcs (not essential for understanding this demo)
-
-const lines = new Array();
-const arcSegments = 25;
-const lineQuantity = 50;
-for (let i = 0; i < lineQuantity; i++){
-    const line = new Array();
-    const destination = [300*(Math.random()-0.5), 140*(Math.random()-0.5)];
-    const maxElevation = Math.pow(Math.abs(destination[0]*destination[1]), 0.5) * 80000;
-    const increment = destination.map(function(direction){
-        return direction/arcSegments;
-    })
-    for (let l = 0; l<=arcSegments; l++){
-        const waypoint = increment.map(function(direction){
-            return direction * l
-        })
-        const waypointElevation = Math.sin(Math.PI*l/arcSegments) * maxElevation;
-        waypoint.push(waypointElevation);
-        line.push(waypoint);
-    }
-    lines.push(line)
-}
-console.log('lineGeometries of the lines: ', lines);
-
-
-//////////////////////////////////////////////////////////////////////////////////
-
-
 
 function addMarker() {
 
@@ -103,21 +71,27 @@ function displayModels() {
                 }
             );
 
-            displayProject(tb, eustonProjectData, coords.euston);
+            displayProject(tb, eustonProjectData, coords.euston, false);
             displayProject(tb, silvertownProjectData, coords.silvertown, false);
 
+            const footPrint = eustonProjectData[0].scenarios[0].structures[0].footprint;
+            const boundary = new OliveBoundary(footPrint);
 
-            // RENDERING LINES
+            console.log(boundary);
+            
+            
+            const lineMesh = tb.line({
+                geometry: boundary.vertices,
+                color: 0x000000,
+                width: 5,
+                opacity: 1
+            });
 
-            for (line of lines) {
-                const lineOptions = {
-                    geometry: line,
-                    color: (line[1][1]/180) * 0xffffff, // color based on latitude of endpoint
-                    width: Math.random() + 1 // random width between 1 and 2
-                }
-                lineMesh = tb.line(lineOptions);
-                tb.add(lineMesh)
-            }
+            console.log(lineMesh);
+            
+            
+
+            tb.add(lineMesh);
             
             
         },
