@@ -1,0 +1,18 @@
+<job>
+<script language="VBScript">
+'''''''''''''''''''''''''''''''''''''''''''''''''
+'ADD CODE HERE
+
+
+set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set a = objFSO.CreateTextFile("c:/users/cecd304/desktop/hello.txt", True)
+a.WriteLine("This is a test.")
+a.Close
+
+
+
+'''''''''''''''''''''''''''''''''''''''''''''''''
+WScript.Quit
+</script>
+</job>
