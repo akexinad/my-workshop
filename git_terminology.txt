@@ -1,0 +1,12 @@
+REBASE
+======
+
+- Rebasing essentially takes a set of commits, "copies" them, and plops them down somewhere else.
+
+
+
+HEAD
+====
+
+- HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.
+- HEAD always points to the most recent commit which is reflected in the working tree.
