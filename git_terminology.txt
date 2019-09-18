@@ -10,3 +10,5 @@ HEAD
 
 - HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.
 - HEAD always points to the most recent commit which is reflected in the working tree.
+- The advantage of rebasing is that it can be used to make a nice linear sequence of commits. 
+	The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.
