@@ -11,12 +11,6 @@ HEAD
 - HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.
 - HEAD always points to the most recent commit which is reflected in the working tree.
 
-
-
-
-GIT RESET
-=========
-
 - git reset reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as 'rewriting history'. git reset will move a branch backwards as if the commit had never been made in the first place.
 
 
@@ -27,3 +21,6 @@ GIT REVERT
 - While resetting works great for local branches on your own machine, its method of 'rewriting history' doesn't work for remote branches that others are using.
 
 - In order to reverse changes and share those reversed changes with others, we need to use 'git revert'.
+=======
+- The advantage of rebasing is that it can be used to make a nice linear sequence of commits. 
+	The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.
