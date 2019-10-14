@@ -55,14 +55,24 @@ function display3d() {
 
 map.on('style.load', function() {
     displayModels();
+    
 });
 
 
+
 function displayModels() {
+    
     map.addLayer({
         id: 'custom_layer',
         type: 'custom',
         onAdd(map, mbxContext) {
+
+            console.log(mbxContext);
+            console.log(this);
+            
+            
+            
+            
             tb = new Threebox(
                 map,
                 mbxContext,
@@ -77,8 +87,6 @@ function displayModels() {
             const footPrint = eustonProjectData[0].scenarios[0].structures[0].footprint;
             const boundary = new OliveBoundary(footPrint);
 
-            console.log(boundary);
-            
             
             const lineMesh = tb.line({
                 geometry: boundary.vertices,
@@ -96,7 +104,7 @@ function displayModels() {
             
         },
         
-        render() {
+        render(gl, matrix) {
             tb.update();
         }
     });
