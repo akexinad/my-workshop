@@ -6,28 +6,36 @@ import os
 # print(openpyxl.__version__)
 
 filename = 'pyxl.xlsx'
-os.chdir("C:\\Users\\cecd304\\me\\code\\workshop\\spreadsheet_code")
+src_path = "C:\\Users\\cecd304\\me\\code\\workshop\\spreadsheet_code\\"
+os.chdir(src_path)
 
 wb = openpyxl.load_workbook(filename)
 
 # print(type(wb))
 
-sheet1 = wb['Sheet1']
+sheet = wb['Sheet1']
 
-sheet1['d4'].value = 'HELLO WORLD'
+sheet['d4'].value = 'HELLO WORLD'
 
 # wb.save(filename)
 
 # print(sheet1['b1:b7'])
 
-print(sheet1.title)
+# print(sheet.title)
 
-sheet1.title = 'LALALA'
 
-wb.save(filename)
+# wb.save(filename)
 
-print(type(sheet1['a1'].value))
+# print(type(sheet['a1'].value))
+
+def cell(col, row):
+    return col + str(row)
+
 
 # range hs to be from 1 to 5 since the excel rows start from 1 and not 0;
-for i in range(1, 5): 
-    print(sheet1['a' + str(i)].value)
+for i in range(1, 5):
+    res = cell('a', i)
+    print(sheet[res].value)
+
+print(sheet.max_row)
+print(sheet.max_column)
