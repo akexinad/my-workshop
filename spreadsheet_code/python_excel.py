@@ -3,10 +3,13 @@ import os
 
 # https://www.youtube.com/watch?v=q6Mc_sAPZ2Y
 
-# print(openpyxl.__version__)
+# NOTE: When running python files within cmder, you have to type 'python', not 'py', 
+    # before the name of the file to execute the code.
+
+print('openpyxl version', openpyxl.__version__)
 
 filename = 'pyxl.xlsx'
-src_path = "C:\\Users\\cecd304\\me\\code\\workshop\\spreadsheet_code\\"
+src_path = 'C:\\Users\\cecd304\\me\\code\\workshop\\spreadsheet_code\\'
 os.chdir(src_path)
 
 wb = openpyxl.load_workbook(filename)
