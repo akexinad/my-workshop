@@ -2,56 +2,56 @@ var renderer, scene, camera, controls ;
 
 init();
 
-function init(){
+function init() {
     
     /*SETTINGS*/
     
-    renderer=new THREE.WebGLRenderer({alpha:true});
+    const renderer = new THREE.WebGLRenderer({alpha:true});
     renderer.setClearColor(0xaaaaaa);
     renderer.setSize(innerWidth,innerHeight);
     document.body.appendChild(renderer.domElement);
     
-    scene=new THREE.Scene();
+    const scene = new THREE.Scene();
     
-    camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,1,40);
+    const camera = new THREE.PerspectiveCamera(70,innerWidth/innerHeight,1,40);
     camera.position.set(2,2,6);
     
-    controls=new THREE.TrackballControls(camera,renderer.domElement);
-    controls.rotateSpeed=5;
+    const controls = new THREE.TrackballControls(camera,renderer.domElement);
+    controls.rotateSpeed = 5;
     
     
     /*OBJECTS*/
     
     createGrid(); 
-    var light=new THREE.SpotLight(0xffffff,10,20);
+    var light = new THREE.SpotLight(0xffffff,10,20);
     light.position.set(-10,10,10);
     scene.add(light);
     
     
     //1.Create a mesh
-    var object=new THREE.Mesh(
+    const object = new THREE.Mesh(
         new THREE.BoxGeometry(2,2,2),
         new THREE.MeshLambertMaterial({color:0x00aa00,transparent:true})
         );
     
     //2.create vertexHelpers
-    var sphere=new THREE.Mesh(
+    const sphere = new THREE.Mesh(
         new THREE.SphereGeometry(.1,.1,.1,8,8),
         new THREE.MeshBasicMaterial({color:0x000000})
         );
-    var vertexHelpers=[];
-    for(var i=0;i<object.geometry.vertices.length;i++){
-        var vertexHelper=sphere.clone();
-        var vertexPosition=object.geometry.vertices[i];
+    const vertexHelpers = [];
+    for (let i=0; i < object.geometry.vertices.length; i++) {
+        const vertexHelper = sphere.clone();
+        const vertexPosition = object.geometry.vertices[i];
         vertexHelper.position.copy(vertexPosition);
-        vertexHelper.visible=false;
-        vertexHelper.data={index:i};
+        vertexHelper.visible = false;
+        vertexHelper.data = {index:i};
         scene.add(vertexHelper);
         vertexHelpers.push(vertexHelper);
     }
     
     //3. create an (invisible) plane to drag the vertices on
-    var plane=new THREE.Mesh(
+    const plane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(8,8,8,1,1,1),
         new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.1,depthWrite:false,side:THREE.DoubleSide})
         );
@@ -62,46 +62,46 @@ function init(){
     
     /*GEOMETRY EDITION*/
     
-    var raycaster=new THREE.Raycaster();
-    var mouse=new THREE.Vector2();
-    var INTERSECTED,SELECTED;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let INTERSECTED, SELECTED;
     
     //custom features
-    var mouseDown=false;
-    var mode='resize mode';
+    let mouseDown = false;
+    let mode = 'resize mode';
     
     //listeners
     renderer.domElement.addEventListener('mousemove',onDocumentMouseMove,false);
     renderer.domElement.addEventListener('mousedown',onDocumentMouseDown,false);
     renderer.domElement.addEventListener('mouseup',onDocumentMouseUp,false);
     
-    function onDocumentMouseMove(e){
+    function onDocumentMouseMove(e) {
         e.preventDefault();
-        mouse.x=(e.clientX/innerWidth)*2-1;
-        mouse.y=-(e.clientY/innerHeight)*2+1;
+        mouse.x = (e.clientX/innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY/innerHeight) * 2 + 1;
         raycaster.setFromCamera(mouse,camera);
         
         //1. MOVE SELECTED OBJECTS
-        if(SELECTED){
+        if (SELECTED) {
             plane.position.copy(SELECTED.position);
             plane.lookAt(camera.position);
-            var intersects=raycaster.intersectObject(plane);
-            if(mode==='resize mode'){
+            let intersects = raycaster.intersectObject(plane);
+            if (mode === 'resize mode') {
                 
-                var increaseRatio=intersects[0].point.sub(object.position).length() / SELECTED.position.sub(object.position).length();
+                var increaseRatio = intersects[0].point.sub(object.position).length() / SELECTED.position.sub(object.position).length();
                 object.scale.set(
-                    object.scale.x*increaseRatio,
-                    object.scale.y*increaseRatio,
-                    object.scale.z*increaseRatio
+                    object.scale.x * increaseRatio,
+                    object.scale.y * increaseRatio,
+                    object.scale.z * increaseRatio
                 );
                 //also update other vertexHelpers'position
-                for(var i=0;i<vertexHelpers.length;i++){
-                    var vector=new THREE.Vector3().copy(vertexHelpers[i].position.sub(object.position));
+                for (let i = 0; i < vertexHelpers.length; i++) {
+                    const vector = new THREE.Vector3().copy(vertexHelpers[i].position.sub(object.position));
                     vector.multiplyScalar(increaseRatio);
                     vertexHelpers[i].position.copy(vector);
                 }
             }
-            if(mode==='edit mode'){
+            if (mode === 'edit mode') {
                 SELECTED.position.copy(intersects[0].point);
                 object.worldToLocal(intersects[0].point);//if the cube has been scaled the vertices coordinates don't match the world coordinates. This line converts the vector to local coordinates.
                 object.geometry.vertices[SELECTED.data.index].copy(intersects[0].point);
@@ -113,11 +113,11 @@ function init(){
         }
         
         //2. PICK OBJECTS
-        var intersects=raycaster.intersectObjects(scene.children);
-        var metObject=false,metVertex=undefined;
+        var intersects = raycaster.intersectObjects(scene.children);
+        var metObject = false, metVertex = undefined;
         
-        for(var i=0;i<intersects.length;i++){
-            var result=intersects[i].object;
+        for (var i=0; i < intersects.length; i++) {
+            var result = intersects[i].object;
             if(result==object)metObject=true;
             if(result.geometry instanceof THREE.SphereGeometry && !metVertex)metVertex=result;
         }
@@ -187,11 +187,13 @@ function init(){
     animate();
     
 }
+
 function animate(){
     requestAnimationFrame(animate);
     renderer.render(scene,camera);
     controls.update();
 }
+
 function createGrid(){
     for(var i=0;i<11;i++){
         var material=new THREE.LineBasicMaterial({color:0xbbbbbb});
