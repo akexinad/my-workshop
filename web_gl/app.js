@@ -135,8 +135,4 @@ function initializeDemo() {
         0, // How many vertices you want to skip.
         3 // How many vertices you want to draw
     );
-
-
-
-    
 };
