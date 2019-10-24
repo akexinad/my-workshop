@@ -18,5 +18,5 @@ languagePluginLoader.then(() => {
         pyodide.runPython(
             pyScript
         );
-    })
+    });
 });
