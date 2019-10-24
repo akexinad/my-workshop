@@ -1,22 +1,27 @@
-console.log('hello');
-
 const pyScript = [
-    'def hello():',
-    '   x = 2',
-    '   y = 2',
+    'def sum(x, y):',
     '   z = x + y',
     '   print(z)',
     '',
+    'sum(45, 55)',
+    "print('the above was calculated via a sum function.')"
 ].join('\n');
 
+const scr = "print('hello world')";
 
-console.log(pyScript);
+// languagePluginLoader.then(() => {
+//     pyodide.loadPackage('numpy').then(() => {
+//         pyodide.runPython(
+//             pyScript
+//         );
+//     });
+// });
 
+const jython = async function getPyodide(script) {
+    await languagePluginLoader;
+    return pyodide.runPython(script);
+};
 
-languagePluginLoader.then(() => {
-    pyodide.loadPackage('numpy').then(() => {
-        pyodide.runPython(
-            pyScript
-        );
-    });
-});
+const py = jython(pyScript);
+
+console.log(py);
