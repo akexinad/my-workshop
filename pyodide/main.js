@@ -20,7 +20,7 @@ const pythonScript = [
 
 
 
-// ORIGINAL CODE
+// ORIGINAL EXAMPLE CODE
 
 // languagePluginLoader.then(() => {
 //     pyodide.loadPackage('numpy').then(() => {
