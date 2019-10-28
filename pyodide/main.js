@@ -18,7 +18,7 @@ const pythonScript = [
     "print('the above number was calculated via a sum function.')"
 ].join('\n');
 
-
+console.log(pythonScript);
 
 // ORIGINAL EXAMPLE CODE
 
