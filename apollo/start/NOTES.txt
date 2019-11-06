@@ -1,0 +1,35 @@
+
+
+CURSOR BASED PAGINATION
+=======================
+
+In cursor-based pagination, a "cursor" is used to keep track of where in the data set the next items should
+be fetched from. Sometimes the cursor can be quite simple and just refer to the ID of the last object
+fetched, but in some cases - ex lists sorted according to some criteria = the cursor needs to 
+encode the sorting criteria in addition to the ID of the last object fetched.
+
+Implementing cursor-based pagination on the client isn't all that different from offset-based pagination,
+but instead of using an absolute offset, we keep a reference to the last object fetched and information 
+about the sort order used.
+
+
+
+
+APOLLO GRAPH MANAGER
+====================
+
+- Pushing your schema to Apollo Graph Manager
+$ npx apollo service:push --endpoint=http://localhost:4000
+
+
+- And if you make changes to your schema, you can always check for breaking changes with: 
+$ npx apollo service:check --endpoint=http://localhost:4000
+
+Apollo Graph manager is great because it has features such as:
+- Schema Explorer
+- Schema History
+- Performance Analytics
+- Client Awareness
+
+See https://www.apollographql.com/docs/tutorial/production/#what-are-the-benefits-of-graph-manager
+
