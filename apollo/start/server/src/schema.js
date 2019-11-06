@@ -53,7 +53,7 @@ const typeDefs = gql`
     }
 
     type Mission {
-        # ... with rest of schema
+        name: String
         missionPatch(mission: String, size: PatchSize): String
     }
 
