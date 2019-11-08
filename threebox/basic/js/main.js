@@ -16,7 +16,7 @@ const coords = {
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/mapbox/dark-v10',
     center: coords.euston,
     zoom: 15,
     pitch: 0,
@@ -55,10 +55,7 @@ function display3d() {
 
 map.on('style.load', function() {
     displayModels();
-    
 });
-
-
 
 function displayModels() {
     
@@ -68,9 +65,7 @@ function displayModels() {
         onAdd(map, mbxContext) {
 
             console.log(mbxContext);
-            console.log(this);
-            
-            
+            // console.log(this);
             
             
             tb = new Threebox(
@@ -84,27 +79,10 @@ function displayModels() {
             displayProject(tb, eustonProjectData, coords.euston, false);
             displayProject(tb, silvertownProjectData, coords.silvertown, false);
 
-            const footPrint = eustonProjectData[0].scenarios[0].structures[0].footprint;
-            const boundary = new OliveBoundary(footPrint);
-
-            
-            const lineMesh = tb.line({
-                geometry: boundary.vertices,
-                color: 0x000000,
-                width: 5,
-                opacity: 1
-            });
-
-            console.log(lineMesh);
-            
-            
-
-            tb.add(lineMesh);
-            
-            
         },
         
         render(gl, matrix) {
+            
             tb.update();
         }
     });
