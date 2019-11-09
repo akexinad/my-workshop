@@ -1,5 +1,4 @@
-export const COMPARTMENT_2 = 
-    {
+export const COMPARTMENT_2 = {
         id: '2a10e6c7-051c-4487-8e0d-10e057a996c6',
         structureId: 'd3206a1d-7d45-4644-b0c3-19742cefeedd',
         geometry: {
@@ -47,4 +46,4 @@ export const COMPARTMENT_2 =
           GFA: 1096.2468237085077,
           RHID: '4acbaf58-5515-4fd7-9ea0-72f05b4e1830'
         },
-    }
+    };

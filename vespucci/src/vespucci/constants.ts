@@ -1,4 +1,4 @@
-export const CONSTANTS = {
+export const GEO_CONSTANTS = {
     WORLD_SIZE: 1024000,
     PROJECTION_WORLD_SIZE: 1024000 / ( 6378137.0 * Math.PI * 2 ),
     MERCATOR_A: 6378137.0,
