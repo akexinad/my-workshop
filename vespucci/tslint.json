@@ -10,8 +10,9 @@
         "max-line-length": [true, 200],
         "no-console": [false],
         "no-shadowed-variable": false,
-        "typedef": [false, "call-signature"],
-        "quotemark": [true, "single"]
+        "typedef": [true, "call-signature"],
+        "quotemark": [true, "single"],
+        "ordered-imports": false
     },
     "rulesDirectory": []
 }

@@ -8,7 +8,7 @@ const Objects = require('./objects/objects.js');
 const material = require('./utils/material.js');
 const sphere = require('./objects/sphere.js');
 const loadObj = require('./objects/loadObj.js');
-const Object3D = require('./objects/Object3D.js');
+const Objct3D = require('./objects/Object3D.js');
 const line = require('./objects/line.js');
 const tube = require('./objects/tube.js');
 
@@ -51,7 +51,7 @@ Threebox.prototype = {
 
         this.cameraSync = new CameraSync(this.map, this.camera, this.world);
 
-        //raycaster for mouse events
+        // raycaster for mouse events
         this.raycaster = new THREE.Raycaster();
 
         // apply starter options
