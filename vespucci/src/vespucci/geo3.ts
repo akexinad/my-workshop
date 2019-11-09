@@ -57,7 +57,7 @@ export class Geo3 {
         this.world.add(sunlight);
     }
 
-    addObjectToMap(
+    public addObjectToMap(
         object: THREE.Group,
         coordinates: mapboxgl.LngLat,
         rotation: {
