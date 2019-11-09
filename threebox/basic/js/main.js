@@ -14,7 +14,7 @@ const coords = {
 }
 
 
-var map = new mapboxgl.Map({
+const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
     center: coords.euston,
@@ -23,17 +23,16 @@ var map = new mapboxgl.Map({
     bearing: 180
 });
 
-function addMarker() {
+function raycast(map, tb) {
+    map.on('click', e => {
+        const intersect = tb.queryRenderedFeatures(e.point);
 
-    // create a HTML element for marker
-    const el = document.createElement('div');
-    el.className = 'marker';
-
-    // instantiate the marker and add it to the map 
-    new mapboxgl.Marker(el)
-        .setLngLat(coords.silvertown)
-        .addTo(map);
+        console.log(intersect);
+        
+        
+    });
 }
+
 
 function display2d() {
     map.easeTo({
@@ -41,8 +40,6 @@ function display2d() {
     }, {
         duration: 1200
     });
-
-    // map.removeLayer()
 };
 
 function display3d() {
@@ -62,31 +59,84 @@ function displayModels() {
     map.addLayer({
         id: 'custom_layer',
         type: 'custom',
-        onAdd(map, mbxContext) {
+        onAdd(map, webGLContext) {
 
-            console.log(mbxContext);
-            // console.log(this);
-            
-            
             tb = new Threebox(
                 map,
-                mbxContext,
+                webGLContext,
                 {
                     defaultLights: true,
                 }
             );
+            
+            raycast(map, tb);
 
-            displayProject(tb, eustonProjectData, coords.euston, false);
-            displayProject(tb, silvertownProjectData, coords.silvertown, false);
+            const cmpt1 = new OliveCompartment(compartment1);
+            const cmpt2 = new OliveCompartment(compartment2);
 
+            console.log(cmpt1);
+            console.log(cmpt2);
+            
+            const obj1 = tb.Object3D({
+                obj: cmpt1,
+                units: 'meters'
+            })
+            .setCoords( coords.euston )
+            .set({ 
+                rotation: {
+                    x: 0, y: 0, z: 180
+                }
+            });
+
+            // const obj2 = tb.Object3D({
+            //     obj: cmpt2,
+            //     units: 'meters'
+            // })
+            // .setCoords( coords.euston )
+            // .set({ 
+            //     rotation: {
+            //         x: 0, y: 0, z: 180
+            //     }
+            // });
+            
+            tb.add(obj1);
+            // tb.add(obj2);
+
+            // displayProject(tb, eustonProjectData, coords.euston, true);
+            // displayProject(tb, silvertownProjectData, coords.silvertown, false);
+
+            
         },
         
         render(gl, matrix) {
-            
             tb.update();
         }
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function displayProject(threebox, projectData, coords, in3D = true) {
     const project = new OliveWorld(threebox, projectData);
@@ -100,14 +150,8 @@ function displayProject(threebox, projectData, coords, in3D = true) {
     return project;
 }
 
-
-document.getElementById('marker')
-    .addEventListener('click', addMarker);
-
 document.getElementById('2d')
     .addEventListener('click', display2d);
 
 document.getElementById('3d')
     .addEventListener('click', display3d);
-
-// DRAWING A LINE
