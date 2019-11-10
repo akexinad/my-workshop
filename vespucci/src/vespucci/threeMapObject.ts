@@ -4,6 +4,8 @@ export class ThreeMapObject extends THREE.Group {
     public coordinates: mapboxgl.LngLat;
     public duration: number;
     public name: string;
+    public animationQueue: number[];
+    public set: () => void;
 
     constructor(coordinates: mapboxgl.LngLat) {
         super();
@@ -11,7 +13,7 @@ export class ThreeMapObject extends THREE.Group {
         this.coordinates = coordinates;
     }
 
-    public setDuration(num: number) {
+    public setDuration(num: number): void {
         this.duration = num;
     }
 }
