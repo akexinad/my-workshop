@@ -44,7 +44,7 @@ export class ThreeMap {
         // projection matrix itself (as is field of view and near/far clipping)
         // It automatically registers to listen for move events on the map so we don't need to do that here
         this.world = new THREE.Group();
-        this.world.name = "ThreeMap World";
+        this.world.name = 'ThreeMap World';
         this.scene.add(this.world);
 
         this.cameraSync = new CameraSync(this.map, this.camera, this.world);
@@ -82,10 +82,6 @@ export class ThreeMap {
         if (coordinates == null) {
             console.error('Error: Coordinates not found. Please check that coordinates are correct');
         }
-
-
-
-        
 
     }
 }

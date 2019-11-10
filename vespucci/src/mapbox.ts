@@ -29,7 +29,6 @@ export function displayMap(): void {
                 threeMap = new ThreeMap(map, webGLContext);
 
                 console.log(threeMap.world);
-                
 
             },
 

@@ -6,12 +6,12 @@ export class AnimationManager {
     constructor(
         mapboxMap: mapboxgl.Map
     ) {
-        this.map = mapboxMap; 
+        this.map = mapboxMap;
         this.enrolledObjects = [];
     }
 
     public enroll(): void {
-        
+
     }
 
 }

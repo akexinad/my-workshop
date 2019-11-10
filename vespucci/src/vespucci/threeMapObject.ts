@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
 export class ThreeMapObject extends THREE.Group {
     public coordinates: mapboxgl.LngLat;
@@ -10,7 +10,7 @@ export class ThreeMapObject extends THREE.Group {
         this.name = 'threemap object';
         this.coordinates = coordinates;
     }
-    
+
     public setDuration(num: number) {
         this.duration = num;
     }
