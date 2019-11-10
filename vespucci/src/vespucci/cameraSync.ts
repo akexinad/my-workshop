@@ -54,7 +54,6 @@ export class CameraSync {
 
         // @ts-ignore
         const t = this.map.transform;
-        console.log(t);
 
         const halfFov = this.cameraState.fov / 2;
         const cameraToCenterDistance = 0.5 / Math.tan(halfFov) * t.height;

@@ -14,6 +14,8 @@ export const map: mapboxgl.Map = new mapboxgl.Map({
     bearing: 0
 });
 
+let geo3: Geo3;
+
 export function displayMap(): void {
     map.on('style.load', () => {
         map.addLayer({
@@ -24,14 +26,14 @@ export function displayMap(): void {
                 // console.log(map);
                 // console.log(webGLContext);
 
-                const object = new Geo3(map, webGLContext);
-
-                console.log(object);
+                geo3 = new Geo3(map, webGLContext);
 
             },
 
-            render: () => {
+            render: (gl, matrix) => {
                 map.repaint = true;
+
+                // geo3.update function
             }
         });
     });

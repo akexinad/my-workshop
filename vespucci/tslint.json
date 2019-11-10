@@ -12,7 +12,8 @@
         "no-shadowed-variable": false,
         "typedef": [true, "call-signature"],
         "quotemark": [true, "single"],
-        "ordered-imports": false
+        "ordered-imports": false,
+        "max-classes-per-file": false
     },
     "rulesDirectory": []
 }
