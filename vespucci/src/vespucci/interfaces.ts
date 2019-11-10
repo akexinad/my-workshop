@@ -6,3 +6,9 @@ export interface ICameraState {
     cameraTranslateZ?: THREE.Matrix4;
     topHalfSurfaceDistance?: number;
 }
+
+export interface IRotation {
+    x: number;
+    y: number;
+    z: number;
+}

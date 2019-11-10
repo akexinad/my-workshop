@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import mapbox from 'mapbox-gl';
-import { Geo3 } from './geo3';
+import { ThreeMap } from './threeMap';
 import { GEO_CONSTANTS } from './constants';
 import { ICameraState } from './interfaces';
 import { Utils } from './utils';

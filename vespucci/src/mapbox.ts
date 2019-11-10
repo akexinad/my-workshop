@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 
-import { Geo3 } from './vespucci/geo3';
+import { ThreeMap } from './vespucci/threeMap';
 
 const EUSTON = new mapboxgl.LngLat(-0.13553551042706385, 51.529638748668127);
 
@@ -14,7 +14,7 @@ export const map: mapboxgl.Map = new mapboxgl.Map({
     bearing: 0
 });
 
-let geo3: Geo3;
+let threeMap: ThreeMap;
 
 export function displayMap(): void {
     map.on('style.load', () => {
@@ -26,7 +26,10 @@ export function displayMap(): void {
                 // console.log(map);
                 // console.log(webGLContext);
 
-                geo3 = new Geo3(map, webGLContext);
+                threeMap = new ThreeMap(map, webGLContext);
+
+                console.log(threeMap.world);
+                
 
             },
 
