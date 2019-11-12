@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-import { Loading, Header, LaunchTile } from "../components";
-import { LAUNCH_TILE_DATA } from "./launches";
+import { Loading, Header, LaunchTile } from '../components';
+import { LAUNCH_TILE_DATA } from './launches';
 
 const GET_MY_TRIPS = gql`
   query GetMyTrips {
@@ -15,9 +15,8 @@ const GET_MY_TRIPS = gql`
       }
     }
   }
-  ${ LAUNCH_TILE_DATA }
+  ${LAUNCH_TILE_DATA}
 `;
-
 
 /*
 
@@ -30,33 +29,27 @@ Since we want this list to always reflect the newest data from our graph API, we
 */
 
 export default function Profile() {
-
-  const { data, loading, error } = useQuery(
-    GET_MY_TRIPS,
-    { fetchPolicy: "network-only" }
-  );
+  const { data, loading, error } = useQuery(GET_MY_TRIPS, {
+    fetchPolicy: 'network-only',
+  });
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (error) {
-    return <p>THERE WAS ERROR: { error.message }</p>
+    return <p>THERE WAS ERROR: {error.message}</p>;
   }
 
   return (
     <Fragment>
       <Header>My Trips</Header>
       {data.me && data.me.trips.length ? (
-        
         data.me.trips.map(launch => (
-          <LaunchTile key={ launch.id } launch={ launch } />
+          <LaunchTile key={launch.id} launch={launch} />
         ))
-
       ) : (
-
         <p>You have not booked any trips</p>
-        
       )}
     </Fragment>
   );

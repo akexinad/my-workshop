@@ -35,7 +35,7 @@ describe('book trips', () => {
   });
 
   it('completes mutation and shows message', async () => {
-    let mocks = [
+    const mocks = [
       {
         request: { query: BOOK_TRIPS, variables: { launchIds: [1] } },
         result: {
@@ -52,7 +52,7 @@ describe('book trips', () => {
     ];
     const { getByText, container, getByTestId } = renderApollo(
       <BookTrips cartItems={[1]} />,
-      { mocks, addTypename: false },
+      { mocks, addTypename: false }
     );
 
     fireEvent.click(getByTestId('book-button'));

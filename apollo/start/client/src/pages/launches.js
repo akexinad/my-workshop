@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-import { LaunchTile, Header, Button, Loading } from "../components";
+import { LaunchTile, Header, Button, Loading } from '../components';
 
 /*
 
@@ -40,7 +40,7 @@ const GET_LAUNCHES = gql`
       }
     }
   }
-  ${ LAUNCH_TILE_DATA }
+  ${LAUNCH_TILE_DATA}
 `;
 
 export default function Launches() {
@@ -53,52 +53,44 @@ export default function Launches() {
   if (error) {
     return <p>THERE WAS ERROR!</p>;
   }
-  
+
   return (
     <Fragment>
       <Header />
-      {
-        data.launches && 
+      {data.launches &&
         data.launches.launches &&
-        data.launches.launches.map( launch => (
-          <LaunchTile
-            key={ launch.id }
-            launch={ launch }
-          />
-        ))
-      }
-      {
-        data.launches &&
-        data.launches.hasMore && (
-          <Button
-            onClick={ () => 
-              fetchMore({
-                variables: {
-                  after: data.launches.cursor,
-                },
-                updateQuery: (prev, { fetchMoreResult, ...rest }) => {
-                  if (!fetchMoreResult) {
-                    return prev;
-                  }
+        data.launches.launches.map(launch => (
+          <LaunchTile key={launch.id} launch={launch} />
+        ))}
+      {data.launches && data.launches.hasMore && (
+        <Button
+          onClick={() =>
+            fetchMore({
+              variables: {
+                after: data.launches.cursor,
+              },
+              updateQuery: (prev, { fetchMoreResult, ...rest }) => {
+                if (!fetchMoreResult) {
+                  return prev;
+                }
 
-                  return {
-                    ...fetchMoreResult,
-                    launches: {
-                      ...fetchMoreResult.launches,
-                      launches: [
-                        ...prev.launches.launches,
-                        ...fetchMoreResult.launches.launches,
-                      ],
-                    },
-                  };
-                },
-              })
-            }
-          >
-            Load More
-          </Button>
-        )
-      }
+                return {
+                  ...fetchMoreResult,
+                  launches: {
+                    ...fetchMoreResult.launches,
+                    launches: [
+                      ...prev.launches.launches,
+                      ...fetchMoreResult.launches.launches,
+                    ],
+                  },
+                };
+              },
+            })
+          }
+        >
+          Load More
+        </Button>
+      )}
     </Fragment>
   );
 }

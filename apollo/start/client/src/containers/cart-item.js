@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -12,24 +13,22 @@ export const GET_LAUNCH = gql`
       ...LaunchTile
     }
   }
-  ${ LAUNCH_TILE_DATA }
+  ${LAUNCH_TILE_DATA}
 `;
 
 export default function CartItem({ launchId }) {
   const { data, loading, error } = useQuery(
-    GET_LAUNCH,
-    {
-      variables: { launchId }
-    }
+    GET_LAUNCH, 
+    { variables: { launchId } }
   );
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (error) {
-    return <p>THERE WAS ERROR: { error.message }</p>
+    return <p>THERE WAS ERROR: {error.message}</p>;
   }
 
-  return data && <LaunchTile launch={ data.launch } />;
+  return data && <LaunchTile launch={data.launch} />;
 }

@@ -29,7 +29,7 @@ xdescribe('cart item', () => {
   afterEach(cleanup);
 
   it('queries item and renders without error', () => {
-    let mocks = [
+    const mocks = [
       {
         request: { query: GET_LAUNCH, variables: { launchId: 1 } },
         result: { data: { launch: mockLaunch } },
@@ -50,7 +50,7 @@ xdescribe('cart item', () => {
   });
 
   it('renders with error state', () => {
-    let mocks = [
+    const mocks = [
       {
         request: { query: GET_LAUNCH, variables: { launchId: 1 } },
         error: new Error('aw shucks'),

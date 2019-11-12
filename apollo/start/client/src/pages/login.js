@@ -1,8 +1,8 @@
 import React from 'react';
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-import { LoginForm, Loading } from "../components";
+import { LoginForm, Loading } from '../components';
 
 const LOGIN_USER = gql`
   mutation login($email: String!) {
@@ -12,24 +12,21 @@ const LOGIN_USER = gql`
 
 export default function Login() {
   const client = useApolloClient();
-  const [login, { loading, error }] = useMutation(
-    LOGIN_USER,
-    {
-      onCompleted({ login }) {
-        console.log(login);
-        localStorage.setItem('token', login);
-        client.writeData({ data: { isLoggedIn: true }})
-      }
-    }
-  );
+  const [login, { loading, error }] = useMutation(LOGIN_USER, {
+    onCompleted({ login }) {
+      console.log(login);
+      localStorage.setItem('token', login);
+      client.writeData({ data: { isLoggedIn: true } });
+    },
+  });
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (error) {
-    return <p>THERE WAS ERROR: { error.message }</p>
+    return <p>THERE WAS ERROR: {error.message}</p>;
   }
-  
-  return <LoginForm login={ login } />;
+
+  return <LoginForm login={login} />;
 }
