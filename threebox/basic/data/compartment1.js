@@ -3,7 +3,7 @@ const compartment1 =
         "id": "c9d976a4-c895-4b2a-8fc1-a48af560fa58",
         "structureId": "5d6aba03-dcfb-48dd-9b6e-6a3401d9379a",
         "geometry": {
-          "height": 1.5,
+          "height": 10,
           "holes": [],
           "points": [
             {
@@ -41,7 +41,7 @@ const compartment1 =
           "isReadOnly": false,
           "srid": null
         },
-        "height": 1.5,
+        "height": 10,
         "useType": "Residential",
         "attributes": {
           "GFA": 981.63597440087744,
