@@ -33,7 +33,7 @@ export default function Cart() {
             <CartItem
               key={ launchId }
               launchId={ launchId }
-          />
+            />
           )) }
           <BookTrips cartItems={ data.cartItems } />
         </Fragment>

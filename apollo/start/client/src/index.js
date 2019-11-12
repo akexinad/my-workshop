@@ -28,6 +28,14 @@ const client = new ApolloClient({
     resolvers
 });
 
+/*
+
+Since queries execute as soon as the component mounts, it's important for us to warn the Apollo cache
+with some default state so those queries don't error out. We will need to write initial data to the cache
+for both isLoggedIn and cartItems.  
+
+*/
+
 cache.writeData({
     data: {
         isLoggedIn: !!localStorage.getItem('token'),
