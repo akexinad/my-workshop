@@ -6,9 +6,9 @@ import { MockedProvider } from '@apollo/react-testing';
 
 const renderApollo = (
   node,
-  { mocks, addTypename, defaultOptions, cache, ...options } = {}
-) =>
-  render(
+  { mocks, addTypename, defaultOptions, cache, ...options } = {},
+) => {
+  return render(
     <MockedProvider
       mocks={mocks}
       addTypename={addTypename}
@@ -17,8 +17,9 @@ const renderApollo = (
     >
       {node}
     </MockedProvider>,
-    options
+    options,
   );
+};
 
 export * from '@testing-library/react';
 export { renderApollo };

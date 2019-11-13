@@ -11,9 +11,9 @@ describe('Launch Detail View', () => {
     render(
       <LaunchDetail
         id={1}
-        site="earth"
+        site={'earth'}
         rocket={{ name: 'that one', type: 'big' }}
-      />
+      />,
     );
   });
 });

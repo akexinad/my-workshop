@@ -1,0 +1,25 @@
+{
+  "name": "testing101",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "jest --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "jest": "^22.4.3"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost:1234/"
+  },
+  "dependencies": {
+    "liteserver": "^0.3.0",
+    "parcel": "^2.0.0-alpha.2.1"
+  }
+}

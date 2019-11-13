@@ -23,7 +23,7 @@ xdescribe('Cart Page', () => {
       data: { cartItems: [] },
     });
 
-    const mocks = [
+    let mocks = [
       {
         request: { query: GET_CART_ITEMS },
         result: { data: { cartItems: [] } },
@@ -41,7 +41,7 @@ xdescribe('Cart Page', () => {
       data: { cartItems: [1] },
     });
 
-    const mocks = [
+    let mocks = [
       {
         request: { query: GET_CART_ITEMS },
         result: { data: { cartItems: [1] } },

@@ -30,11 +30,11 @@ describe('action button', () => {
     getByText(/add to cart/i);
 
     // rerender with different props to same container
-    renderApollo(<ActionButton isInCart />, { container });
+    renderApollo(<ActionButton isInCart={true} />, { container });
     getByText(/remove from cart/i);
 
     // rerender with different props to same container
-    renderApollo(<ActionButton isBooked />, { container });
+    renderApollo(<ActionButton isBooked={true} />, { container });
     getByText(/cancel this trip/i);
   });
 
@@ -54,7 +54,7 @@ describe('action button', () => {
     // });
 
     // if we only provide 1 mock, any other queries would cause error
-    const mocks = [
+    let mocks = [
       {
         request: { query: TOGGLE_CART_MUTATION, variables: { launchId: 1 } },
         result: { data: { addOrRemoveFromCart: true } },
@@ -66,7 +66,7 @@ describe('action button', () => {
       {
         mocks,
         // cache
-      }
+      },
     );
     fireEvent.click(getByTestId('action-button'));
     await waitForElement(() => getByTestId('action-button'));

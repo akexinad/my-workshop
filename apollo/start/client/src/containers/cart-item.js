@@ -1,34 +1,5 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
-import LaunchTile from '../components/launch-tile';
-import { LAUNCH_TILE_DATA } from '../pages/launches';
-import { Loading } from '../components';
-
-export const GET_LAUNCH = gql`
-  query GetLaunch($launchId: ID!) {
-    launch(id: $launchId) {
-      ...LaunchTile
-    }
-  }
-  ${LAUNCH_TILE_DATA}
-`;
-
-export default function CartItem({ launchId }) {
-  const { data, loading, error } = useQuery(
-    GET_LAUNCH, 
-    { variables: { launchId } }
-  );
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <p>THERE WAS ERROR: {error.message}</p>;
-  }
-
-  return data && <LaunchTile launch={data.launch} />;
+export default function CartItem() {
+  return <div />;
 }

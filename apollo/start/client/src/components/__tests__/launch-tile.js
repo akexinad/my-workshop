@@ -15,7 +15,7 @@ describe('Launch Tile', () => {
           mission: { name: 'the first one' },
           rocket: { name: 'harambe' },
         }}
-      />
+      />,
     );
   });
 });
