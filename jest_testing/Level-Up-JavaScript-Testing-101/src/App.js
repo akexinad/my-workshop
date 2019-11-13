@@ -1,3 +1,5 @@
-console.log('hello world');
+export const add = (x, y) => x + y;
 
-console.log('yes');
+export const total = (subTotal, total) => {
+    return "$" + add(subTotal, total);
+};

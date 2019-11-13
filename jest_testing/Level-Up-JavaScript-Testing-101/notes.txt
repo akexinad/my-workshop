@@ -1,0 +1,8 @@
+A MOCK
+======
+
+- A mock is either fake data/function in order to be possible to test
+    ceratin functionality without having to make real http requests/
+    manipulating real data.
+
+- 

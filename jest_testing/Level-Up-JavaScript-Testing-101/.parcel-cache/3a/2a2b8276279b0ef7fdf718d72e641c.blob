@@ -1,0 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.total = exports.add = void 0;
+
+var add = function add(x, y) {
+  return x + y;
+};
+
+exports.add = add;
+
+var total = function total(subTotal, _total) {
+  return "$" + add(subTotal, _total);
+};
+
+exports.total = total;
+console.log(total(10, 15));

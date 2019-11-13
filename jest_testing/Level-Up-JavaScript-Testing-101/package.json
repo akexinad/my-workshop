@@ -11,15 +11,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-preset-env": "^1.6.1",
-    "jest": "^22.4.3"
+    "@babel/core": "^7.7.2",
+    "babel-preset-env": "^1.6.1"
   },
   "jest": {
     "verbose": true,
     "testURL": "http://localhost:1234/"
   },
   "dependencies": {
-    "liteserver": "^0.3.0",
-    "parcel": "^2.0.0-alpha.2.1"
+    "jest": "^24.9.0",
+    "parcel-bundler": "^1.12.4"
   }
 }
