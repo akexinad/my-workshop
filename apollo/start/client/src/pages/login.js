@@ -17,7 +17,7 @@ export default function Login() {
       localStorage.setItem('token', login);
       client.writeData({
         data: {
-          idLoggedIn: true
+          isLoggedIn: true
         }
       });
     }

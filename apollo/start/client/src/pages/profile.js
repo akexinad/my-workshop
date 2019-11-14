@@ -11,7 +11,7 @@ const GET_MY_TRIPS = gql`
       id
       email
       trips {
-        ...launchTile
+        ...LaunchTile
       }
     }
   }
