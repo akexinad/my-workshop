@@ -9,14 +9,26 @@ import gql from "graphql-tag";
 import Pages from "./pages";
 
 const cache = new InMemoryCache();
-const link = new HttpLink({
-  uri: 'http://localhost:4000/'
-});
+// const link = new HttpLink({
+//   uri: 'http://localhost:4000/'
+// });
 
 const client = new ApolloClient({
   cache,
-  link
+  link: new HttpLink({
+    uri: 'http://localhost:4000/graphql',
+    headers: {
+      authorization: localStorage.getItem('token')
+    }
+  })
 });
+
+cache.writeData({
+  data: {
+    isLogged: !!localStorage.getItem('token'),
+    cartItems: []
+  }
+})
 
 client
   .query({
