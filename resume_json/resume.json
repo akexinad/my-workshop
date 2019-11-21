@@ -145,7 +145,7 @@
             "keywords":
             [
                 "React",
-                "Apollo",
+                "Apollo Client",
                 "GraphQL",
                 "Javascript",
                 "ES6",
@@ -157,9 +157,10 @@
         {
             "keywords":
             [
-                "Apollo",
+                "Node.js",
+                "Apollo Server",
                 "GraphQL",
-                "Node",
+                "Prisma",
                 "Postgres",
                 "MongoDB"
             ],
