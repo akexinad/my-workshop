@@ -144,15 +144,12 @@
         {
             "keywords":
             [
-                "HTML",
-                "JSX",
-                "CSS", 
-                "Flexbox",
+                "React",
+                "Apollo",
+                "GraphQL",
                 "Javascript",
                 "ES6",
                 "Typescript",
-                "Angular 8",
-                "React",
                 "Redux"
             ],
             "name": "Frontend"
@@ -160,19 +157,17 @@
         {
             "keywords":
             [
-                "RESTful API Web Development",
+                "Apollo",
+                "GraphQL",
                 "Node",
-                "Ruby",
-                ".NET",
-                "C#",
-                "Postgres"
+                "Postgres",
+                "MongoDB"
             ],
             "name": "Backend"
         },
         {
             "keywords":
             [
-                "AWS",
                 "Heroku",
                 "Docker"
             ],
