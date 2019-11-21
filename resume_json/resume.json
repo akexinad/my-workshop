@@ -221,9 +221,9 @@
             "startDate": "2019-05-01",
             "highlights": 
             [
-                "Angular 8 | RxJS | THREE.js | Threebox",
-                ".NET | C#",
-                "TDD | Jasmine | Karma | XUnit",
+                "React.js |  ApolloClient  |  GraphQL  |  THREE.js | Threebox",
+                "Node.js  |  PostGraphile  |  .NET Core",
+                "TDD |  Jest  |  Enzyme | XUnit",
                 "PostgreSQL | PostGIS",
                 "AWS | Docker",
                 "API's | Mapbox | ArcGIS"
