@@ -39,9 +39,9 @@ async function getPyodide(script, packages = null) {
     
     await pyodide.loadPackage(packages)
 
-    return pyodide.runPython(script);
+    const result = pyodide.runPython(script);
+
+    console.log(result);
 };
 
-const py = getPyodide(pythonScript, [numpy, matplotlib]);
-
-console.log(py);
+getPyodide(pythonScript, [numpy, matplotlib]);
