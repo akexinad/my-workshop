@@ -1,24 +1,8 @@
 const scr = "print('hello world')";
 const numpy = 'numpy';
 const matplotlib = 'matplotlib';
-
-const pythonScript = [
-    `import ${numpy}`,
-    `import ${matplotlib}`,
-    '',
-    `print(${numpy})`,
-    `print(${matplotlib})`,
-    '',
-    'def sum(x, y):',
-    '   z = x + y',
-    '   print(z)',
-    '',
-    'sum(45, 55)',
-    '',
-    "print('the above number was calculated via a sum function.')"
-].join('\n');
-
-console.log(pythonScript);
+const scipy = 'scipy';
+const pandas = 'pandas';
 
 // ORIGINAL EXAMPLE CODE
 
@@ -29,6 +13,26 @@ console.log(pythonScript);
 //         );
 //     });
 // });
+
+const pythonScript = [
+    `import ${numpy}`,
+    `import ${matplotlib}`,
+    '',
+    `print(${numpy})`,
+    `print(${matplotlib})`,
+    '',
+    'x = 45',
+    'y = 55',
+    'def sum(x, y):',
+    '   z = x + y',
+    "   print('sum is ' + str(z))",
+    '',
+    'sum(x, y)',
+    '',
+    "print('the above number was calculated by adding ' + str(x) + ' to ' + str(y) + ' in a sum function.')"
+].join('\n');
+
+console.log("pythonScript: ", pythonScript);
 
 async function getPyodide(script, packages = null) {
     await languagePluginLoader;
@@ -44,4 +48,6 @@ async function getPyodide(script, packages = null) {
     console.log(result);
 };
 
-getPyodide(pythonScript, [numpy, matplotlib]);
+const packages = [numpy, matplotlib, pandas, scipy];
+
+getPyodide(pythonScript, packages);
