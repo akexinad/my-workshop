@@ -30,18 +30,12 @@ map.on('style.load', () => {
                 }
             );
 
-            // const geo = new THREE.BoxGeometry(100, 100, 100);
-            // const mat = new THREE.MeshLambertMaterial({
-            //     color: 0xd40004
-            // });
-            // const mesh = new THREE.Mesh(geo, mat);
+            const eustonDevelopment = new PROMETHEUS(EUSTON_PROJECT_DATA);
 
-            // tbObject3D(mesh);
-
-            const euston = new PROMETHEUS("danny", 29)
-
-            euston.myName;
-
+            const volumes = eustonDevelopment.buildVolumes();
+            
+            tbObject3D(volumes);
+            
         },
         
         render(gl, matrix) {
