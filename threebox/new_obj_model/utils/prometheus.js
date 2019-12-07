@@ -1,6 +1,15 @@
-// 'use strict';
-
 const DATA = eustonProjectData;
+
+class Vector2 extends THREE.Vector2 {
+    constructor(point) {
+        super(point.x, point.y);
+
+        this.x = point.x;
+        this.y = point.y;
+        this.z = point.z;
+        this.srid = point.srid;
+    }
+}
 
 class Vector3 extends THREE.Vector3 {
     constructor(point) {
@@ -17,12 +26,29 @@ const pointData = DATA.floors[0].oliveGeometry.polygon.points[0];
 const point = new Vector3(pointData);
 // console.log(point);
 
-
-class Geometry extends THREE.ExtrudeBufferGeometry {
+class Shape extends THREE.ShapeBufferGeometry {
     constructor(geometry) {
         const vector2Array = [];
         const vector3Array = [];
+
+        geometry.points.forEach((point) => {
+            vector2Array.push(new Vector2(point));
+            vector3Array.push(new Vector3(point));
+        });
+
+        const shape = new THREE.Shape(vector2Array);
         
+        super(shape);
+
+        this.vector2 = vector2Array;
+    }
+}
+
+class Extrusion extends THREE.ExtrudeBufferGeometry {
+    constructor(geometry) {
+        const vector2Array = [];
+        const vector3Array = [];
+
         geometry.polygon.points.forEach((point) => {
             vector2Array.push(new THREE.Vector2(point.x, point.y));
             vector3Array.push(new Vector3(point));
@@ -43,19 +69,30 @@ class Geometry extends THREE.ExtrudeBufferGeometry {
 }
 
 const shapeData = DATA.floors[0].oliveGeometry;
-const polygon = new Geometry(shapeData);
+const polygon = new Extrusion(shapeData);
 // console.log(polygon);
 
-class Volume extends THREE.Mesh {
 
-    constructor(volume) {
-        
-        const geometry = new Geometry(volume.oliveGeometry);
-        const material = new THREE.MeshLambertMaterial({
-            color: 0xd40004,
+class Material extends THREE.MeshLambertMaterial {
+
+    constructor(color = 0xd40000) {
+        const options = {
+            color,
             transparent: true,
             opacity: 1
-        })
+        }
+
+        super(options);
+
+        this.originalHex = color;
+    }
+}
+
+class Mesh extends THREE.Mesh {
+
+    constructor(volume, geometry, material) {
+
+        const zPosition = volume.oliveGeometry.polygon.points[0].z;
 
         super(geometry, material);
 
@@ -66,19 +103,49 @@ class Volume extends THREE.Mesh {
             useType: volume.attributes.useType,
             type: volume.type
         };
-
-        this.position.set(0, 0, volume.oliveGeometry.polygon.points[0].z);
+        this.position.set(0, 0, zPosition);
     }    
 }
 
-const volumeData = DATA.floors[0];
-const volume = new Volume(volumeData);
+
+
+class Lattice extends THREE.Mesh {
+
+    constructor(region, geometry, material) {
+
+        const zPosition = region.oliveGeometry.points[0].z;
+
+        super(geometry, material);
+
+        this.nodeContent = {
+            nodeId: region.nodeId,
+            parentNodeId: region.parentNodeId,
+            classification: region.classification,
+            type: region.type
+        };
+        this.position.set(0, 0, zPosition);
+    }    
+}
+
+// const volumeData = DATA.floors[0];
+// const volume = new VolumeLattice(volumeData);
 // console.log(volume);
 
-class PROMETHEUS {
+class Development {
 
     constructor(data) {
         this.data = data;
+        this.classifications = {
+            VOLUME: "volumeNode",
+            REGION: "regionNode"
+        }
+
+        this.renderedObjects = {
+            floors: null,
+            footprints: null,
+            landscapes: null,
+            openspaces: null
+        }
     }
 
     createGroup(name) {
@@ -88,16 +155,66 @@ class PROMETHEUS {
 
         return group;
     }
-    
-    buildVolumes() {
 
-        const groupOfVolumes = this.createGroup("volumeNode");
+    repaint(objects) {
+        objects.forEach(object => {
+            object.material.color.setHex(object.material.originalHex);
+        });
+    }
+    
+    buildFloors() {
+        const groupOfFloors = this.createGroup(this.classifications.VOLUME);
 
         this.data.floors.forEach((floor) => {
-            floor = new Volume(floor);
-            groupOfVolumes.add(floor);
+            const geometry = new Extrusion(floor.oliveGeometry);
+            const material = new Material(0xD40004);
+            
+            floor = new Mesh(floor, geometry, material);
+            
+            groupOfFloors.add(floor);
         });
 
-        return groupOfVolumes;
+        this.renderedObjects.floors = groupOfFloors.children;
+        
+        return groupOfFloors;
     }
-}
+
+    buildFootprints() {
+        const groupOfFootprints = this.createGroup(this.classifications.REGION);
+
+        this.data.footprints.forEach((footprint) => {
+            const geometry = new Shape(footprint.oliveGeometry);
+            const material = new Material(0xd40000);
+
+            footprint = new Lattice(footprint, geometry, material);
+
+            groupOfFootprints.add(footprint);
+        });
+
+        this.renderedObjects.footprints = groupOfFootprints.children;
+
+        return groupOfFootprints;
+    }
+
+    buildSites() {
+        const groupOfSites = this.createGroup(this.classifications.REGION);
+
+        this.data.sites.forEach((site) => {
+            const geometry = new Shape(site.oliveGeometry);
+            const material = new Material();
+
+            site = new Lattice(site, geometry, material);
+
+            groupOfSites.add(site);
+        });
+
+        this.renderedObjects.sites = groupOfSites.children;
+
+        return groupOfSites;
+    }
+
+    highlightObject(object) {
+        this.repaint(this.renderedObjects[object.nodeContent.type]);
+        object.material.color.setHex(0xbada55);
+    }
+} 
