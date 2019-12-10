@@ -7,16 +7,18 @@ const singleNode = NODES.data.nodeItemById.nodeItemsByParentNodeId.nodes[0]
 
 function mapNodes(nodeData) {
 
-    const nodeArray = [];
+    const nodeTree = [];
     const masterNode = nodeData.data.nodeItemById;
 
-    nodeArray.push({
+    nodeTree.push({
         id: masterNode.groupByGroupId.id,
         name: masterNode.groupByGroupId.name,
         type: 'group',
         geometry: null,
         nodes: masterNode.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) 
     });
+
+    console.log(Boolean(masterNode.nodeItemsByParentNodeId.nodes[0].volumeByVolumeId))
 
     function recurseNodeMapping(node) {
         
@@ -28,54 +30,34 @@ function mapNodes(nodeData) {
         };
     
         if (node.groupByGroupId) {
-            nodeContent.name = node.groupByGroupId.name;
             nodeContent.id = node.groupByGroupId.id;
+            nodeContent.name = node.groupByGroupId.name;
             nodeContent.type = 'group';
-        } else if (node.regionByRegionId) {
-            nodeContent.name = node.regionByRegionId.name;
+        } if (node.regionByRegionId) {
             nodeContent.id = node.regionByRegionId.id;
+            nodeContent.name = node.regionByRegionId.name;
             nodeContent.type = 'region',
             nodeContent.geometry = JSON.parse(node.regionByRegionId.oliveGeometry);
-        } else if (node.volumeByVolumeId) {
-            nodeContent.name = node.volumeByVolumeId.name;
+        } if (node.volumeByVolumeId) {
             nodeContent.id = node.volumeByVolumeId.id;
+            nodeContent.name = node.volumeByVolumeId.name;
             nodeContent.type = 'volume';
             nodeContent.geometry = JSON.parse(node.volumeByVolumeId.oliveGeometry);
-        } else {
-            return;
         }
-    
-        const { id, name, type, geometry } = nodeContent;
 
-        console.log(node.nodeItemsByParentNodeId);
-    
-        nodeArray.push({
-            id,
-            name,
-            type,
-            geometry,
+        // const { id, name, type, region } = nodeContent;
+
+        return {
+            ...nodeContent,
             nodes: node.nodeItemsByParentNodeId ? 
-                    node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) :
-                    null
-        });
+                    node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) : null
+        }
     }
 
-    return nodeArray;
+    return nodeTree;
 }
 
 
-const array = mapNodes(NODES);
+const nodeTree = mapNodes(NODES);
 
-console.log(array);
-
-// const groups = array.filter(node => node.type === "group")
-// const regions = array.filter(node => node.type === "region")
-// const volumes = array.filter(node => node.type === "volume");
-
-// console.log(groups);
-// console.log(regions);
-// console.log(volumes);
-
-const sites = array.filter(node => node.type === "region");
-
-console.log(sites);
+console.log(nodeTree);
