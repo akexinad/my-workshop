@@ -1,6 +1,6 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1eGsyZmhlYSJ9.5M9Nprzz59r7--kUgE_BWA';
 
-const EUSTON_PROJECT_DATA = eustonProjectData;
+const EUSTON_PROJECT_DATA = EUSTON_DATA;
 let tb;
 const eustonDevelopment = new Development(EUSTON_PROJECT_DATA);
 
@@ -33,15 +33,6 @@ function addLayer() {
                         defaultLights: true,
                     }
                 );
-        
-                // const volumes = eustonDevelopment.buildVolumes();
-                // tbObject3D(volumes);
-                
-                // const regions = eustonDevelopment.buildFootprints();
-                // tbObject3D(regions);
-
-                const sites = eustonDevelopment.buildSites();
-                tbObject3D(sites);
             },
             
             render(gl, matrix) {
