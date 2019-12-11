@@ -146,6 +146,109 @@ class Development {
             landscapes: null,
             openspaces: null
         }
+
+        this.nodeTree = this.mapNodes(this.data);
+
+        // this.sortedNodes = {
+        //     groups: [],
+        //     regions: [],
+        //     volumes: []        
+        // }
+
+        this.sortedNodes = this.siftNodes(this.nodeTree);
+    }
+
+    mapNodes() {
+
+        const nodeTree = [];
+        const masterNode = this.data.data.nodeItemById;
+
+        nodeTree.push({
+            id: masterNode.groupByGroupId.id,
+            name: masterNode.groupByGroupId.name,
+            type: 'group',
+            geometry: null,
+            nodes: masterNode.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) 
+        });
+
+        function recurseNodeMapping(node) {
+            
+            let nodeContent = {
+                id: null,
+                name: null,
+                type: null,
+                geometry: null
+            };
+        
+            if (node.groupByGroupId) {
+                nodeContent.id = node.groupByGroupId.id;
+                nodeContent.name = node.groupByGroupId.name;
+                nodeContent.type = 'group';
+            } if (node.regionByRegionId) {
+                nodeContent.id = node.regionByRegionId.id;
+                nodeContent.name = node.regionByRegionId.name;
+                nodeContent.type = 'region',
+                nodeContent.geometry = JSON.parse(node.regionByRegionId.oliveGeometry);
+            } if (node.volumeByVolumeId) {
+                nodeContent.id = node.volumeByVolumeId.id;
+                nodeContent.name = node.volumeByVolumeId.name;
+                nodeContent.type = 'volume';
+                nodeContent.geometry = JSON.parse(node.volumeByVolumeId.oliveGeometry);
+            }
+
+            return {
+                ...nodeContent,
+                nodes: node.nodeItemsByParentNodeId ? 
+                        node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) : null
+            }
+        }
+
+        return nodeTree;
+    }
+    
+    siftNodes(nodeTree) {
+
+        const sortedNodes = {
+            groups: [],
+            regions: [],
+            volumes: []
+        };
+
+        nodeTree.forEach(node => {
+    
+            const { id, name, type, geometry } = node;
+    
+            if (node.type === 'group') {
+                sortedNodes.groups.push({
+                    id,
+                    name,
+                    type
+                });
+            } if (node.type === 'region') {
+                sortedNodes.regions.push({
+                    id,
+                    name,
+                    type,
+                    geometry
+                });
+            } if (node.type === 'volume') {
+                sortedNodes.volumes.push({
+                    id,
+                    name,
+                    type,
+                    geometry
+                });
+            }
+    
+            if (!node.nodes) {
+                return;
+            }
+    
+            this.siftNodes(node.nodes);
+        });
+        
+        return sortedNodes;
+    
     }
 
     createGroup(name) {
@@ -156,65 +259,65 @@ class Development {
         return group;
     }
 
-    repaint(objects) {
-        objects.forEach(object => {
-            object.material.color.setHex(object.material.originalHex);
-        });
-    }
+    // repaint(objects) {
+    //     objects.forEach(object => {
+    //         object.material.color.setHex(object.material.originalHex);
+    //     });
+    // }
     
-    buildFloors() {
-        const groupOfFloors = this.createGroup(this.classifications.VOLUME);
+    // buildFloors() {
+    //     const groupOfFloors = this.createGroup(this.classifications.VOLUME);
 
-        this.data.floors.forEach((floor) => {
-            const geometry = new Extrusion(floor.oliveGeometry);
-            const material = new Material(0xD40004);
+    //     this.data.floors.forEach((floor) => {
+    //         const geometry = new Extrusion(floor.oliveGeometry);
+    //         const material = new Material(0xD40004);
             
-            floor = new Mesh(floor, geometry, material);
+    //         floor = new Mesh(floor, geometry, material);
             
-            groupOfFloors.add(floor);
-        });
+    //         groupOfFloors.add(floor);
+    //     });
 
-        this.renderedObjects.floors = groupOfFloors.children;
+    //     this.renderedObjects.floors = groupOfFloors.children;
         
-        return groupOfFloors;
-    }
+    //     return groupOfFloors;
+    // }
 
-    buildFootprints() {
-        const groupOfFootprints = this.createGroup(this.classifications.REGION);
+    // buildFootprints() {
+    //     const groupOfFootprints = this.createGroup(this.classifications.REGION);
 
-        this.data.footprints.forEach((footprint) => {
-            const geometry = new Shape(footprint.oliveGeometry);
-            const material = new Material(0xd40000);
+    //     this.data.footprints.forEach((footprint) => {
+    //         const geometry = new Shape(footprint.oliveGeometry);
+    //         const material = new Material(0xd40000);
 
-            footprint = new Lattice(footprint, geometry, material);
+    //         footprint = new Lattice(footprint, geometry, material);
 
-            groupOfFootprints.add(footprint);
-        });
+    //         groupOfFootprints.add(footprint);
+    //     });
 
-        this.renderedObjects.footprints = groupOfFootprints.children;
+    //     this.renderedObjects.footprints = groupOfFootprints.children;
 
-        return groupOfFootprints;
-    }
+    //     return groupOfFootprints;
+    // }
 
-    buildSites() {
-        const groupOfSites = this.createGroup(this.classifications.REGION);
+    // buildSites() {
+    //     const groupOfSites = this.createGroup(this.classifications.REGION);
 
-        this.data.sites.forEach((site) => {
-            const geometry = new Shape(site.oliveGeometry);
-            const material = new Material();
+    //     this.data.sites.forEach((site) => {
+    //         const geometry = new Shape(site.oliveGeometry);
+    //         const material = new Material();
 
-            site = new Lattice(site, geometry, material);
+    //         site = new Lattice(site, geometry, material);
 
-            groupOfSites.add(site);
-        });
+    //         groupOfSites.add(site);
+    //     });
 
-        this.renderedObjects.sites = groupOfSites.children;
+    //     this.renderedObjects.sites = groupOfSites.children;
 
-        return groupOfSites;
-    }
+    //     return groupOfSites;
+    // }
 
-    highlightObject(object) {
-        this.repaint(this.renderedObjects[object.nodeContent.type]);
-        object.material.color.setHex(0xbada55);
-    }
+    // highlightObject(object) {
+    //     this.repaint(this.renderedObjects[object.nodeContent.type]);
+    //     object.material.color.setHex(0xbada55);
+    // }
 } 

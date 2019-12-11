@@ -1,6 +1,6 @@
 const NODES = EUSTON_DATA_191210;
 
-console.log(NODES);
+// console.log(NODES);
 
 
 const singleNode = NODES.data.nodeItemById.nodeItemsByParentNodeId.nodes[0]
@@ -59,49 +59,57 @@ const nodeTree = mapNodes(NODES);
 
 console.log(nodeTree);
 
-function sortNodes(nodes, type) {
 
+
+
+function groupNodes(nodeTree) {
+    
     const sortedNodes = {
-        group: [],
-        region: [],
-        volume: []
+        groups: [],
+        regions: [],
+        volumes: []
     };
 
-    function filterNodesRecursively(nodes) {
-        nodes.forEach(node => {
-            if (node.type === type && type === 'group') {
+    siftNodes = (nodeTree) => {
 
-                const { id, name } = node;
-                
-                sortedNodes[type].push({
-                    id,
-                    name
-                });
-            } else if (node.type === type) {
-
-                const { id, name, geometry } = node;
-
-                sortedNodes[type].push({
+        nodeTree.forEach(node => {
+    
+            const { id, name, type, geometry } = node;
+    
+            if (node.type === 'group') {
+                sortedNodes.groups.push({
                     id,
                     name,
+                    type
+                });
+            } if (node.type === 'region') {
+                sortedNodes.regions.push({
+                    id,
+                    name,
+                    type,
                     geometry
                 });
-                
-            } else {
-                console.log('There was error');
+            } if (node.type === 'volume') {
+                sortedNodes.volumes.push({
+                    id,
+                    name,
+                    type,
+                    geometry
+                });
             }
-
-            if (node.nodes) {
-                filterNodesRecursively(node.nodes)
-            } else {
+    
+            if (!node.nodes) {
                 return;
             }
-
-            return sortedNodes;
+    
+            siftNodes(node.nodes);
         });
+        
     }
+
+    return sortedNodes;
 }
 
-const sortedNodes = sortNodes(nodeTree);
+const sortedNodesArray = groupNodes(nodeTree);
 
-console.log(sortedNodes);
+console.log(sortedNodesArray);

@@ -1,10 +1,13 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1eGsyZmhlYSJ9.5M9Nprzz59r7--kUgE_BWA';
 
 const EUSTON_PROJECT = EUSTON_DATA_191210;
-let tb;
-// const eustonDevelopment = new Development(EUSTON_PROJECT);
-
 // console.log(EUSTON_PROJECT);
+let tb;
+const eustonDevelopment = new Development(EUSTON_PROJECT);
+// console.log(eustonDevelopment.nodeTree);
+// console.log(eustonDevelopment.sortedNodes);
+
+
 
 
 const map = new mapboxgl.Map({
