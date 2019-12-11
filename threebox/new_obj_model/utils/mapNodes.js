@@ -26,24 +26,24 @@ function mapNodes(nodeData) {
             type: null,
             geometry: null
         };
-    
-        if (node.groupByGroupId) {
-            nodeContent.id = node.groupByGroupId.id;
-            nodeContent.name = node.groupByGroupId.name;
-            nodeContent.type = 'group';
-        } if (node.regionByRegionId) {
-            nodeContent.id = node.regionByRegionId.id;
-            nodeContent.name = node.regionByRegionId.name;
-            nodeContent.type = 'region',
-            nodeContent.geometry = JSON.parse(node.regionByRegionId.oliveGeometry);
-        } if (node.volumeByVolumeId) {
-            nodeContent.id = node.volumeByVolumeId.id;
-            nodeContent.name = node.volumeByVolumeId.name;
-            nodeContent.type = 'volume';
-            nodeContent.geometry = JSON.parse(node.volumeByVolumeId.oliveGeometry);
-        }
 
-        // const { id, name, type, region } = nodeContent;
+        const { groupByGroupId, regionByRegionId, volumeByVolumeId } = node;
+    
+        if (groupByGroupId) {
+            nodeContent.id = groupByGroupId.id;
+            nodeContent.name = groupByGroupId.name;
+            nodeContent.type = 'group';
+        } if (regionByRegionId) {
+            nodeContent.id = regionByRegionId.id;
+            nodeContent.name = regionByRegionId.name;
+            nodeContent.type = 'region',
+            nodeContent.geometry = JSON.parse(regionByRegionId.oliveGeometry);
+        } if (volumeByVolumeId) {
+            nodeContent.id = volumeByVolumeId.id;
+            nodeContent.name = volumeByVolumeId.name;
+            nodeContent.type = 'volume';
+            nodeContent.geometry = JSON.parse(volumeByVolumeId.oliveGeometry);
+        }
 
         return {
             ...nodeContent,
@@ -55,14 +55,14 @@ function mapNodes(nodeData) {
     return nodeTree;
 }
 
-const nodeTree = mapNodes(NODES);
+// const nodeTree = mapNodes(NODES);
 
-console.log(nodeTree);
-
-
+// console.log(nodeTree);
 
 
-function groupNodes(nodeTree) {
+
+
+function groupNodesByType(nodeTree) {
     
     const sortedNodes = {
         groups: [],
@@ -70,33 +70,61 @@ function groupNodes(nodeTree) {
         volumes: []
     };
 
-    siftNodes = (nodeTree) => {
+    function siftNodes(nodeTree) {
 
         nodeTree.forEach(node => {
     
             const { id, name, type, geometry } = node;
     
-            if (node.type === 'group') {
-                sortedNodes.groups.push({
-                    id,
-                    name,
-                    type
-                });
-            } if (node.type === 'region') {
-                sortedNodes.regions.push({
-                    id,
-                    name,
-                    type,
-                    geometry
-                });
-            } if (node.type === 'volume') {
-                sortedNodes.volumes.push({
-                    id,
-                    name,
-                    type,
-                    geometry
-                });
+            switch (type) {
+                case 'group':
+                    sortedNodes.groups.push({
+                        id,
+                        name,
+                        type
+                    });    
+                    break;
+                case 'region':
+                    sortedNodes.regions.push({
+                        id,
+                        name,
+                        type,
+                        geometry
+                    });
+                    break;
+                case 'volume':
+                    sortedNodes.volumes.push({
+                        id,
+                        name,
+                        type,
+                        geometry
+                    });
+                    break;        
+                default:
+                    break;
             }
+            
+            // if (type === 'group') {
+            //     sortedNodes.groups.push({
+            //         id,
+            //         name,
+            //         type
+            //     });
+            // } if (type === 'region') {
+            //     sortedNodes.regions.push({
+            //         id,
+            //         name,
+            //         type,
+            //         geometry
+            //     });
+            // } if (type === 'volume') {
+            //     sortedNodes.volumes.push({
+            //         id,
+            //         name,
+            //         type,
+            //         geometry
+            //     });
+            // }
     
             if (!node.nodes) {
                 return;
@@ -104,12 +132,13 @@ function groupNodes(nodeTree) {
     
             siftNodes(node.nodes);
         });
-        
     }
+
+    siftNodes(nodeTree);
 
     return sortedNodes;
 }
 
-const sortedNodesArray = groupNodes(nodeTree);
+// const sortedNodesArray = groupNodesByType(nodeTree);
 
-console.log(sortedNodesArray);
+// console.log(sortedNodesArray);

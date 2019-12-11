@@ -155,7 +155,7 @@ class Development {
         //     volumes: []        
         // }
 
-        this.sortedNodes = this.siftNodes(this.nodeTree);
+        this.sortedNodes = this.groupNodesByType(this.nodeTree);
     }
 
     mapNodes() {
@@ -206,49 +206,59 @@ class Development {
         return nodeTree;
     }
     
-    siftNodes(nodeTree) {
-
+    groupNodesByType(nodeTree) {
+    
         const sortedNodes = {
             groups: [],
             regions: [],
             volumes: []
         };
-
-        nodeTree.forEach(node => {
     
-            const { id, name, type, geometry } = node;
+        function recurseNodeGrouping(nodeTree) {
     
-            if (node.type === 'group') {
-                sortedNodes.groups.push({
-                    id,
-                    name,
-                    type
-                });
-            } if (node.type === 'region') {
-                sortedNodes.regions.push({
-                    id,
-                    name,
-                    type,
-                    geometry
-                });
-            } if (node.type === 'volume') {
-                sortedNodes.volumes.push({
-                    id,
-                    name,
-                    type,
-                    geometry
-                });
-            }
-    
-            if (!node.nodes) {
-                return;
-            }
-    
-            this.siftNodes(node.nodes);
-        });
+            nodeTree.forEach(node => {
         
-        return sortedNodes;
+                const { id, name, type, geometry } = node;
+        
+                switch (type) {
+                    case 'group':
+                        sortedNodes.groups.push({
+                            id,
+                            name,
+                            type
+                        });    
+                        break;
+                    case 'region':
+                        sortedNodes.regions.push({
+                            id,
+                            name,
+                            type,
+                            geometry
+                        });
+                        break;
+                    case 'volume':
+                        sortedNodes.volumes.push({
+                            id,
+                            name,
+                            type,
+                            geometry
+                        });
+                        break;        
+                    default:
+                        break;
+                }
+
+                if (!node.nodes) {
+                    return;
+                }
+        
+                recurseNodeGrouping(node.nodes);
+            });
+        }
     
+        recurseNodeGrouping(nodeTree);
+    
+        return sortedNodes;
     }
 
     createGroup(name) {
