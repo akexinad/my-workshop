@@ -18,8 +18,6 @@ function mapNodes(nodeData) {
         nodes: masterNode.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) 
     });
 
-    console.log(Boolean(masterNode.nodeItemsByParentNodeId.nodes[0].volumeByVolumeId))
-
     function recurseNodeMapping(node) {
         
         let nodeContent = {
@@ -57,7 +55,53 @@ function mapNodes(nodeData) {
     return nodeTree;
 }
 
-
 const nodeTree = mapNodes(NODES);
 
 console.log(nodeTree);
+
+function sortNodes(nodes, type) {
+
+    const sortedNodes = {
+        group: [],
+        region: [],
+        volume: []
+    };
+
+    function filterNodesRecursively(nodes) {
+        nodes.forEach(node => {
+            if (node.type === type && type === 'group') {
+
+                const { id, name } = node;
+                
+                sortedNodes[type].push({
+                    id,
+                    name
+                });
+            } else if (node.type === type) {
+
+                const { id, name, geometry } = node;
+
+                sortedNodes[type].push({
+                    id,
+                    name,
+                    geometry
+                });
+                
+            } else {
+                console.log('There was error');
+            }
+
+            if (node.nodes) {
+                filterNodesRecursively(node.nodes)
+            } else {
+                return;
+            }
+
+            return sortedNodes;
+        });
+    }
+}
+
+const sortedNodes = sortNodes(nodeTree);
+
+console.log(sortedNodes);
