@@ -10,45 +10,85 @@ function mapNodes(nodeData) {
     const nodeTree = [];
     const masterNode = nodeData.data.nodeItemById;
 
+    const { id, name } = masterNode.groupByGroupId;
+    const childNodes = masterNode.nodeItemsByParentNodeId.nodes;
+
+    const parent = {
+        id,
+        name,
+        type: 'group'
+    }
+
     nodeTree.push({
-        id: masterNode.groupByGroupId.id,
-        name: masterNode.groupByGroupId.name,
+        id,
+        name,
         type: 'group',
         geometry: null,
-        nodes: masterNode.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) 
+        nodes: childNodes.map(node => recurseNodeMapping(node, parent)) 
     });
 
-    function recurseNodeMapping(node) {
+    function recurseNodeMapping(node, parentDetails) {
         
         let nodeContent = {
             id: null,
             name: null,
             type: null,
+            parent: parentDetails,
             geometry: null
+        };
+
+        let parent = {
+            id: null,
+            name: null,
+            type: null
         };
 
         const { groupByGroupId, regionByRegionId, volumeByVolumeId } = node;
     
         if (groupByGroupId) {
-            nodeContent.id = groupByGroupId.id;
-            nodeContent.name = groupByGroupId.name;
+            const { id, name } = groupByGroupId;
+            
+            nodeContent.id = id;
+            nodeContent.name = name;
             nodeContent.type = 'group';
+            
+            parent = {
+                id,
+                name,
+                type: nodeContent.type
+            }
         } if (regionByRegionId) {
-            nodeContent.id = regionByRegionId.id;
-            nodeContent.name = regionByRegionId.name;
+            const { id, name, oliveGeometry } = regionByRegionId;
+            
+            nodeContent.id = id;
+            nodeContent.name = name;
             nodeContent.type = 'region',
-            nodeContent.geometry = JSON.parse(regionByRegionId.oliveGeometry);
+            nodeContent.geometry = JSON.parse(oliveGeometry);
+
+            parent = {
+                id,
+                name,
+                type: nodeContent.type
+            }
         } if (volumeByVolumeId) {
-            nodeContent.id = volumeByVolumeId.id;
-            nodeContent.name = volumeByVolumeId.name;
+            const { id, name, oliveGeometry } = volumeByVolumeId;
+
+            nodeContent.id = id;
+            nodeContent.name = name;
             nodeContent.type = 'volume';
-            nodeContent.geometry = JSON.parse(volumeByVolumeId.oliveGeometry);
+            nodeContent.geometry = JSON.parse(oliveGeometry);
+
+            parent = {
+                id,
+                name,
+                type: nodeContent.type
+            }
         }
 
         return {
             ...nodeContent,
             nodes: node.nodeItemsByParentNodeId ? 
-                    node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) : null
+                    node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node, parent)) : null
         }
     }
 
@@ -59,9 +99,6 @@ function mapNodes(nodeData) {
 
 // console.log(nodeTree);
 
-
-
-
 function groupNodesByType(nodeTree) {
     
     const sortedNodes = {
@@ -70,18 +107,19 @@ function groupNodesByType(nodeTree) {
         volumes: []
     };
 
-    function siftNodes(nodeTree) {
+    function recurseNodeGrouping(nodeTree) {
 
         nodeTree.forEach(node => {
     
-            const { id, name, type, geometry } = node;
+            const { id, name, type, parent, geometry } = node;
     
             switch (type) {
                 case 'group':
                     sortedNodes.groups.push({
                         id,
                         name,
-                        type
+                        type,
+                        parent
                     });    
                     break;
                 case 'region':
@@ -89,6 +127,7 @@ function groupNodesByType(nodeTree) {
                         id,
                         name,
                         type,
+                        parent,
                         geometry
                     });
                     break;
@@ -97,44 +136,23 @@ function groupNodesByType(nodeTree) {
                         id,
                         name,
                         type,
+                        parent,
                         geometry
                     });
                     break;        
                 default:
                     break;
             }
-            
-            // if (type === 'group') {
-            //     sortedNodes.groups.push({
-            //         id,
-            //         name,
-            //         type
-            //     });
-            // } if (type === 'region') {
-            //     sortedNodes.regions.push({
-            //         id,
-            //         name,
-            //         type,
-            //         geometry
-            //     });
-            // } if (type === 'volume') {
-            //     sortedNodes.volumes.push({
-            //         id,
-            //         name,
-            //         type,
-            //         geometry
-            //     });
-            // }
     
             if (!node.nodes) {
                 return;
             }
     
-            siftNodes(node.nodes);
+            recurseNodeGrouping(node.nodes);
         });
     }
 
-    siftNodes(nodeTree);
+    recurseNodeGrouping(nodeTree);
 
     return sortedNodes;
 }

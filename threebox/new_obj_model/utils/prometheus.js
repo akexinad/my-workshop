@@ -22,11 +22,25 @@ class Vector3 extends THREE.Vector3 {
     }
 }
 
-// const pointData = DATA.floors[0].oliveGeometry.polygon.points[0];
-// const point = new Vector3(pointData);
-// console.log(point);
+// class Shape extends THREE.ShapeBufferGeometry {
+//     constructor(geometry) {
+//         const vector2Array = [];
+//         const vector3Array = [];
 
-class Shape extends THREE.ShapeBufferGeometry {
+//         geometry.points.forEach((point) => {
+//             vector2Array.push(new Vector2(point));
+//             vector3Array.push(new Vector3(point));
+//         });
+
+//         const shape = new THREE.Shape(vector2Array);
+        
+//         super(shape);
+
+//         this.vector2 = vector2Array;
+//     }
+// }
+
+class Geometry extends THREE.ExtrudeBufferGeometry {
     constructor(geometry) {
         const vector2Array = [];
         const vector3Array = [];
@@ -37,27 +51,9 @@ class Shape extends THREE.ShapeBufferGeometry {
         });
 
         const shape = new THREE.Shape(vector2Array);
-        
-        super(shape);
-
-        this.vector2 = vector2Array;
-    }
-}
-
-class Extrusion extends THREE.ExtrudeBufferGeometry {
-    constructor(geometry) {
-        const vector2Array = [];
-        const vector3Array = [];
-
-        geometry.polygon.points.forEach((point) => {
-            vector2Array.push(new THREE.Vector2(point.x, point.y));
-            vector3Array.push(new Vector3(point));
-        });
-
-        const shape = new THREE.Shape(vector2Array);
 
         const extrudeSettings = {
-            depth: geometry.height,
+            depth: geometry.height ? geometry.height : 0,
             steps: 1,
             bevelEnabled: false
         }
@@ -68,13 +64,7 @@ class Extrusion extends THREE.ExtrudeBufferGeometry {
     }
 }
 
-// const shapeData = DATA.floors[0].oliveGeometry;
-// const polygon = new Extrusion(shapeData);
-// console.log(polygon);
-
-
 class Material extends THREE.MeshLambertMaterial {
-
     constructor(color = 0xd40000) {
         const options = {
             color,
@@ -89,125 +79,129 @@ class Material extends THREE.MeshLambertMaterial {
 }
 
 class Mesh extends THREE.Mesh {
-
-    constructor(volume, geometry, material) {
-
-        const zPosition = volume.oliveGeometry.polygon.points[0].z;
-
-        super(geometry, material);
-
-        this.nodeContent = {
-            nodeId: volume.nodeId,
-            parentNodeId: volume.parentNodeId,
-            classification: volume.classification,
-            useType: volume.attributes.useType,
-            type: volume.type
-        };
-        this.position.set(0, 0, zPosition);
-    }    
-}
-
-
-
-class Lattice extends THREE.Mesh {
-
-    constructor(region, geometry, material) {
-
-        const zPosition = region.oliveGeometry.points[0].z;
+    constructor(node, geometry, material) {
+        const { id, name, type, parent  } = node;
+        const zPosition = node.geometry.points[0].z;
 
         super(geometry, material);
 
         this.nodeContent = {
-            nodeId: region.nodeId,
-            parentNodeId: region.parentNodeId,
-            classification: region.classification,
-            type: region.type
+            id,
+            name,
+            type
         };
+        this.parentNode = parent;
         this.position.set(0, 0, zPosition);
     }    
 }
-
-// const volumeData = DATA.floors[0];
-// const volume = new VolumeLattice(volumeData);
-// console.log(volume);
 
 class Development {
 
     constructor(data) {
         this.data = data;
         this.classifications = {
-            VOLUME: "volumeNode",
-            REGION: "regionNode"
-        }
-
-        this.renderedObjects = {
-            floors: null,
-            footprints: null,
-            landscapes: null,
-            openspaces: null
+            VOLUME: "volumeCollection",
+            REGION: "regionCollection"
         }
 
         this.nodeTree = this.mapNodes(this.data);
 
-        // this.sortedNodes = {
-        //     groups: [],
-        //     regions: [],
-        //     volumes: []        
-        // }
-
         this.sortedNodes = this.groupNodesByType(this.nodeTree);
+
+        console.log(this.sortedNodes.regions);
+        
     }
 
     mapNodes() {
-
         const nodeTree = [];
         const masterNode = this.data.data.nodeItemById;
 
+        const { id, name } = masterNode.groupByGroupId;
+        const childNodes = masterNode.nodeItemsByParentNodeId.nodes;
+
+        const parent = {
+            id,
+            name,
+            type: 'group'
+        }
+
         nodeTree.push({
-            id: masterNode.groupByGroupId.id,
-            name: masterNode.groupByGroupId.name,
+            id,
+            name,
             type: 'group',
             geometry: null,
-            nodes: masterNode.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) 
+            nodes: childNodes.map(node => recurseNodeMapping(node, parent)) 
         });
 
-        function recurseNodeMapping(node) {
-            
+        function recurseNodeMapping(node, parentDetails) {
             let nodeContent = {
                 id: null,
                 name: null,
                 type: null,
+                parent: parentDetails,
                 geometry: null
             };
+
+            let parent = {
+                id: null,
+                name: null,
+                type: null
+            };
+
+            const { groupByGroupId, regionByRegionId, volumeByVolumeId } = node;
         
-            if (node.groupByGroupId) {
-                nodeContent.id = node.groupByGroupId.id;
-                nodeContent.name = node.groupByGroupId.name;
+            if (groupByGroupId) {
+                const { id, name } = groupByGroupId;
+                
+                nodeContent.id = id;
+                nodeContent.name = name;
                 nodeContent.type = 'group';
-            } if (node.regionByRegionId) {
-                nodeContent.id = node.regionByRegionId.id;
-                nodeContent.name = node.regionByRegionId.name;
+                
+                parent = {
+                    id,
+                    name,
+                    type: nodeContent.type
+                }
+            } if (regionByRegionId) {
+                const { id, name, oliveGeometry } = regionByRegionId;
+                
+                nodeContent.id = id;
+                nodeContent.name = name;
                 nodeContent.type = 'region',
-                nodeContent.geometry = JSON.parse(node.regionByRegionId.oliveGeometry);
-            } if (node.volumeByVolumeId) {
-                nodeContent.id = node.volumeByVolumeId.id;
-                nodeContent.name = node.volumeByVolumeId.name;
+                nodeContent.geometry = JSON.parse(oliveGeometry);
+
+                parent = {
+                    id,
+                    name,
+                    type: nodeContent.type
+                }
+            } if (volumeByVolumeId) {
+                const { id, name, oliveGeometry } = volumeByVolumeId;
+
+                nodeContent.id = id;
+                nodeContent.name = name;
                 nodeContent.type = 'volume';
-                nodeContent.geometry = JSON.parse(node.volumeByVolumeId.oliveGeometry);
+                nodeContent.geometry = JSON.parse(oliveGeometry);
+
+                parent = {
+                    id,
+                    name,
+                    type: nodeContent.type
+                }
             }
 
             return {
                 ...nodeContent,
                 nodes: node.nodeItemsByParentNodeId ? 
-                        node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node)) : null
+                        node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node, parent)) : null
             }
         }
 
         return nodeTree;
+
     }
     
     groupNodesByType(nodeTree) {
-    
         const sortedNodes = {
             groups: [],
             regions: [],
@@ -215,17 +209,16 @@ class Development {
         };
     
         function recurseNodeGrouping(nodeTree) {
-    
             nodeTree.forEach(node => {
-        
-                const { id, name, type, geometry } = node;
+                const { id, name, type, parent, geometry } = node;
         
                 switch (type) {
                     case 'group':
                         sortedNodes.groups.push({
                             id,
                             name,
-                            type
+                            type,
+                            parent
                         });    
                         break;
                     case 'region':
@@ -233,6 +226,7 @@ class Development {
                             id,
                             name,
                             type,
+                            parent,
                             geometry
                         });
                         break;
@@ -241,13 +235,14 @@ class Development {
                             id,
                             name,
                             type,
+                            parent,
                             geometry
                         });
                         break;        
                     default:
                         break;
                 }
-
+        
                 if (!node.nodes) {
                     return;
                 }
@@ -275,56 +270,34 @@ class Development {
     //     });
     // }
     
-    // buildFloors() {
-    //     const groupOfFloors = this.createGroup(this.classifications.VOLUME);
+    buildVolumes() {
+        const groupOfVolumeMesh = this.createGroup(this.classifications.VOLUME);
 
-    //     this.data.floors.forEach((floor) => {
-    //         const geometry = new Extrusion(floor.oliveGeometry);
-    //         const material = new Material(0xD40004);
-            
-    //         floor = new Mesh(floor, geometry, material);
-            
-    //         groupOfFloors.add(floor);
-    //     });
+        this.sortedNodes.volumes.forEach((volume) => {
+            const geometry = new Geometry(volume.geometry);
+            const material = new Material(0xD40004);
+            const volumeMesh = new Mesh(volume, geometry, material);
 
-    //     this.renderedObjects.floors = groupOfFloors.children;
+            groupOfVolumeMesh.add(volumeMesh);
+        });
+
+        return groupOfVolumeMesh;
+    }
+
+    buildSite(name) {
+        const groupOfSites = this.createGroup(this.classifications.REGION);
+
+        const site = this.sortedNodes.regions.find(region => region.name.includes(name));
+
+        const geometry = new Geometry(site.geometry);
+        const material = new Material(0xd40000);
         
-    //     return groupOfFloors;
-    // }
+        const siteMesh = new Mesh(site, geometry, material);
 
-    // buildFootprints() {
-    //     const groupOfFootprints = this.createGroup(this.classifications.REGION);
-
-    //     this.data.footprints.forEach((footprint) => {
-    //         const geometry = new Shape(footprint.oliveGeometry);
-    //         const material = new Material(0xd40000);
-
-    //         footprint = new Lattice(footprint, geometry, material);
-
-    //         groupOfFootprints.add(footprint);
-    //     });
-
-    //     this.renderedObjects.footprints = groupOfFootprints.children;
-
-    //     return groupOfFootprints;
-    // }
-
-    // buildSites() {
-    //     const groupOfSites = this.createGroup(this.classifications.REGION);
-
-    //     this.data.sites.forEach((site) => {
-    //         const geometry = new Shape(site.oliveGeometry);
-    //         const material = new Material();
-
-    //         site = new Lattice(site, geometry, material);
-
-    //         groupOfSites.add(site);
-    //     });
-
-    //     this.renderedObjects.sites = groupOfSites.children;
-
-    //     return groupOfSites;
-    // }
+        groupOfSites.add(siteMesh);
+        
+        return groupOfSites;
+    }
 
     // highlightObject(object) {
     //     this.repaint(this.renderedObjects[object.nodeContent.type]);

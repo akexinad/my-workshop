@@ -1,4 +1,4 @@
-const tbObject3D = (threeMesh) => {
+const createTBObject3D = (threeMesh) => {
     const obj = tb.Object3D({
         obj: threeMesh,
         units: 'meters'

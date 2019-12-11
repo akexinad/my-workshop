@@ -3,12 +3,9 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1e
 const EUSTON_PROJECT = EUSTON_DATA_191210;
 // console.log(EUSTON_PROJECT);
 let tb;
-const eustonDevelopment = new Development(EUSTON_PROJECT);
-// console.log(eustonDevelopment.nodeTree);
-// console.log(eustonDevelopment.sortedNodes);
-
-
-
+const euston = new Development(EUSTON_PROJECT);
+// console.log(euston.nodeTree);
+// console.log(euston.sortedNodes);
 
 const map = new mapboxgl.Map({
     container: 'map',
@@ -36,6 +33,14 @@ function addLayer() {
                         defaultLights: true,
                     }
                 );
+
+                // const volumes = euston.buildVolumes();
+
+                // createTBObject3D(volumes);
+
+                const site2 = euston.buildSite("sites 2");
+
+                createTBObject3D(site2);
             },
             
             render(gl, matrix) {
@@ -50,13 +55,13 @@ function raycast() {
         const intersect = tb.queryRenderedFeatures(e.point);
 
         if (!intersect[0]) {
-            eustonDevelopment.repaint();
+            euston.repaint();
             return;
         }
 
         const selectedObject = intersect[0].object;
 
-        eustonDevelopment.highlightObject(selectedObject);
+        euston.highlightObject(selectedObject);
 
         tb.repaint();
     })
