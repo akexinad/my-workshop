@@ -1,4 +1,4 @@
-const DATA = eustonProjectData;
+const EUSTON = EUSTON_DATA_191210;
 
 class Vector2 extends THREE.Vector2 {
     constructor(point) {
@@ -22,8 +22,8 @@ class Vector3 extends THREE.Vector3 {
     }
 }
 
-const pointData = DATA.floors[0].oliveGeometry.polygon.points[0];
-const point = new Vector3(pointData);
+// const pointData = DATA.floors[0].oliveGeometry.polygon.points[0];
+// const point = new Vector3(pointData);
 // console.log(point);
 
 class Shape extends THREE.ShapeBufferGeometry {
@@ -68,8 +68,8 @@ class Extrusion extends THREE.ExtrudeBufferGeometry {
     }
 }
 
-const shapeData = DATA.floors[0].oliveGeometry;
-const polygon = new Extrusion(shapeData);
+// const shapeData = DATA.floors[0].oliveGeometry;
+// const polygon = new Extrusion(shapeData);
 // console.log(polygon);
 
 
