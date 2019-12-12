@@ -17,7 +17,7 @@ const map = new mapboxgl.Map({
 });
 
 addLayer();
-raycast();
+// raycast();
 
 function addLayer() {
     map.on('style.load', () => {

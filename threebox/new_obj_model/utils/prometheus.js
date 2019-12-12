@@ -11,6 +11,17 @@ class Vector2 extends THREE.Vector2 {
     }
 }
 
+// const singlePt = {
+//     x: 12,
+//     y: 34,
+//     z: 56,
+//     srid: 7890
+// }
+
+// const vec2 = new Vector2(singlePt);
+// console.log(vec2);
+
+
 class Vector3 extends THREE.Vector3 {
     constructor(point) {
         super(point.x, point.y, point.z);
@@ -21,6 +32,10 @@ class Vector3 extends THREE.Vector3 {
         this.srid = point.srid;
     }
 }
+
+// const vec3 = new Vector3(singlePt);
+// console.log(vec3);
+
 
 // class Shape extends THREE.ShapeBufferGeometry {
 //     constructor(geometry) {
