@@ -107,9 +107,6 @@ class Development {
         this.nodeTree = this.mapNodes(this.data);
 
         this.sortedNodes = this.groupNodesByType(this.nodeTree);
-
-        console.log(this.sortedNodes.regions);
-        
     }
 
     mapNodes() {

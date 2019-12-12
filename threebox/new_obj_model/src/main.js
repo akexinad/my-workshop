@@ -38,9 +38,9 @@ function addLayer() {
 
                 // createTBObject3D(volumes);
 
-                const site2 = euston.buildSite("sites 2");
+                // const site2 = euston.buildSite("sites 2");
 
-                createTBObject3D(site2);
+                // createTBObject3D(site2);
             },
             
             render(gl, matrix) {
@@ -61,7 +61,7 @@ function raycast() {
 
         const selectedObject = intersect[0].object;
 
-        euston.highlightObject(selectedObject);
+        euston.highlightNodeObject(selectedObject);
 
         tb.repaint();
     })
