@@ -117,11 +117,13 @@ class Development {
         this.classifications = {
             VOLUME: "volumeCollection",
             REGION: "regionCollection"
-        }
-
+        };
         this.nodeTree = this.mapNodes(this.data);
-
         this.sortedNodes = this.groupNodesByType(this.nodeTree);
+        this.renderedObjects = {
+            volume: null,
+            region: null
+        }
     }
 
     mapNodes() {
@@ -133,13 +135,13 @@ class Development {
 
         const parent = {
             id,
-            name,
+            name: name.toLowerCase(),
             type: 'group'
         }
 
         nodeTree.push({
             id,
-            name,
+            name: name.toLowerCase(),
             type: 'group',
             geometry: null,
             nodes: childNodes.map(node => recurseNodeMapping(node, parent)) 
@@ -166,38 +168,38 @@ class Development {
                 const { id, name } = groupByGroupId;
                 
                 nodeContent.id = id;
-                nodeContent.name = name;
+                nodeContent.name = name.toLowerCase();
                 nodeContent.type = 'group';
                 
                 parent = {
                     id,
-                    name,
+                    name: name.toLowerCase(),
                     type: nodeContent.type
                 }
             } if (regionByRegionId) {
                 const { id, name, oliveGeometry } = regionByRegionId;
                 
                 nodeContent.id = id;
-                nodeContent.name = name;
+                nodeContent.name = name.toLowerCase();
                 nodeContent.type = 'region',
                 nodeContent.geometry = JSON.parse(oliveGeometry);
 
                 parent = {
                     id,
-                    name,
+                    name: name.toLowerCase(),
                     type: nodeContent.type
                 }
             } if (volumeByVolumeId) {
                 const { id, name, oliveGeometry } = volumeByVolumeId;
 
                 nodeContent.id = id;
-                nodeContent.name = name;
+                nodeContent.name = name.toLowerCase();
                 nodeContent.type = 'volume';
                 nodeContent.geometry = JSON.parse(oliveGeometry);
 
                 parent = {
                     id,
-                    name,
+                    name: name.toLowerCase(),
                     type: nodeContent.type
                 }
             }
@@ -276,43 +278,64 @@ class Development {
         return group;
     }
 
-    // repaint(objects) {
-    //     objects.forEach(object => {
-    //         object.material.color.setHex(object.material.originalHex);
-    //     });
-    // }
-    
-    buildVolumes() {
+    buildVolumes(volumeName) {
         const groupOfVolumeMesh = this.createGroup(this.classifications.VOLUME);
 
-        this.sortedNodes.volumes.forEach((volume) => {
+        const filteredVolumes = this.sortedNodes.volumes.filter(volume => {
+            return volume.name.includes(volumeName);
+        });
+
+        if (filteredVolumes.length === 0) {
+            console.error(`No volumes with following name: ${ volumeName }`);
+            return;
+        }
+        
+        filteredVolumes.forEach((volume) => {
             const geometry = new Geometry(volume.geometry);
             const material = new Material(0xD40004);
             const volumeMesh = new Mesh(volume, geometry, material);
 
             groupOfVolumeMesh.add(volumeMesh);
         });
+        
+        this.renderedObjects.volume = groupOfVolumeMesh;
 
         return groupOfVolumeMesh;
     }
 
-    buildSite(name) {
-        const groupOfSites = this.createGroup(this.classifications.REGION);
+    buildRegions(regionName) {
+        const groupOfRegionMesh = this.createGroup(this.classifications.REGION);
 
-        const site = this.sortedNodes.regions.find(region => region.name.includes(name));
+        const filteredRegions = this.sortedNodes.regions.filter(region => {
+            return region.name.includes(regionName)
+        });
 
-        const geometry = new Geometry(site.geometry);
-        const material = new Material(0xd40000);
+        if (filteredRegions.length === 0) {
+            console.error(`No regions with following name: ${ regionName }`);
+            return;
+        }
+
+        filteredRegions.forEach(region => {
+            const geometry = new Geometry(region.geometry);
+            const material = new Material(0xd40000);
+            const regionMesh = new Mesh(region, geometry, material);
+
+            groupOfRegionMesh.add(regionMesh);
+        });
+
+        this.renderedObjects.region = groupOfRegionMesh;
         
-        const siteMesh = new Mesh(site, geometry, material);
-
-        groupOfSites.add(siteMesh);
-        
-        return groupOfSites;
+        return groupOfRegionMesh;
     }
 
-    // highlightObject(object) {
-    //     this.repaint(this.renderedObjects[object.nodeContent.type]);
-    //     object.material.color.setHex(0xbada55);
-    // }
+    repaint(renderedObjects) {
+        renderedObjects.children.forEach(object => {
+            object.material.color.setHex(object.material.originalHex);
+        });
+    }
+    
+    highlightObject(object) {
+        this.repaint(this.renderedObjects[object.nodeContent.type]);
+        object.material.color.setHex(0xbada55);
+    }
 } 

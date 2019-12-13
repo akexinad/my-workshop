@@ -1,7 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1eGsyZmhlYSJ9.5M9Nprzz59r7--kUgE_BWA';
 
 const EUSTON_PROJECT = EUSTON_DATA_191210;
-// console.log(EUSTON_PROJECT);
+console.log(EUSTON_PROJECT);
 let tb;
 const euston = new Development(EUSTON_PROJECT);
 // console.log(euston.nodeTree);
@@ -17,7 +17,7 @@ const map = new mapboxgl.Map({
 });
 
 addLayer();
-// raycast();
+raycast();
 
 function addLayer() {
     map.on('style.load', () => {
@@ -34,13 +34,20 @@ function addLayer() {
                     }
                 );
 
-                // const volumes = euston.buildVolumes();
+                const volumes = euston.buildVolumes("floors");
+                createTBObject3D(volumes);
 
-                // createTBObject3D(volumes);
-
-                // const site2 = euston.buildSite("sites 2");
-
+                // const site2 = euston.buildRegions("sites 2");
                 // createTBObject3D(site2);
+
+                // const footprints = euston.buildRegions("building 50");
+                // createTBObject3D(footprints);
+
+                // const tree = euston.nodeTree;
+                // const nodes = euston.sortedNodes;
+
+                // console.log("tree:", tree);
+                // console.log("nodes:", nodes);
             },
             
             render(gl, matrix) {
@@ -60,9 +67,7 @@ function raycast() {
         }
 
         const selectedObject = intersect[0].object;
-
-        euston.highlightNodeObject(selectedObject);
-
+        euston.highlightObject(selectedObject);
         tb.repaint();
-    })
+    });
 }

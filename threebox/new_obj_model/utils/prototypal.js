@@ -1,7 +1,7 @@
 
 /******** MOCK DATA *******/
 
-console.log(EUSTON);
+// console.log(EUSTON);
 
 const singlePoint = {
   x: 12,
@@ -29,8 +29,8 @@ function Vector2P(point) {
 Vector2P.prototype = Object.create( THREE.Vector2.prototype );
 Vector2P.prototype.constructor = THREE.Vector2;
 
-const vector = new Vector2P(singlePoint);
-console.log(vector);
+// const vector = new Vector2P(singlePoint);
+// console.log(vector);
 
 function Vector3P(point) {
 
@@ -46,8 +46,8 @@ function Vector3P(point) {
 Vector3P.prototype = Object.create( THREE.Vector3.prototype );
 Vector3P.prototype.constructor = THREE.Vector3;
 
-const vector3 = new Vector3P(singlePoint);
-console.log(vector3);
+// const vector3 = new Vector3P(singlePoint);
+// console.log(vector3);
 
 function GeometryP(geometry) {
 
@@ -80,5 +80,5 @@ function GeometryP(geometry) {
 GeometryP.prototype = Object.create( THREE.ExtrudeBufferGeometry.prototype );
 GeometryP.prototype.constructor = THREE.ExtrudeBufferGeometry;
 
-const geo = new GeometryP(siteGeometry);
-console.log(geo);
+// const geo = new GeometryP(siteGeometry);
+// console.log(geo);
