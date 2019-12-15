@@ -1,36 +1,55 @@
-import React, { useEffect } from 'react';
-import mapboxgl from 'mapbox-gl';
+import React, { Fragment, useEffect } from "react";
+import mapboxgl from "mapbox-gl";
 // @ts-ignore
-import { Threebox } from 'threebox-map';
+import { Threebox } from "threebox-map";
 
+import COORDINATES from "../../data/mockCoordinates";
+import TOKENS from "../../utils/tokens";
+import { layer3dBuidlings } from "../../utils/mapboxLayers";
+
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const Mapbox: React.FC = () => {
-    
-    useEffect(() => {
-        // <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css' rel='stylesheet' />
-        const mapboxCss = document.createElement("link");
-        mapboxCss.href = "https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css";
-        mapboxCss.rel = "stylesheet";
-        document.head.appendChild(mapboxCss);
+  let map: mapboxgl.Map;
 
-        console.log(mapboxCss);
-        
-        
-        mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1eGsyZmhlYSJ9.5M9Nprzz59r7--kUgE_BWA';
-        // Add this css script when the component loads
-    
-        const map = new mapboxgl.Map({
-        container: "map",
-        style: 'mapbox://styles/mapbox/streets-v9'
-        });
-        
-        // return () => {
-        //     cleanup
-        // };
-    }, []);
-    
-    return <div id="map">
-    </div>
-}
+  useEffect(() => {
+    mapboxgl.accessToken = TOKENS.MAPBOX;
+    map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/dark-v10",
+      center: COORDINATES.EUSTON,
+      zoom: 15,
+      pitch: 60,
+      bearing: 0
+    });
+
+    return () => {
+      map.remove();
+    };
+  }, []);
+
+  const addLayer = () => {
+    map.addLayer(layer3dBuidlings);
+  };
+
+  const removeLayer = () => {
+      map.removeLayer(layer3dBuidlings.id);
+  }
+
+  const style = {
+    width: "100vw",
+    height: "100vh",
+    margin: 0
+  };
+
+  return (
+    <Fragment>
+      <h2>Mapbox Component</h2>
+      <button onClick={addLayer}>ADD LAYER</button>
+      <button onClick={removeLayer}>REMOVE LAYER</button>
+      <div style={style} id="map"></div>
+    </Fragment>
+  );
+};
 
 export default Mapbox;
