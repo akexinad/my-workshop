@@ -36,25 +36,6 @@ class Vector3 extends THREE.Vector3 {
 // const vec3 = new Vector3(singlePt);
 // console.log(vec3);
 
-
-// class Shape extends THREE.ShapeBufferGeometry {
-//     constructor(geometry) {
-//         const vector2Array = [];
-//         const vector3Array = [];
-
-//         geometry.points.forEach((point) => {
-//             vector2Array.push(new Vector2(point));
-//             vector3Array.push(new Vector3(point));
-//         });
-
-//         const shape = new THREE.Shape(vector2Array);
-        
-//         super(shape);
-
-//         this.vector2 = vector2Array;
-//     }
-// }
-
 class Geometry extends THREE.ExtrudeBufferGeometry {
     constructor(geometry) {
         const vector2Array = [];
@@ -329,13 +310,28 @@ class Development {
     }
 
     repaint(renderedObjects) {
+        if (!renderedObjects) {
+            return;
+        }
+        
         renderedObjects.children.forEach(object => {
             object.material.color.setHex(object.material.originalHex);
         });
     }
     
-    highlightObject(object) {
-        this.repaint(this.renderedObjects[object.nodeContent.type]);
+    selectObject(object, selectObjectFlag) {
+        const renderedObjectsByType = this.renderedObjects[object.nodeContent.type];
+        
+        this.repaint(renderedObjectsByType);
+
+        if (selectObjectFlag) {
+            renderedObjectsByType.children.filter(child => {
+                if (child.parentNode.name === object.parentNode.name) {
+                    child.material.color.setHex(0xbada55);
+                }
+            });            
+        }
+        
         object.material.color.setHex(0xbada55);
     }
-} 
+}

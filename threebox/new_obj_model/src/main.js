@@ -1,9 +1,10 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1eGsyZmhlYSJ9.5M9Nprzz59r7--kUgE_BWA';
 
 const EUSTON_PROJECT = EUSTON_DATA_191210;
-console.log(EUSTON_PROJECT);
 let tb;
 const euston = new Development(EUSTON_PROJECT);
+let selectBuilding = false;
+// console.log(EUSTON_PROJECT);
 // console.log(euston.nodeTree);
 // console.log(euston.sortedNodes);
 
@@ -17,7 +18,8 @@ const map = new mapboxgl.Map({
 });
 
 addLayer();
-raycast();
+raycast(selectBuilding);
+btnHandler();
 
 function addLayer() {
     map.on('style.load', () => {
@@ -67,7 +69,27 @@ function raycast() {
         }
 
         const selectedObject = intersect[0].object;
-        euston.highlightObject(selectedObject);
+
+        if (selectBuilding) {
+            euston.selectObject(selectedObject, selectBuilding);
+        } else {
+            euston.selectObject(selectedObject, selectBuilding);
+        }
+        
         tb.repaint();
+    });
+}
+
+function btnHandler() {
+    const btn = document.getElementById("objectSelector");
+    
+    btn.addEventListener('click', () => {
+        if (selectBuilding) {
+            btn.innerHTML = "Select Buidling";
+            selectBuilding = !selectBuilding;
+        } else {
+            btn.innerHTML = "Select Foor";
+            selectBuilding = !selectBuilding
+        }
     });
 }
