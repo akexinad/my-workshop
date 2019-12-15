@@ -1,5 +1,9 @@
 const EUSTON = EUSTON_DATA_191210;
 
+const GREEN = 0x2bb600;
+const RED = 0x6a0000;
+const BLUE = 0x002d6a;
+
 class Vector2 extends THREE.Vector2 {
     constructor(point) {
         super(point.x, point.y);
@@ -61,11 +65,11 @@ class Geometry extends THREE.ExtrudeBufferGeometry {
 }
 
 class Material extends THREE.MeshLambertMaterial {
-    constructor(color = 0xd40000) {
+    constructor(color = RED, opacity = 1) {
         const options = {
             color,
             transparent: true,
-            opacity: 1
+            opacity
         }
 
         super(options);
@@ -273,7 +277,7 @@ class Development {
         
         filteredVolumes.forEach((volume) => {
             const geometry = new Geometry(volume.geometry);
-            const material = new Material(0xD40004);
+            const material = new Material(RED);
             const volumeMesh = new Mesh(volume, geometry, material);
 
             groupOfVolumeMesh.add(volumeMesh);
@@ -298,8 +302,12 @@ class Development {
 
         filteredRegions.forEach(region => {
             const geometry = new Geometry(region.geometry);
-            const material = new Material(0xd40000);
+            const material = new Material(BLUE);
             const regionMesh = new Mesh(region, geometry, material);
+            
+            regionMesh.nodeContent.name.includes("site") ? 
+                this.setOpacity(regionMesh, 0.5) : 
+                this.setOpacity(regionMesh)
 
             groupOfRegionMesh.add(regionMesh);
         });
@@ -315,8 +323,19 @@ class Development {
         }
         
         renderedObjects.children.forEach(object => {
-            object.material.color.setHex(object.material.originalHex);
+            this.setHex(object, object.material.originalHex);
+            this.setOpacity(object, 1);
         });
+    }
+
+    setHex(object, color) {
+        object.material.color.setHex(color);
+        return object;
+    }
+
+    setOpacity(object, opacity = 1) {
+        object.material.opacity = opacity;
+        return object;
     }
     
     selectObject(object, selectObjectFlag) {
@@ -324,14 +343,19 @@ class Development {
         
         this.repaint(renderedObjectsByType);
 
+        // if user wants to select an entire building.
         if (selectObjectFlag) {
             renderedObjectsByType.children.filter(child => {
                 if (child.parentNode.name === object.parentNode.name) {
-                    child.material.color.setHex(0xbada55);
+                    this.setOpacity(child, 0.8);
+                    this.setHex(child, GREEN);
+                } else {
+                    // blur out deselected buidlings
+                    this.setOpacity(child, 0.3);
                 }
             });            
         }
         
-        object.material.color.setHex(0xbada55);
+        object.material.color.setHex(GREEN);
     }
 }
