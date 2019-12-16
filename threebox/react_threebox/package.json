@@ -18,7 +18,8 @@
     "react-mapbox-gl": "^4.8.1",
     "react-scripts": "3.3.0",
     "three": "^0.111.0",
-    "threebox_ngx": "^1.2.5",
+    "threebox": "^0.1.5",
+    "threebox-map": "^0.1.2",
     "typescript": "^3.7.3"
   },
   "scripts": {

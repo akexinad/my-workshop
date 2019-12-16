@@ -1,12 +1,12 @@
 import React, { FC, useState, useRef, useEffect, Fragment } from "react";
 import mapboxgl from "mapbox-gl";
+// import * as THREE from "three";
 // @ts-ignore
-// import { Threebox } from "threebox-map";
-// import { Threebox } from "threebox";
+import { Threebox, THREE } from "threebox-map";
+// import { Threebox, THREE } from "threebox";
 // import * as Threebox from "threebox_ngx";
 // import { Threebox, THREE } from "../../utils/rhinoParser/threebox";
-import { Threebox, THREE } from "../../utils/threebox/main";
-// import * as THREE from "three";
+// import { Threebox, THREE } from "../../utils/threebox/main";
 
 import COORDINATES from "../../data/mockCoordinates";
 import TOKENS from "../../utils/tokens";
@@ -27,16 +27,13 @@ const Mapbox: FC = () => {
 
     const [map, setMap] = useState<mapboxgl.Map>(null);
     const [mapLayer, setMapLayer] = useState(false);
-    // const [three, setThree] = useState(null);
-    // const [threebox, setThreebox] = useState(null);
+    const [threebox, setThreebox] = useState(null);
 
     useEffect(() => {
         mapboxgl.accessToken = TOKENS.MAPBOX;
 
-        // const script = document.createElement("script");
-        // script.src = "../../utils/rhinoParser/threebox.js";
-        // script.onload = () => scriptLoaded();
-        // document.body.appendChild(script);
+        // @ts-ignore
+        window.THREE = THREE;
 
         const initializeMap = (
             setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map>>,
@@ -54,21 +51,16 @@ const Mapbox: FC = () => {
             map.on("load", () => {
                 setMap(map);
                 map.resize();
+                //@ts-ignore
+                window.map = map;
+
             });
         };
 
         if (!map) {
             initializeMap(setMap, mapContainer);
         }
-
-        return () => {
-            // document.body.removeChild(script);
-        };
     }, [map]);
-
-    // const scriptLoaded = () => {
-    //     console.log("script has loaded");
-    // }
 
     const toggleMapboxLayer = () => {
         if (!mapLayer) {
@@ -82,45 +74,42 @@ const Mapbox: FC = () => {
     };
 
     const addThreeboxLayer = () => {
+        let tb: Threebox;
+
         map.addLayer({
             id: "threebox_layer",
             type: "custom",
             onAdd: (map, mbxContext) => {
-                // console.log(Threebox);
-                // console.log(THREE);
-                
-                // console.log(map);
-                // console.log(mbxContext);
 
-                const tb: Threebox = new Threebox(map, mbxContext, {
+                tb = new Threebox(map, mbxContext, {
                     defaultLights: true
                 });
 
-                const geometry = new THREE.BoxGeometry(100, 100, 100);
-                const material = new THREE.MeshLambertMaterial({
-                    color: "red",
+                const createThreeboxObject = (obj: THREE.Mesh) => {
+                    obj = tb
+                        .Object3D({
+                            obj: cube,
+                            units: "meters"
+                        })
+                        .setCoords([-0.13553551042706385, 51.529638748668127]);
+
+                    tb.add(obj);
+                };
+
+                var geometry = new THREE.BoxGeometry(100, 100, 100);
+                var material = new THREE.MeshBasicMaterial({
+                    color: 0x6a0000,
                     transparent: true,
                     opacity: 0.8
                 });
-                
-                const mesh = new THREE.Mesh(geometry, material);
+                var cube = new THREE.Mesh(geometry, material);
 
-                // console.log(tb.Object3D);
-                
-                const obj = tb.Object3D({
-                    obj: mesh,
-                    units: "meters"
-                });
-
-                obj.setCoords([-0.13553551042706385, 51.529638748668127]);
-
-                // console.log(obj);
-
-
-                tb.add(obj);
+                createThreeboxObject(cube);
             },
 
-            render: () => {}
+            render: (gl, matrix) => {
+                tb.update();
+            }
         });
     };
 
