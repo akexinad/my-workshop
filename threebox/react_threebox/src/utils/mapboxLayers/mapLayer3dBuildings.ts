@@ -1,4 +1,4 @@
-export const layer3dBuidlings: mapboxgl.Layer = {
+export const mapLayer3dBuidlings: mapboxgl.Layer = {
   id: "3d-buildings",
   source: "composite",
   "source-layer": "building",
