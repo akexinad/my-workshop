@@ -1,12 +1,7 @@
 import React, { FC, useState, useRef, useEffect, Fragment } from "react";
 import mapboxgl from "mapbox-gl";
-// import * as THREE from "three";
 // @ts-ignore
 import { Threebox, THREE } from "threebox-map";
-// import { Threebox, THREE } from "threebox";
-// import * as Threebox from "threebox_ngx";
-// import { Threebox, THREE } from "../../utils/rhinoParser/threebox";
-// import { Threebox, THREE } from "../../utils/threebox/main";
 
 import COORDINATES from "../../data/mockCoordinates";
 import TOKENS from "../../utils/tokens";
@@ -53,7 +48,6 @@ const Mapbox: FC = () => {
                 map.resize();
                 //@ts-ignore
                 window.map = map;
-
             });
         };
 
@@ -80,7 +74,6 @@ const Mapbox: FC = () => {
             id: "threebox_layer",
             type: "custom",
             onAdd: (map, mbxContext) => {
-
                 tb = new Threebox(map, mbxContext, {
                     defaultLights: true
                 });
