@@ -17,6 +17,7 @@ const styles = {
 
 const Mapbox: FC = () => {
     const [map, setMap] = useState<mapboxgl.Map>(null);
+    const [mapLayer, setMapLayer] = useState(false);
     const mapContainer = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -46,19 +47,23 @@ const Mapbox: FC = () => {
         }
     }, [map]);
 
-    const addMapboxLayer = () => {
-        map.addLayer(layer3dBuidlings);
-    };
+    const toggleMapboxLayer = () => {
+        if (!mapLayer) {
+            setMapLayer(true);
+            map.addLayer(layer3dBuidlings);
+            return;
+        }
 
-    const removeMapboxLayer = () => {
+        setMapLayer(false);
         map.removeLayer(layer3dBuidlings.id);
     };
 
     return (
         <Fragment>
             <h2>Mapbox Component</h2>
-            <button onClick={addMapboxLayer}>ADD LAYER</button>
-            <button onClick={removeMapboxLayer}>REMOVE LAYER</button>
+            <button onClick={toggleMapboxLayer}>
+                {mapLayer ? "REMOVE LAYER" : "ADD LAYER"}
+            </button>
             <div style={styles} ref={el => (mapContainer.current = el)}></div>
         </Fragment>
     );
