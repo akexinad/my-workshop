@@ -12,24 +12,32 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 // import { EUSTON_DATA_191210 } from "../../data/191210_eustonData";
 
+declare global {
+    interface Window {
+        map: mapboxgl.Map
+        THREE: THREE
+    }
+}
+
 const styles = {
     width: "100vw",
     height: "100vh",
     margin: 0
 };
 
+window.THREE = THREE;
+
 const Mapbox: FC = () => {
     const mapContainer = useRef<HTMLDivElement>(null);
 
     const [map, setMap] = useState<mapboxgl.Map>(null);
     const [mapLayer, setMapLayer] = useState(false);
+    const [mapLayers, setMapLayers] = useState([]);
     // const [threebox, setThreebox] = useState(null);
     
     useEffect(() => {
         mapboxgl.accessToken = TOKENS.MAPBOX;
 
-        // @ts-ignore
-        window.THREE = THREE;
 
         const initializeMap = (
             setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map>>,
@@ -47,7 +55,6 @@ const Mapbox: FC = () => {
             map.on("load", () => {
                 setMap(map);
                 map.resize();
-                //@ts-ignore
                 window.map = map;
             });
         };
