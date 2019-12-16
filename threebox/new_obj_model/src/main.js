@@ -36,11 +36,11 @@ function addLayer() {
                     }
                 );
 
-                // const volumes = euston.buildVolumes("floors");
-                // createTBObject3D(volumes);
+                const volumes = euston.buildVolumes("floors");
+                createTBObject3D(volumes);
 
-                const site2 = euston.buildRegions("sites 2");
-                createTBObject3D(site2);
+                // const site2 = euston.buildRegions("sites 2");
+                // createTBObject3D(site2);
 
                 // const footprints = euston.buildRegions("building");
                 // createTBObject3D(footprints);
@@ -50,6 +50,8 @@ function addLayer() {
 
                 // console.log("tree:", tree);
                 // console.log("nodes:", nodes);
+
+                createTBObject3D(cube);
 
                 console.log(euston.renderedObjects);
             },

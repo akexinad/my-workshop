@@ -11,14 +11,11 @@
     "@types/node": "^12.12.17",
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
-    "@types/three": "^0.103.2",
     "mapbox-gl": "^1.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-mapbox-gl": "^4.8.1",
     "react-scripts": "3.3.0",
-    "three": "^0.111.0",
-    "threebox_ngx": "^1.2.5",
+    "threebox-map": "^0.1.2",
     "typescript": "^3.7.3"
   },
   "scripts": {
