@@ -22,7 +22,10 @@ const Mapbox: FC = () => {
     useEffect(() => {
         mapboxgl.accessToken = TOKENS.MAPBOX;
 
-        const initializeMap = ({ setMap, mapContainer }: any) => {
+        const initializeMap = (
+            setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map>>,
+            mapContainer: React.MutableRefObject<HTMLDivElement>
+        ) => {
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: "mapbox://styles/mapbox/dark-v10",
@@ -39,7 +42,7 @@ const Mapbox: FC = () => {
         };
 
         if (!map) {
-            initializeMap({ setMap, mapContainer });
+            initializeMap(setMap, mapContainer);
         }
     }, [map]);
 
