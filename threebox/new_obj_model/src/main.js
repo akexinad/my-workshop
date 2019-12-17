@@ -4,9 +4,10 @@ const EUSTON_PROJECT = EUSTON_DATA_191210;
 let tb;
 const euston = new Development(EUSTON_PROJECT);
 let selectBuilding = false;
-// console.log(EUSTON_PROJECT);
-// console.log(euston.nodeTree);
-// console.log(euston.sortedNodes);
+
+console.log(EUSTON_PROJECT);
+console.log(euston.nodeTree);
+console.log(euston.sortedNodes);
 
 const map = new mapboxgl.Map({
     container: 'map',
@@ -51,7 +52,7 @@ function addLayer() {
                 // console.log("tree:", tree);
                 // console.log("nodes:", nodes);
 
-                createTBObject3D(cube);
+                // createTBObject3D(cube);
 
                 console.log(euston.renderedObjects);
             },
