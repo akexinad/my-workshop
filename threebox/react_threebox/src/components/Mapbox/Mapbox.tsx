@@ -8,10 +8,8 @@ import TOKENS from "../../utils/tokens";
 import { mapLayer3dBuidlings } from "../../utils/mapBoxUtils/mapboxLayers/mapLayer3dBuildings";
 import { mapLayerThreebox } from "../../utils/mapBoxUtils/mapboxLayers/mapLayerthreebox";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { GeoJSONify } from "../../utils/mapBoxUtils/geoJSONify";
 
 // import { EUSTON_DATA_191210 } from "../../data/191210_eustonData";
-import { DATA_GEOJSON_ZONING_SANTA_CLARA } from "../../data/geoJSONZoningSantaClara";
 
 declare global {
     interface Window {
@@ -77,17 +75,9 @@ const Mapbox: FC = () => {
         mapLayerThreebox(map);
     };
 
-    const addZoningLayer = () => {
-        const geoJSON = new GeoJSONify(DATA_GEOJSON_ZONING_SANTA_CLARA);
-        geoJSON.layerListByBasezone.forEach(item => {
-            map.addLayer(item.layer);
-        });
-    };
-
     return (
         <Fragment>
             <h2>Mapbox Component</h2>
-            <button onClick={addZoningLayer}>ADD ZONING DATA</button>
             <button onClick={toggleMapboxLayer}>
                 {mapLayer ? "REMOVE LAYER" : "ADD LAYER"}
             </button>
