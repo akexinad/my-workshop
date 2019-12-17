@@ -1,21 +1,22 @@
 import React, { FC, useState, useRef, useEffect, Fragment } from "react";
 import mapboxgl from "mapbox-gl";
 // @ts-ignore
-import { Threebox, THREE } from "threebox-map";
+import { THREE } from "threebox-map";
 
 import COORDINATES from "../../data/mockCoordinates";
 import TOKENS from "../../utils/tokens";
-import { mapLayer3dBuidlings } from "../../utils/mapboxLayers/mapLayer3dBuildings";
-import { mapLayerThreebox } from "../../utils/mapboxLayers/mapLayerthreebox";
-
+import { mapLayer3dBuidlings } from "../../utils/mapBoxUtils/mapboxLayers/mapLayer3dBuildings";
+import { mapLayerThreebox } from "../../utils/mapBoxUtils/mapboxLayers/mapLayerthreebox";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { GeoJSONify } from "../../utils/mapBoxUtils/geoJSONify";
 
 // import { EUSTON_DATA_191210 } from "../../data/191210_eustonData";
+import { DATA_GEOJSON_ZONING_SANTA_CLARA } from "../../data/geoJSONZoningSantaClara";
 
 declare global {
     interface Window {
-        map: mapboxgl.Map
-        THREE: THREE
+        map: mapboxgl.Map;
+        THREE: THREE;
     }
 }
 
@@ -32,12 +33,9 @@ const Mapbox: FC = () => {
 
     const [map, setMap] = useState<mapboxgl.Map>(null);
     const [mapLayer, setMapLayer] = useState(false);
-    const [mapLayers, setMapLayers] = useState([]);
-    // const [threebox, setThreebox] = useState(null);
-    
+
     useEffect(() => {
         mapboxgl.accessToken = TOKENS.MAPBOX;
-
 
         const initializeMap = (
             setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map>>,
@@ -79,9 +77,17 @@ const Mapbox: FC = () => {
         mapLayerThreebox(map);
     };
 
+    const addZoningLayer = () => {
+        const geoJSON = new GeoJSONify(DATA_GEOJSON_ZONING_SANTA_CLARA);
+        geoJSON.layerListByBasezone.forEach((item) => {
+            map.addLayer(item.layer);
+        })
+    };
+
     return (
         <Fragment>
             <h2>Mapbox Component</h2>
+            <button onClick={addZoningLayer}>ADD ZONING DATA</button>
             <button onClick={toggleMapboxLayer}>
                 {mapLayer ? "REMOVE LAYER" : "ADD LAYER"}
             </button>
