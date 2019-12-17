@@ -111,9 +111,8 @@ export class GeoJSONify {
         const layersBybasezone: basezoneLayerItem[] = [];
 
         this.sourceListByBasezone.forEach((item: basezoneItem) => {
-
             let color = "#" + Math.floor(Math.random() * 999999);
-            
+
             layersBybasezone.push({
                 basezone: item.basezone,
                 layer: {

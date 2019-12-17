@@ -79,9 +79,9 @@ const Mapbox: FC = () => {
 
     const addZoningLayer = () => {
         const geoJSON = new GeoJSONify(DATA_GEOJSON_ZONING_SANTA_CLARA);
-        geoJSON.layerListByBasezone.forEach((item) => {
+        geoJSON.layerListByBasezone.forEach(item => {
             map.addLayer(item.layer);
-        })
+        });
     };
 
     return (
