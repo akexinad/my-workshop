@@ -11,17 +11,19 @@ let tb: any;
 let euston: RhinoBuilder;
 
 export const threebox = {
-    mapLayer: (
-        map: mapboxgl.Map,
-    ) => {
+    mapLayer: (map: mapboxgl.Map) => {
+        const layerId = "threebox_layer";
+
+        const currentLayer = map.getLayer(layerId);
+
+        if (currentLayer) {
+            map.removeLayer(layerId);
+        }
 
         map.addLayer({
-            id: "threebox_layer",
+            id: layerId,
             type: "custom",
-            onAdd: (
-                map: mapboxgl.Map,
-                mbxContext: WebGLRenderingContext
-            ) => {
+            onAdd: (map: mapboxgl.Map, mbxContext: WebGLRenderingContext) => {
                 tb = new Threebox(map, mbxContext, {
                     defaultLights: true
                 });
@@ -35,7 +37,9 @@ export const threebox = {
                         .setCoords(EUSTON_COORDINATES)
                         .set({
                             rotation: {
-                                x: 0, y: 0, z: 180
+                                x: 0,
+                                y: 0,
+                                z: 180
                             }
                         });
 
@@ -49,12 +53,11 @@ export const threebox = {
 
                 const floors = euston.buildVolumes("floor");
                 // const site = euston.buildRegions("site")
-                const footprint = euston.buildRegions("building")
+                // const footprint = euston.buildRegions("building")
 
                 createThreeboxObject(floors);
                 // createThreeboxObject(site);
-                createThreeboxObject(footprint);
-                // createThreeboxObject(cube);
+                // createThreeboxObject(footprint);
             },
 
             render: (gl, matrix) => {
@@ -63,31 +66,17 @@ export const threebox = {
         });
     },
 
-    raycaster: (map: mapboxgl.Map) => {
+    raycaster: (map: mapboxgl.Map, wantsBuilding: boolean) => {
         map.on("click", (e: mapboxgl.MapMouseEvent) => {
-            if (!tb) {
-                return;
-            }
+            if (!tb) return;
 
             const intersect = tb.queryRenderedFeatures(e.point);
 
+            if (intersect.length === 0) return;
+
             const selectedObject: Mesh = intersect[0].object;
-
-            console.log(selectedObject);
-
-
-            euston.selectObject(selectedObject, true);
-
-
-            // if (selectBuilding) {
-            //     euston.selectObject(selectedObject, selectBuilding);
-            // } else {
-            //     euston.selectObject(selectedObject, selectBuilding);
-            // }
-
+            euston.selectObject(selectedObject, wantsBuilding);
             map.repaint = true;
-
         });
     }
-
-}
+};

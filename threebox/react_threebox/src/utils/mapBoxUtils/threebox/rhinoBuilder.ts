@@ -12,9 +12,9 @@ import {
     IRootObject,
     INodeItemById,
     INode,
-    IMesh,
+    IMesh
 } from "./interfaces";
-import { groupNodesByType, mapNodesToTree } from "./dataHelperFunctions";
+import { groupNodesByType, mapNodesToTree } from "./nodeMappers";
 
 const GREEN = 0x2bb600;
 const RED = 0x6a0000;
@@ -111,7 +111,6 @@ export class Mesh extends THREE.Mesh {
         const { id, name, type, parent } = node;
         const zPosition = node.geometry.points[0].z;
 
-
         super(geometry, material);
 
         this.nodeContent = {
@@ -124,10 +123,8 @@ export class Mesh extends THREE.Mesh {
         this.material = material;
         // @ts-ignore
         this.position.set(0, 0, zPosition);
-
     }
 }
-
 
 export class RhinoBuilder {
     public data: IRootObject;
@@ -236,9 +233,7 @@ export class RhinoBuilder {
     }
 
     public repaint(renderedObjectsByType: THREE.Group) {
-        if (!this.renderedObjects) {
-            return;
-        }
+        if (!this.renderedObjects) return;
 
         renderedObjectsByType.children.forEach((child: Mesh) => {
             this.setHex(child, child.material.originalHex);
@@ -259,9 +254,7 @@ export class RhinoBuilder {
     public selectObject(object: IMesh, wantsBuilding: boolean): void {
         const type: IParentNodeContent["type"] = object.nodeContent.type;
 
-        if (type !== "region" && type !== "volume") {
-            return;
-        }
+        if (type !== "region" && type !== "volume") return;
 
         const renderedObjectsByType = this.renderedObjects[type];
 
@@ -271,7 +264,6 @@ export class RhinoBuilder {
         if (wantsBuilding) {
             // change colour of selected building
             renderedObjectsByType.children.filter((child: IMesh) => {
-
                 if (child.parentNode.name === object.parentNode.name) {
                     this.setOpacity(child, 0.8);
                     this.setHex(child, GREEN);
@@ -282,7 +274,6 @@ export class RhinoBuilder {
 
                 return renderedObjectsByType;
             });
-
         }
 
         object.material.color.setHex(GREEN);
