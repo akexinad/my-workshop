@@ -6,10 +6,8 @@ import { THREE } from "threebox-map";
 import COORDINATES from "../../data/mockCoordinates";
 import TOKENS from "../../utils/tokens";
 import { mapLayer3dBuidlings } from "../../utils/mapBoxUtils/mapboxLayers/mapLayer3dBuildings";
-import { mapLayerThreebox } from "../../utils/mapBoxUtils/mapboxLayers/mapLayerthreebox";
+import { threebox } from "../../utils/mapBoxUtils/threebox/threebox";
 import "mapbox-gl/dist/mapbox-gl.css";
-
-// import { EUSTON_DATA_191210 } from "../../data/191210_eustonData";
 
 declare global {
     interface Window {
@@ -52,6 +50,8 @@ const Mapbox: FC = () => {
                 setMap(map);
                 map.resize();
                 window.map = map;
+                
+                threebox.raycaster(map)
             });
         };
 
@@ -72,7 +72,7 @@ const Mapbox: FC = () => {
     };
 
     const addThreeboxLayer = () => {
-        mapLayerThreebox(map);
+        threebox.mapLayer(map);
     };
 
     return (
@@ -82,7 +82,7 @@ const Mapbox: FC = () => {
                 {mapLayer ? "REMOVE LAYER" : "ADD LAYER"}
             </button>
             <button onClick={addThreeboxLayer}>ADD MODEL</button>
-            <div style={styles} ref={el => (mapContainer.current = el)}></div>
+            <div style={styles} ref={el => (mapContainer.current = el)} />
         </Fragment>
     );
 };

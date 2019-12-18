@@ -133,7 +133,7 @@ class Development {
         });
 
         function recurseNodeMapping(node, parentDetails) {
-            let nodeContent = {
+            let nodeBranch = {
                 id: null,
                 name: null,
                 type: null,
@@ -152,45 +152,45 @@ class Development {
             if (groupByGroupId) {
                 const { id, name } = groupByGroupId;
                 
-                nodeContent.id = id;
-                nodeContent.name = name.toLowerCase();
-                nodeContent.type = 'group';
+                nodeBranch.id = id;
+                nodeBranch.name = name.toLowerCase();
+                nodeBranch.type = 'group';
                 
                 parent = {
                     id,
                     name: name.toLowerCase(),
-                    type: nodeContent.type
+                    type: nodeBranch.type
                 }
             } if (regionByRegionId) {
                 const { id, name, oliveGeometry } = regionByRegionId;
                 
-                nodeContent.id = id;
-                nodeContent.name = name.toLowerCase();
-                nodeContent.type = 'region',
-                nodeContent.geometry = JSON.parse(oliveGeometry);
+                nodeBranch.id = id;
+                nodeBranch.name = name.toLowerCase();
+                nodeBranch.type = 'region',
+                nodeBranch.geometry = JSON.parse(oliveGeometry);
 
                 parent = {
                     id,
                     name: name.toLowerCase(),
-                    type: nodeContent.type
+                    type: nodeBranch.type
                 }
             } if (volumeByVolumeId) {
                 const { id, name, oliveGeometry } = volumeByVolumeId;
 
-                nodeContent.id = id;
-                nodeContent.name = name.toLowerCase();
-                nodeContent.type = 'volume';
-                nodeContent.geometry = JSON.parse(oliveGeometry);
+                nodeBranch.id = id;
+                nodeBranch.name = name.toLowerCase();
+                nodeBranch.type = 'volume';
+                nodeBranch.geometry = JSON.parse(oliveGeometry);
 
                 parent = {
                     id,
                     name: name.toLowerCase(),
-                    type: nodeContent.type
+                    type: nodeBranch.type
                 }
             }
 
             return {
-                ...nodeContent,
+                ...nodeBranch,
                 nodes: node.nodeItemsByParentNodeId ? 
                         node.nodeItemsByParentNodeId.nodes.map(node => recurseNodeMapping(node, parent)) : null
             }
@@ -338,13 +338,13 @@ class Development {
         return object;
     }
     
-    selectObject(object, selectObjectFlag) {
+    selectObject(object, wantsBuilding) {
         const renderedObjectsByType = this.renderedObjects[object.nodeContent.type];
         
         this.repaint(renderedObjectsByType);
 
         // if user wants to select an entire building.
-        if (selectObjectFlag) {
+        if (wantsBuilding) {
             renderedObjectsByType.children.filter(child => {
                 if (child.parentNode.name === object.parentNode.name) {
                     this.setOpacity(child, 0.8);

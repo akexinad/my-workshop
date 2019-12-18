@@ -6,8 +6,8 @@ const euston = new Development(EUSTON_PROJECT);
 let selectBuilding = false;
 
 console.log(EUSTON_PROJECT);
-console.log(euston.nodeTree);
-console.log(euston.sortedNodes);
+console.log("nodeTree: ", euston.nodeTree);
+console.log("sortedNodes: ", euston.sortedNodes);
 
 const map = new mapboxgl.Map({
     container: 'map',
