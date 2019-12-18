@@ -166,7 +166,7 @@ class Development {
                 
                 nodeBranch.id = id;
                 nodeBranch.name = name.toLowerCase();
-                nodeBranch.type = 'region',
+                nodeBranch.type = 'region';
                 nodeBranch.geometry = JSON.parse(oliveGeometry);
 
                 parent = {

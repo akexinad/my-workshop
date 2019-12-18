@@ -1,5 +1,6 @@
 // @ts-ignore
 import { THREE } from "threebox-map";
+import { Vector3 } from "./rhinoBuilder";
 
 /***************************************************************** */
 /***************** THE DATA MODEL **********************************/
@@ -118,12 +119,10 @@ export interface IMaterial extends THREE.Material {
     color?: {
         setHex: (color: number) => void;
     }
+    opacity: number;
 }
 
 export interface IMesh extends THREE.Mesh  {
-    position: {
-        set: (x: number, y: number, z: number) => void;
-    }
     material: IMaterial;
     nodeContent: IParentNodeContent;
     parentNode: IParentNodeContent;
