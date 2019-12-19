@@ -1,6 +1,6 @@
 // @ts-ignore
 import { THREE } from "threebox-map";
-import { Vector3 } from "./rhinoBuilder";
+import { RhinoBuilder } from "./rhinoBuilder";
 
 /***************************************************************** */
 /***************** THE DATA MODEL **********************************/
@@ -127,3 +127,12 @@ export interface IMesh extends THREE.Mesh  {
     nodeContent: IParentNodeContent;
     parentNode: IParentNodeContent;
 }
+
+// export interface IThreebox {
+//     map: mapboxgl.Map;
+//     instance: any;
+//     euston: RhinoBuilder;
+//     init: (map: mapboxgl.Map) => void;
+//     addLayer: (map: mapboxgl.Map) => void;
+//     raycaster: (wantsBuilding: boolean) => void;
+// }

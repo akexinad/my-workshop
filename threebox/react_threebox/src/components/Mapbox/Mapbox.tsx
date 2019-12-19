@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect, Fragment } from "react";
+import React, { FC, useState, useEffect, Fragment } from "react";
 import mapboxgl from "mapbox-gl";
 // @ts-ignore
 import { THREE } from "threebox-map";
@@ -6,7 +6,9 @@ import { THREE } from "threebox-map";
 import COORDINATES from "../../data/mockCoordinates";
 import TOKENS from "../../utils/tokens";
 import { mapLayer3dBuidlings } from "../../utils/mapBoxUtils/mapboxLayers/mapLayer3dBuildings";
-import { threebox } from "../../utils/mapBoxUtils/threebox/threebox";
+import { EUSTON_DATA_191210 } from "../../data/191210_eustonData";
+import { RhinoToMap } from "../../utils/mapBoxUtils/threeboxUtils/rhino2Map";
+
 import "mapbox-gl/dist/mapbox-gl.css";
 
 declare global {
@@ -28,23 +30,30 @@ const Mapbox: FC = () => {
     const [map, setMap] = useState<mapboxgl.Map>(null);
     const [mapLayer, setMapLayer] = useState(false);
     const [highlightBuilding, setHighlightBuilding] = useState(false);
+    const [rhino2Map, setRhino2Map] = useState(null);
 
     useEffect(() => {
         mapboxgl.accessToken = TOKENS.MAPBOX;
 
+        const initializeRhino2Map = () => {
+            const rhino2Map = new RhinoToMap(map, EUSTON_DATA_191210);
+            setRhino2Map(rhino2Map);
+        }
+        
         if (!map) {
-            initializeMap(setMap);
+            initializeMap();
             return;
         }
 
-        console.log(highlightBuilding);
+        if (!rhino2Map) {
+            initializeRhino2Map();
+            return;
+        }
 
-        threebox.raycaster(map, highlightBuilding);
-    }, [map, highlightBuilding]);
+        rhino2Map.raycaster(highlightBuilding);
+    }, [map, rhino2Map, highlightBuilding]);
 
-    const initializeMap = (
-        setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map>>
-    ) => {
+    const initializeMap = () => {
         const map = new mapboxgl.Map({
             container: "map",
             style: "mapbox://styles/mapbox/dark-v10",
@@ -63,8 +72,8 @@ const Mapbox: FC = () => {
 
     const _handleMapboxLayerToggle = () => {
         if (!mapLayer) {
-            setMapLayer(true);
             map.addLayer(mapLayer3dBuidlings);
+            setMapLayer(true);
             return;
         }
 
@@ -73,7 +82,7 @@ const Mapbox: FC = () => {
     };
 
     const _handleThreeboxLayer = () => {
-        threebox.mapLayer(map);
+        rhino2Map.addLayer(map);
     };
 
     const _handleHighlightBuildingToggle = () => {
