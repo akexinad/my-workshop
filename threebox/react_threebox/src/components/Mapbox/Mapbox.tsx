@@ -38,8 +38,8 @@ const Mapbox: FC = () => {
         const initializeRhino2Map = () => {
             const rhino2Map = new RhinoToMap(map, EUSTON_DATA_191210);
             setRhino2Map(rhino2Map);
-        }
-        
+        };
+
         if (!map) {
             initializeMap();
             return;

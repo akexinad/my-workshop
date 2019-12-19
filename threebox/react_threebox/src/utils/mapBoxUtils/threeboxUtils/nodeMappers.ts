@@ -1,6 +1,17 @@
-import { INode, IParentNodeContent, INodeBranch, IGroupByGroupId, IRegionByRegionId, IVolumeByVolumeId, ISortedNodes } from "./interfaces";
+import {
+    INode,
+    IParentNodeContent,
+    INodeBranch,
+    IGroupByGroupId,
+    IRegionByRegionId,
+    IVolumeByVolumeId,
+    ISortedNodes
+} from "./interfaces";
 
-export const mapNodesToTree = (node: INode, parentDetails: IParentNodeContent): INodeBranch => {
+export const mapNodesToTree = (
+    node: INode,
+    parentDetails: IParentNodeContent
+): INodeBranch => {
     let nodeBranch: INodeBranch = {
         id: null,
         name: null,
@@ -23,61 +34,52 @@ export const mapNodesToTree = (node: INode, parentDetails: IParentNodeContent): 
 
         nodeBranch.id = id;
         nodeBranch.name = name.toLowerCase();
-        nodeBranch.type = 'group';
+        nodeBranch.type = "group";
 
         parent = {
             id,
             name: name.toLowerCase(),
             type: nodeBranch.type
-        }
+        };
     }
     if (regionByRegionId) {
-        const {
-            id,
-            name,
-            oliveGeometry
-        }: IRegionByRegionId = regionByRegionId;
+        const { id, name, oliveGeometry }: IRegionByRegionId = regionByRegionId;
 
         nodeBranch.id = id;
         nodeBranch.name = name.toLowerCase();
-        nodeBranch.type = 'region';
+        nodeBranch.type = "region";
         nodeBranch.geometry = JSON.parse(oliveGeometry);
 
         parent = {
             id,
             name: name.toLowerCase(),
             type: nodeBranch.type
-        }
+        };
     }
     if (volumeByVolumeId) {
-        const {
-            id,
-            name,
-            oliveGeometry
-        }: IVolumeByVolumeId = volumeByVolumeId;
+        const { id, name, oliveGeometry }: IVolumeByVolumeId = volumeByVolumeId;
 
         nodeBranch.id = id;
         nodeBranch.name = name.toLowerCase();
-        nodeBranch.type = 'volume';
+        nodeBranch.type = "volume";
         nodeBranch.geometry = JSON.parse(oliveGeometry);
 
         parent = {
             id,
             name: name.toLowerCase(),
             type: nodeBranch.type
-        }
+        };
     }
-
 
     return {
         ...nodeBranch,
         nodes: node.nodeItemsByParentNodeId
             ? node.nodeItemsByParentNodeId.nodes.map(node =>
-                mapNodesToTree(node, parent)
-            )
+                  mapNodesToTree(node, parent)
+              )
             : null
     };
-}
+};
 
 export const groupNodesByType = (nodeTree: INodeBranch[]): ISortedNodes => {
     const sortedNodesByType: ISortedNodes = {
@@ -132,4 +134,4 @@ export const groupNodesByType = (nodeTree: INodeBranch[]): ISortedNodes => {
     recurseNodeGrouping(nodeTree);
 
     return sortedNodesByType;
-}
+};
