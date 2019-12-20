@@ -29,21 +29,22 @@ window.THREE = THREE;
 const Mapbox: FC = () => {
     const [map, setMap] = useState<mapboxgl.Map>(null);
     const [mapLayer, setMapLayer] = useState(false);
+    const [modelExists, setModelExists] = useState(false);
     const [highlightBuilding, setHighlightBuilding] = useState(false);
     const [rhino2Map, setRhino2Map] = useState(null);
 
     useEffect(() => {
         mapboxgl.accessToken = TOKENS.MAPBOX;
 
-        const initializeRhino2Map = () => {
-            const rhino2Map = new RhinoToMap(map, EUSTON_DATA_191210);
-            setRhino2Map(rhino2Map);
-        };
-
         if (!map) {
             initializeMap();
             return;
         }
+
+        const initializeRhino2Map = () => {
+            const rhino2Map = new RhinoToMap(map, EUSTON_DATA_191210);
+            setRhino2Map(rhino2Map);
+        };
 
         if (!rhino2Map) {
             initializeRhino2Map();
@@ -82,7 +83,12 @@ const Mapbox: FC = () => {
     };
 
     const _handleThreeboxLayer = () => {
-        rhino2Map.addLayer(map);
+        if (modelExists) {
+
+        }
+
+        rhino2Map.addLayer();
+        setModelExists(true);
     };
 
     const _handleHighlightBuildingToggle = () => {
@@ -91,9 +97,16 @@ const Mapbox: FC = () => {
             : setHighlightBuilding(true);
     };
 
+    const _handleGetLayers = () => {
+
+    }
+
     return (
         <Fragment>
             <h2>Mapbox Component</h2>
+            <button onClick={ _handleGetLayers }>
+                GET LAYERS
+            </button>
             <button onClick={_handleMapboxLayerToggle}>
                 {mapLayer
                     ? "Hide Exsting Developments"
@@ -102,7 +115,9 @@ const Mapbox: FC = () => {
             <button onClick={_handleHighlightBuildingToggle}>
                 {highlightBuilding ? "SELECT FLOOR" : "SELECT BUILDING"}
             </button>
-            <button onClick={_handleThreeboxLayer}>ADD MODEL</button>
+            <button onClick={_handleThreeboxLayer}>
+                {modelExists ? "REMOVE MODEL" : "ADD MODEL"}
+            </button>
             <div style={styles} id="map" />
         </Fragment>
     );

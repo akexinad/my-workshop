@@ -12,9 +12,11 @@ import {
     IRootObject,
     INodeItemById,
     INode,
-    IMesh
+    IMesh,
+    IGroupByGroupId,
+    IRegionByRegionId,
+    IVolumeByVolumeId
 } from "./interfaces";
-import { groupNodesByType, mapNodesToTree } from "./nodeMappers";
 
 const GREEN = 0x2bb600;
 const RED = 0x6a0000;
@@ -133,7 +135,7 @@ export class RhinoBuilder {
         REGION: "regionCollection"
     };
     public nodeTree: INodeBranch[];
-    public sortedNodes: ISortedNodes;
+    public groupedNodesByType: ISortedNodes;
     public renderedObjects: IRenderedObjects = {
         volume: null,
         region: null
@@ -141,12 +143,11 @@ export class RhinoBuilder {
 
     constructor(rootData: IRootObject) {
         this.data = rootData;
-
-        this.nodeTree = this.mapNodes();
-        this.sortedNodes = groupNodesByType(this.nodeTree);
+        this.nodeTree = this.setNodeTree();
+        this.groupedNodesByType = this.setGroupedNodesByType();
     }
 
-    private mapNodes(): INodeBranch[] {
+    private setNodeTree(): INodeBranch[] {
         const nodeTree: INodeBranch[] = [];
         const masterNode: INodeItemById = this.data.data.nodeItemById;
 
@@ -159,15 +160,140 @@ export class RhinoBuilder {
             type: "group"
         };
 
+        const recurseNodeMapping = (node: INode, parentDetails: IParentNodeContent): INodeBranch => {
+            let nodeBranch: INodeBranch = {
+                id: null,
+                name: null,
+                type: null,
+                parent: parentDetails,
+                geometry: null,
+                nodes: null
+            };
+        
+            let parent: IParentNodeContent = {
+                id: null,
+                name: null,
+                type: null
+            };
+        
+            const { groupByGroupId, regionByRegionId, volumeByVolumeId } = node;
+        
+            if (groupByGroupId) {
+                const { id, name }: IGroupByGroupId = groupByGroupId;
+        
+                nodeBranch.id = id;
+                nodeBranch.name = name.toLowerCase();
+                nodeBranch.type = "group";
+        
+                parent = {
+                    id,
+                    name: name.toLowerCase(),
+                    type: nodeBranch.type
+                };
+            }
+            if (regionByRegionId) {
+                const { id, name, oliveGeometry }: IRegionByRegionId = regionByRegionId;
+        
+                nodeBranch.id = id;
+                nodeBranch.name = name.toLowerCase();
+                nodeBranch.type = "region";
+                nodeBranch.geometry = JSON.parse(oliveGeometry);
+        
+                parent = {
+                    id,
+                    name: name.toLowerCase(),
+                    type: nodeBranch.type
+                };
+            }
+            if (volumeByVolumeId) {
+                const { id, name, oliveGeometry }: IVolumeByVolumeId = volumeByVolumeId;
+        
+                nodeBranch.id = id;
+                nodeBranch.name = name.toLowerCase();
+                nodeBranch.type = "volume";
+                nodeBranch.geometry = JSON.parse(oliveGeometry);
+        
+                parent = {
+                    id,
+                    name: name.toLowerCase(),
+                    type: nodeBranch.type
+                };
+            }
+        
+            return {
+                ...nodeBranch,
+                nodes: node.nodeItemsByParentNodeId
+                    ? node.nodeItemsByParentNodeId.nodes.map(node =>
+                          recurseNodeMapping(node, parent)
+                      )
+                    : null
+            };
+        }
+
         nodeTree.push({
             id,
             name: name.toLowerCase(),
             type: "group",
             geometry: null,
-            nodes: childNodes.map(node => mapNodesToTree(node, parent))
+            nodes: childNodes.map(node => recurseNodeMapping(node, parent))
         });
 
         return nodeTree;
+    }
+
+    private setGroupedNodesByType() {
+        const sortedNodesByType: ISortedNodes = {
+            groups: [],
+            regions: [],
+            volumes: []
+        };
+
+        function recurseNodeGrouping(nodeTree: INodeBranch[]) {
+            nodeTree.forEach((node: INodeBranch) => {
+                const { id, name, type, parent, geometry } = node;
+
+                switch (type) {
+                    case "group":
+                        sortedNodesByType.groups.push({
+                            id,
+                            name,
+                            type,
+                            parent
+                        });
+                        break;
+                    case "region":
+                        sortedNodesByType.regions.push({
+                            id,
+                            name,
+                            type,
+                            parent,
+                            geometry
+                        });
+                        break;
+                    case "volume":
+                        sortedNodesByType.volumes.push({
+                            id,
+                            name,
+                            type,
+                            parent,
+                            geometry
+                        });
+                        break;
+                    default:
+                        break;
+                }
+
+                if (!node.nodes) {
+                    return;
+                }
+
+                recurseNodeGrouping(node.nodes);
+            });
+        }
+
+        recurseNodeGrouping(this.nodeTree);
+
+        return sortedNodesByType;
     }
 
     private createGroup(name: string) {
@@ -181,7 +307,7 @@ export class RhinoBuilder {
     public buildVolumes(volumeName: string) {
         const groupOfVolumeMesh = this.createGroup(this.classifications.VOLUME);
 
-        const filteredVolumes = this.sortedNodes.volumes.filter(volume => {
+        const filteredVolumes = this.groupedNodesByType.volumes.filter(volume => {
             return volume.name.includes(volumeName);
         });
 
@@ -206,7 +332,7 @@ export class RhinoBuilder {
     buildRegions(regionName: string) {
         const groupOfRegionMesh = this.createGroup(this.classifications.REGION);
 
-        const filteredRegions = this.sortedNodes.regions.filter(region => {
+        const filteredRegions = this.groupedNodesByType.regions.filter(region => {
             return region.name.includes(regionName);
         });
 

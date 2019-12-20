@@ -12,32 +12,35 @@ export class RhinoToMap {
     public map: mapboxgl.Map;
     public data: IRootObject;
     public masterPlan: RhinoBuilder;
+    public layerId = "threebox_layer";
 
     constructor(map: mapboxgl.Map, data: IRootObject) {
         this.map = map;
         this.data = data;
         this.masterPlan = new RhinoBuilder(this.data);
+
+        const canvas = this.map.getCanvas();
+        const gl = canvas.getContext("webgl");
+
+        this.tb = new Threebox(this.map, gl, { defaultLights: true });
     }
 
-    public addLayer = (map: mapboxgl.Map) => {
-        const layerId = "threebox_layer";
-        const currentLayer = map.getLayer(layerId);
+    public addLayer = () => {
+        const currentLayer = this.map.getLayer(this.layerId);
 
         if (currentLayer) {
-            map.removeLayer(layerId);
+            this.map.removeLayer(this.layerId);
         }
 
-        map.addLayer({
-            id: layerId,
+        this.map.addLayer({
+            id: this.layerId,
             type: "custom",
-            onAdd: (map: mapboxgl.Map, mbxContext: WebGLRenderingContext) => {
-                this.tb = new Threebox(map, mbxContext, {
-                    defaultLights: true
-                });
+            onAdd: () => {
+                // this.tb = new Threebox(map, mbxContext, {
+                //     defaultLights: true
+                // });
 
-                console.log(this.tb);
-
-                const createThreeboxObject = (obj: THREE.Mesh) => {
+                const createThreeboxObject = (obj: THREE.Group) => {
                     obj = this.tb
                         .Object3D({
                             obj,
@@ -58,7 +61,7 @@ export class RhinoToMap {
                 // threebox.euston = new RhinoBuilder(EUSTON_DATA_191210);
 
                 console.log(this.masterPlan.nodeTree);
-                console.log(this.masterPlan.sortedNodes);
+                console.log(this.masterPlan.groupedNodesByType);
 
                 const floors = this.masterPlan.buildVolumes("floor");
                 // const site = euston.buildRegions("site")
@@ -69,11 +72,15 @@ export class RhinoToMap {
                 // createThreeboxObject(footprint);
             },
 
-            render: (gl, matrix) => {
+            render: () => {
                 this.tb.update();
             }
         });
     };
+
+    public removeLayer() {
+        this.map.getLayer(this.layerId)
+    }
 
     public raycaster = (wantsBuilding: boolean) => {
         if (!this.map) return;
