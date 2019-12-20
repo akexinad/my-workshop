@@ -10,6 +10,8 @@ import { EUSTON_DATA_191210 } from "../../data/191210_eustonData";
 import { RhinoToMap } from "../../utils/mapBoxUtils/threeboxUtils/rhino2Map";
 
 import "mapbox-gl/dist/mapbox-gl.css";
+import "./Mapbox.css";
+import { IRhinoToMap } from "../../utils/mapBoxUtils/threeboxUtils/interfaces";
 
 declare global {
     interface Window {
@@ -17,12 +19,6 @@ declare global {
         THREE: THREE;
     }
 }
-
-const styles = {
-    width: "100vw",
-    height: "100vh",
-    margin: 0
-};
 
 window.THREE = THREE;
 
@@ -42,7 +38,7 @@ const Mapbox: FC = () => {
         }
 
         const initializeRhino2Map = () => {
-            const rhino2Map = new RhinoToMap(map, EUSTON_DATA_191210);
+            const rhino2Map: IRhinoToMap = new RhinoToMap(map, EUSTON_DATA_191210);
             setRhino2Map(rhino2Map);
         };
 
@@ -84,7 +80,6 @@ const Mapbox: FC = () => {
 
     const _handleThreeboxLayer = () => {
         if (modelExists) {
-
         }
 
         rhino2Map.addLayer();
@@ -97,16 +92,12 @@ const Mapbox: FC = () => {
             : setHighlightBuilding(true);
     };
 
-    const _handleGetLayers = () => {
-
-    }
+    const _handleGetLayers = () => {};
 
     return (
         <Fragment>
             <h2>Mapbox Component</h2>
-            <button onClick={ _handleGetLayers }>
-                GET LAYERS
-            </button>
+            <button onClick={_handleGetLayers}>GET LAYERS</button>
             <button onClick={_handleMapboxLayerToggle}>
                 {mapLayer
                     ? "Hide Exsting Developments"
@@ -121,6 +112,13 @@ const Mapbox: FC = () => {
             <div style={styles} id="map" />
         </Fragment>
     );
+};
+
+const styles = {
+    cursor: "pointer",
+    width: "100vw",
+    height: "100vh",
+    margin: 0
 };
 
 export default Mapbox;

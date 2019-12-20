@@ -1,5 +1,5 @@
 // @ts-ignore
-import { THREE } from "threebox-map";
+import { Threebox, THREE } from "threebox-map";
 
 /***************************************************************** */
 /***************** THE DATA MODEL **********************************/
@@ -60,16 +60,16 @@ export interface IGroupByGroupId {
 /********************* THE NODE TREE ************************ */
 /************************************************************ */
 
-export interface INodeBranch {
+export interface INodeTree {
     id: string;
     name: string;
     type: "group" | "region" | "volume";
-    geometry: IOliveGeometry;
-    nodes: INodeBranch[];
-    parent?: IParentNodeContent;
+    geometry: IGeometryData;
+    nodes: INodeTree[];
+    parent?: INodeContent;
 }
 
-export interface IOliveGeometry {
+export interface IGeometryData {
     count: number;
     holes: IPoint[];
     holesCount: number;
@@ -84,17 +84,18 @@ export interface IPoint {
     srid: number;
 }
 
-export interface IParentNodeContent {
+export interface INodeContent {
     id: string;
     name: string;
     type: "group" | "region" | "volume";
+    parent: INodeContent;
 }
 
 /************************************************************ */
 /*********** SORTED NODES *********************************** */
 /************************************************************ */
 
-export interface ISortedNodes {
+export interface IGroupedNodesByType {
     groups: ISortedNodeContent[];
     regions: ISortedNodeContent[];
     volumes: ISortedNodeContent[];
@@ -104,13 +105,13 @@ export interface ISortedNodeContent {
     id: string;
     name: string;
     type: "group" | "region" | "volume";
-    parent?: IParentNodeContent;
-    geometry?: IOliveGeometry;
+    parent?: INodeContent;
+    geometry?: IGeometryData;
 }
 
 export interface IRenderedObjects {
-    volume?: THREE.Group;
-    region?: THREE.Group;
+    volume: THREE.Group;
+    region: THREE.Group;
 }
 
 export interface IMaterial extends THREE.Material {
@@ -123,15 +124,33 @@ export interface IMaterial extends THREE.Material {
 
 export interface IMesh extends THREE.Mesh {
     material: IMaterial;
-    nodeContent: IParentNodeContent;
-    parentNode: IParentNodeContent;
+    nodeContent: INodeContent;
 }
 
-// export interface IThreebox {
-//     map: mapboxgl.Map;
-//     instance: any;
-//     euston: RhinoBuilder;
-//     init: (map: mapboxgl.Map) => void;
-//     addLayer: (map: mapboxgl.Map) => void;
-//     raycaster: (wantsBuilding: boolean) => void;
-// }
+export interface IRhinoBuilder {
+    data: IRootObject;
+    nodeTree: INodeTree[];
+    groupedNodesByType: IGroupedNodesByType;
+    renderedObjects: IRenderedObjects;
+
+    // setNodeTree: () => INodeTree[];
+    // setGroupedNodesByType: () => IGroupedNodesByType;
+    // createGroup: (name: string) => THREE.Group;
+    buildVolumes: (volumeName: string) => THREE.Group;
+    buildRegions: (regionName: string) => THREE.Group;
+    repaint: (renderedObjectsByType: IRenderedObjects["region"] | IRenderedObjects["volume"]) => void;
+    // setHex: (object: IMesh, color: number) => IMesh;
+    // setOpacity: (object: IMesh, opacity: number) => IMesh;
+    selectObject: (object: IMesh, wantsBuilding: boolean) => void; 
+}
+
+export interface IRhinoToMap {
+    tb: Threebox;
+    map: mapboxgl.Map;
+    data: IRootObject;
+    masterPlan: IRhinoBuilder;
+    layerId: mapboxgl.Layer["id"];
+    addLayer: () => void;
+    removeLayer: () => void;
+    raycaster: (wantsBuilding: boolean) => void;
+}

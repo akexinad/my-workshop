@@ -3,11 +3,11 @@
 import { THREE } from "threebox-map";
 import {
     IPoint,
-    IOliveGeometry,
-    IParentNodeContent,
-    INodeBranch,
+    IGeometryData,
+    INodeContent,
+    INodeTree,
     ISortedNodeContent,
-    ISortedNodes,
+    IGroupedNodesByType,
     IRenderedObjects,
     IRootObject,
     INodeItemById,
@@ -58,7 +58,7 @@ class Geometry extends THREE.ExtrudeBufferGeometry {
     public vector2Array: Vector2[];
     public vector3Array: Vector3[];
 
-    constructor(geometry: IOliveGeometry) {
+    constructor(geometry: IGeometryData) {
         const vector2Array: Vector2[] = [];
         const vector3Array: Vector3[] = [];
 
@@ -101,8 +101,7 @@ class Material extends THREE.MeshLambertMaterial {
 }
 
 export class Mesh extends THREE.Mesh {
-    public parentNode: IParentNodeContent;
-    public nodeContent: IParentNodeContent;
+    public nodeContent: INodeContent;
     public material: Material;
 
     constructor(
@@ -118,10 +117,10 @@ export class Mesh extends THREE.Mesh {
         this.nodeContent = {
             id,
             name,
-            type
+            type,
+            parent
         };
 
-        this.parentNode = parent;
         this.material = material;
         // @ts-ignore
         this.position.set(0, 0, zPosition);
@@ -130,16 +129,12 @@ export class Mesh extends THREE.Mesh {
 
 export class RhinoBuilder {
     public data: IRootObject;
-    public classifications = {
-        VOLUME: "volumeCollection",
-        REGION: "regionCollection"
-    };
-    public nodeTree: INodeBranch[];
-    public groupedNodesByType: ISortedNodes;
+    public nodeTree: INodeTree[];
+    public groupedNodesByType: IGroupedNodesByType;
     public renderedObjects: IRenderedObjects = {
         volume: null,
         region: null
-    };
+    }
 
     constructor(rootData: IRootObject) {
         this.data = rootData;
@@ -147,21 +142,22 @@ export class RhinoBuilder {
         this.groupedNodesByType = this.setGroupedNodesByType();
     }
 
-    private setNodeTree(): INodeBranch[] {
-        const nodeTree: INodeBranch[] = [];
+    private setNodeTree(): INodeTree[] {
+        const nodeTree: INodeTree[] = [];
         const masterNode: INodeItemById = this.data.data.nodeItemById;
 
         const { id, name } = masterNode.groupByGroupId;
         const childNodes: INode[] = masterNode.nodeItemsByParentNodeId.nodes;
 
-        const parent: IParentNodeContent = {
+        const parent: INodeContent = {
             id,
             name: name.toLowerCase(),
-            type: "group"
+            type: "group",
+            parent: null
         };
 
-        const recurseNodeMapping = (node: INode, parentDetails: IParentNodeContent): INodeBranch => {
-            let nodeBranch: INodeBranch = {
+        const recurseNodeMapping = (node: INode, parentDetails: INodeContent): INodeTree => {
+            let nodeBranch: INodeTree = {
                 id: null,
                 name: null,
                 type: null,
@@ -170,10 +166,11 @@ export class RhinoBuilder {
                 nodes: null
             };
         
-            let parent: IParentNodeContent = {
+            let parent: INodeContent = {
                 id: null,
                 name: null,
-                type: null
+                type: null,
+                parent: parentDetails
             };
         
             const { groupByGroupId, regionByRegionId, volumeByVolumeId } = node;
@@ -188,7 +185,8 @@ export class RhinoBuilder {
                 parent = {
                     id,
                     name: name.toLowerCase(),
-                    type: nodeBranch.type
+                    type: nodeBranch.type,
+                    parent: parentDetails
                 };
             }
             if (regionByRegionId) {
@@ -202,7 +200,8 @@ export class RhinoBuilder {
                 parent = {
                     id,
                     name: name.toLowerCase(),
-                    type: nodeBranch.type
+                    type: nodeBranch.type,
+                    parent: parentDetails
                 };
             }
             if (volumeByVolumeId) {
@@ -216,7 +215,8 @@ export class RhinoBuilder {
                 parent = {
                     id,
                     name: name.toLowerCase(),
-                    type: nodeBranch.type
+                    type: nodeBranch.type,
+                    parent: parentDetails
                 };
             }
         
@@ -242,19 +242,19 @@ export class RhinoBuilder {
     }
 
     private setGroupedNodesByType() {
-        const sortedNodesByType: ISortedNodes = {
+        const groupedNodesByType: IGroupedNodesByType = {
             groups: [],
             regions: [],
             volumes: []
         };
 
-        function recurseNodeGrouping(nodeTree: INodeBranch[]) {
-            nodeTree.forEach((node: INodeBranch) => {
+        function recurseNodeGrouping(nodeTree: INodeTree[]) {
+            nodeTree.forEach((node: INodeTree) => {
                 const { id, name, type, parent, geometry } = node;
 
                 switch (type) {
                     case "group":
-                        sortedNodesByType.groups.push({
+                        groupedNodesByType.groups.push({
                             id,
                             name,
                             type,
@@ -262,7 +262,7 @@ export class RhinoBuilder {
                         });
                         break;
                     case "region":
-                        sortedNodesByType.regions.push({
+                        groupedNodesByType.regions.push({
                             id,
                             name,
                             type,
@@ -271,7 +271,7 @@ export class RhinoBuilder {
                         });
                         break;
                     case "volume":
-                        sortedNodesByType.volumes.push({
+                        groupedNodesByType.volumes.push({
                             id,
                             name,
                             type,
@@ -293,19 +293,17 @@ export class RhinoBuilder {
 
         recurseNodeGrouping(this.nodeTree);
 
-        return sortedNodesByType;
+        return groupedNodesByType;
     }
 
     private createGroup(name: string) {
         const group = new THREE.Group();
-
-        group.name = name;
-
+        group.name = `${ name }_collection`;
         return group;
     }
 
     public buildVolumes(volumeName: string) {
-        const groupOfVolumeMesh = this.createGroup(this.classifications.VOLUME);
+        const groupOfVolumeMesh = this.createGroup(volumeName);
 
         const filteredVolumes = this.groupedNodesByType.volumes.filter(volume => {
             return volume.name.includes(volumeName);
@@ -330,7 +328,7 @@ export class RhinoBuilder {
     }
 
     buildRegions(regionName: string) {
-        const groupOfRegionMesh = this.createGroup(this.classifications.REGION);
+        const groupOfRegionMesh = this.createGroup(regionName);
 
         const filteredRegions = this.groupedNodesByType.regions.filter(region => {
             return region.name.includes(regionName);
@@ -378,7 +376,7 @@ export class RhinoBuilder {
     }
 
     public selectObject(object: IMesh, wantsBuilding: boolean): void {
-        const type: IParentNodeContent["type"] = object.nodeContent.type;
+        const type: INodeContent["type"] = object.nodeContent.type;
 
         if (type !== "region" && type !== "volume") return;
 
@@ -390,7 +388,7 @@ export class RhinoBuilder {
         if (wantsBuilding) {
             // change colour of selected building
             renderedObjectsByType.children.filter((child: IMesh) => {
-                if (child.parentNode.name === object.parentNode.name) {
+                if (child.nodeContent.parent.name === object.nodeContent.parent.name) {
                     this.setOpacity(child, 0.8);
                     this.setHex(child, GREEN);
                 } else {
@@ -402,6 +400,6 @@ export class RhinoBuilder {
             });
         }
 
-        object.material.color.setHex(GREEN);
+        this.setHex(object, GREEN);
     }
 }
