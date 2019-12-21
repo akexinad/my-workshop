@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "lite-server",
     "build": "webpack -d --watch",
-    "build:prod": "webpack -p"
+    "build:prod": "webpack -p",
+    "start": "lite-server"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@types/node": "^12.12.7",
     "lite-server": "^2.5.4",
     "mapbox-gl": "^1.5.0",
-    "three": "^0.110.0"
+    "three": "^0.111.0",
+    "threebox-map": "^0.1.3"
   }
 }
