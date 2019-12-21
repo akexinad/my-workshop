@@ -3,6 +3,7 @@ import mapboxgl from "mapbox-gl";
 import { TOKENS } from "./utils/tokens";
 import { COORDINATES } from "./utils/coordinates";
 import { COMPARTMENT_1 } from "./data/compartment1";
+import { COMPARTMENT_3 } from "./data/compartment3";
 
 import { RhinoMesh } from "./utils/rhinoToThree";
 import { Threebox } from "./tsThreebox/threebox";
@@ -28,7 +29,7 @@ const map = new mapboxgl.Map({
     center: new mapboxgl.LngLat(COORDINATES.EUSTON[0], COORDINATES.EUSTON[1]),
     zoom: 15,
     pitch: 0,
-    bearing: 180
+    bearing: 0
 });
 
 // let tb: Threebox;
@@ -40,7 +41,7 @@ map.on("style.load", () => {
         type: "custom",
         onAdd: (map: mapboxgl.Map, mbxContext: WebGLRenderingContext) => {
             
-            const compartment = new RhinoMesh(COMPARTMENT_1);
+            const compartment = new RhinoMesh(COMPARTMENT_3);
             console.log(compartment);
             
             
@@ -62,6 +63,9 @@ map.on("style.load", () => {
             // tb.add(tbObject);
 
             foo = new Threebox(map, mbxContext, { defaultLights: true, passiveRendering: true });
+
+            // console.log(foo.world);
+            
 
             const obj = foo.createObject(compartment, {
                 coordinates: {

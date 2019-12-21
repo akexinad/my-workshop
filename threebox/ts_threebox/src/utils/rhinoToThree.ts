@@ -1,12 +1,12 @@
-// import * as THREE from "three";
-import { THREE } from "threebox-map";
+import * as THREE from "three";
+// import { THREE } from "threebox-map";
 import { IPoint, IGeometry, ICompartment } from "../interfaces/dataInterfaces";
 
 const COLORS = {
     RED: 0x6a0000,
     GREEN: 0x2bb600,
     BLUE: 0x002d6a,
-    YELLOW: 0xffff00
+    YELLOW: 0xff9944
 };
 
 class RhinoVector2 extends THREE.Vector2 {

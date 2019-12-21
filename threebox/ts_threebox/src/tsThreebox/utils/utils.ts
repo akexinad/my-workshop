@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { IThreeboxOptions, ICreateObjectOptions } from "../interfaces";
+import { ICreateObjectOptions } from "../interfaces";
 
 export const utils = {
     makePerspectiveMatrix: (

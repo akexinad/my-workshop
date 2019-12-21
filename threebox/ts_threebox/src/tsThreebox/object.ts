@@ -8,8 +8,7 @@ export class TBObject extends THREE.Group {
     private options: ICreateObjectOptions;
 
     constructor(object: THREE.Mesh, options: ICreateObjectOptions) {
-        // this.object = object;
-        // this.options = options;
+        super();
 
         // NOTA BENE: left out animation manager to see what exactly happens
 
@@ -26,7 +25,7 @@ export class TBObject extends THREE.Group {
         object.rotation.y = radians.y;
         object.rotation.z = radians.z;
 
-        super();
+        
 
         this.object = object;
         this.options = options;
