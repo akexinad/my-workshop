@@ -25,7 +25,8 @@ window.THREE = THREE;
 const Mapbox: FC = () => {
     const [map, setMap] = useState<mapboxgl.Map>(null);
     const [mapLayer, setMapLayer] = useState(false);
-    const [modelExists, setModelExists] = useState(false);
+    const [volumesVisible, setVolumesVisible] = useState(false);
+    const [footprintsVisible, setFootprintsVisible] = useState(false);
     const [highlightBuilding, setHighlightBuilding] = useState(false);
     const [rhino2Map, setRhino2Map] = useState(null);
 
@@ -38,7 +39,10 @@ const Mapbox: FC = () => {
         }
 
         const initializeRhino2Map = () => {
-            const rhino2Map: IRhinoToMap = new RhinoToMap(map, EUSTON_DATA_191210);
+            const rhino2Map: IRhinoToMap = new RhinoToMap(
+                map,
+                EUSTON_DATA_191210
+            );
             setRhino2Map(rhino2Map);
         };
 
@@ -78,37 +82,51 @@ const Mapbox: FC = () => {
         map.removeLayer(mapLayer3dBuidlings.id);
     };
 
-    const _handleThreeboxLayer = () => {
-        if (modelExists) {
+    const _handleThreeboxFloorsLayer = () => {
+        const volumes = "volumes";
+        
+        if (volumesVisible) {
+            rhino2Map.removeThreeboxLayer(volumes);
+            setVolumesVisible(false);
+            return;
         }
 
-        rhino2Map.addLayer();
-        setModelExists(true);
+        rhino2Map.addThreeboxLayer(volumes);
+        setVolumesVisible(true);
     };
 
-    const _handleHighlightBuildingToggle = () => {
+    const _handleThreeboxFootprintsLayer = () => {
+        if (volumesVisible) {
+            setVolumesVisible(false);
+            return;
+        }
+
+        rhino2Map.addLayer("floors");
+        setVolumesVisible(true);
+    };
+
+    const _handleFloorToBuildingToggle = () => {
         highlightBuilding
             ? setHighlightBuilding(false)
             : setHighlightBuilding(true);
     };
 
-    const _handleGetLayers = () => {};
-
     return (
         <Fragment>
             <h2>Mapbox Component</h2>
-            <button onClick={_handleGetLayers}>GET LAYERS</button>
             <button onClick={_handleMapboxLayerToggle}>
                 {mapLayer
                     ? "Hide Exsting Developments"
                     : "Show Existing Developments"}
             </button>
-            <button onClick={_handleHighlightBuildingToggle}>
-                {highlightBuilding ? "SELECT FLOOR" : "SELECT BUILDING"}
+            <button onClick={_handleThreeboxFloorsLayer}>
+                {volumesVisible ? "REMOVE FLOORS" : "SHOW FLOORS"}
             </button>
-            <button onClick={_handleThreeboxLayer}>
-                {modelExists ? "REMOVE MODEL" : "ADD MODEL"}
-            </button>
+            {volumesVisible ? (
+                <button onClick={_handleFloorToBuildingToggle}>
+                    {highlightBuilding ? "SELECT FLOOR" : "SELECT BUILDING"}
+                </button>
+            ) : null}
             <div style={styles} id="map" />
         </Fragment>
     );

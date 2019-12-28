@@ -133,14 +133,9 @@ export interface IRhinoBuilder {
     groupedNodesByType: IGroupedNodesByType;
     renderedObjects: IRenderedObjects;
 
-    // setNodeTree: () => INodeTree[];
-    // setGroupedNodesByType: () => IGroupedNodesByType;
-    // createGroup: (name: string) => THREE.Group;
     buildVolumes: (volumeName: string) => THREE.Group;
     buildRegions: (regionName: string) => THREE.Group;
     repaint: (renderedObjectsByType: IRenderedObjects["region"] | IRenderedObjects["volume"]) => void;
-    // setHex: (object: IMesh, color: number) => IMesh;
-    // setOpacity: (object: IMesh, opacity: number) => IMesh;
     selectObject: (object: IMesh, wantsBuilding: boolean) => void; 
 }
 
@@ -150,7 +145,7 @@ export interface IRhinoToMap {
     data: IRootObject;
     masterPlan: IRhinoBuilder;
     layerId: mapboxgl.Layer["id"];
-    addLayer: () => void;
-    removeLayer: () => void;
+    addThreeboxLayer: (layerId: string) => void;
+    removeThreeboxLayer: (layerId: string) => void;
     raycaster: (wantsBuilding: boolean) => void;
 }

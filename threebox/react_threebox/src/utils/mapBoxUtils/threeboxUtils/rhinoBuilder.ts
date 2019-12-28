@@ -320,7 +320,7 @@ export class RhinoBuilder {
         });
 
         if (filteredVolumes.length === 0) {
-            console.error(`No volumes with following name: ${volumeName}`);
+            console.error(`No volumes with the following name: ${volumeName}`);
             return;
         }
 
