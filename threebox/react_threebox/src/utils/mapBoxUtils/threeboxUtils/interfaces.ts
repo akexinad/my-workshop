@@ -29,9 +29,9 @@ interface INodeItemsByParentNodeId {
 
 export interface INode {
     id: string;
-    groupByGroupId?: any;
-    regionByRegionId?: any;
-    volumeByVolumeId?: IVolumeByVolumeId;
+    groupByGroupId: IGroupByGroupId;
+    regionByRegionId: IRegionByRegionId;
+    volumeByVolumeId: IVolumeByVolumeId;
     nodeItemsByParentNodeId?: INodeItemsByParentNodeId;
 }
 
