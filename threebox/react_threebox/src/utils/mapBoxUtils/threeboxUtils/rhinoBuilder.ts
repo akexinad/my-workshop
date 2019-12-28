@@ -302,6 +302,16 @@ export class RhinoBuilder {
         return group;
     }
 
+    private setHex(object: IMesh, color: number) {
+        object.material.color.setHex(color);
+        return object;
+    }
+
+    private setOpacity(object: IMesh | Mesh, opacity = 1) {
+        object.material.opacity = opacity;
+        return object;
+    }
+
     public buildVolumes(volumeName: string) {
         const groupOfVolumeMesh = this.createGroup(volumeName);
 
@@ -327,7 +337,7 @@ export class RhinoBuilder {
         return groupOfVolumeMesh;
     }
 
-    buildRegions(regionName: string) {
+    public buildRegions(regionName: string) {
         const groupOfRegionMesh = this.createGroup(regionName);
 
         const filteredRegions = this.groupedNodesByType.regions.filter(region => {
@@ -363,16 +373,6 @@ export class RhinoBuilder {
             this.setHex(child, child.material.originalHex);
             this.setOpacity(child, 1);
         });
-    }
-
-    private setHex(object: IMesh, color: number) {
-        object.material.color.setHex(color);
-        return object;
-    }
-
-    private setOpacity(object: IMesh | Mesh, opacity = 1) {
-        object.material.opacity = opacity;
-        return object;
     }
 
     public selectObject(object: IMesh, wantsBuilding: boolean): void {
