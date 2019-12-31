@@ -7,11 +7,11 @@ import COORDINATES from "../../data/mockCoordinates";
 import TOKENS from "../../utils/tokens";
 import { mapLayer3dBuidlings } from "../../utils/mapBoxUtils/mapboxLayers/mapLayer3dBuildings";
 import { EUSTON_DATA_191210 } from "../../data/191210_eustonData";
-import { RhinoToMap } from "../../utils/mapBoxUtils/threeboxUtils/rhino2Map";
+import { RhinoToMap } from "../../utils/mapBoxUtils/threeboxUtils/threeToMapbox";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./Mapbox.css";
-import { IRhinoToMap } from "../../utils/mapBoxUtils/threeboxUtils/interfaces";
+import { IThreeToMapbox } from "../../utils/mapBoxUtils/threeboxUtils/interfaces";
 
 declare global {
     interface Window {
@@ -39,7 +39,7 @@ const Mapbox: FC = () => {
         }
 
         const initializeRhino2Map = () => {
-            const rhino2Map: IRhinoToMap = new RhinoToMap(
+            const rhino2Map: IThreeToMapbox = new RhinoToMap(
                 map,
                 EUSTON_DATA_191210
             );

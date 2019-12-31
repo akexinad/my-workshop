@@ -2,8 +2,8 @@
 import { Threebox, THREE } from "threebox-map";
 
 import COORDINATES from "../../../data/mockCoordinates";
-import { RhinoBuilder } from "./rhinoBuilder";
-import { IRootObject, IRhinoBuilder, IMesh } from "./interfaces";
+import { RhinoBuilder } from "./rhinoToThree";
+import { IRootObject, IRhinoToThree, IMesh } from "./interfaces";
 
 const EUSTON_COORDINATES = [COORDINATES.EUSTON.lng, COORDINATES.EUSTON.lat];
 
@@ -11,7 +11,7 @@ export class RhinoToMap {
     public tb: Threebox;
     public map: mapboxgl.Map;
     public data: IRootObject;
-    public masterPlan: IRhinoBuilder;
+    public rhino2THREE: IRhinoToThree;
     public layerId = "threebox_layer";
     public canvas: HTMLCanvasElement;
     // public threeboxObjects: THREE.Group[];
@@ -19,7 +19,7 @@ export class RhinoToMap {
     constructor(map: mapboxgl.Map, data: IRootObject) {
         this.map = map;
         this.data = data;
-        this.masterPlan = new RhinoBuilder(this.data);
+        this.rhino2THREE = new RhinoBuilder(this.data);
 
         const canvas = this.map.getCanvas();
         this.canvas = canvas;
@@ -64,10 +64,10 @@ export class RhinoToMap {
 
                 switch (layerId) {
                     case "volumes":
-                        obj = this.masterPlan.buildVolumes("floors");
+                        obj = this.rhino2THREE.buildVolumes("floors");
                         break;
                     case "regions":
-                        obj = this.masterPlan.buildRegions("buildings");
+                        obj = this.rhino2THREE.buildRegions("buildings");
                         break;
                     default:
                         break;
@@ -77,8 +77,8 @@ export class RhinoToMap {
 
                 // threebox.euston = new RhinoBuilder(EUSTON_DATA_191210);
 
-                console.log(this.masterPlan.nodeTree);
-                console.log(this.masterPlan.groupedNodesByType);
+                console.log(this.rhino2THREE.nodeTree);
+                console.log(this.rhino2THREE.groupedNodesByType);
 
                 // const site = euston.buildRegions("site")
                 // const footprint = euston.buildRegions("building")
@@ -96,9 +96,19 @@ export class RhinoToMap {
     public removeThreeboxLayer(layerId: string) {
         this.map.removeLayer(layerId);
 
-        const objectToRemove = this.tb.world.getObjectByName(layerId);
-                
-        this.tb.remove(objectToRemove);
+        const objectToRemove: THREE.Group = this.tb.world.getObjectByName(layerId);
+        const objectToRemoveIndex: number = this.tb.world.children.indexOf(objectToRemove);
+        
+        console.log(objectToRemove);
+        console.log(objectToRemoveIndex);
+
+        // this.tb.world.children.splice(objectToRemoveIndex, 1);
+
+        this.rhino2THREE.destroyMesh(objectToRemove);
+
+        this.tb.world.remove(objectToRemove);
+
+        console.log(this.tb.world);
 
         // This doesn't remove anything, need to manually remove geometry via the rhinobuilder with a destroy threeObject method.
     }
@@ -121,7 +131,7 @@ export class RhinoToMap {
             if (selectedObject) this.canvas.style.cursor = "pointer";
 
             this.map.on("click", (e: mapboxgl.MapMouseEvent) => {
-                this.masterPlan.selectObject(selectedObject, wantsBuilding);
+                this.rhino2THREE.selectObject(selectedObject, wantsBuilding);
                 this.tb.repaint();
             });
         });

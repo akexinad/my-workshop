@@ -127,7 +127,7 @@ export interface IMesh extends THREE.Mesh {
     nodeContent: INodeContent;
 }
 
-export interface IRhinoBuilder {
+export interface IRhinoToThree {
     data: IRootObject;
     nodeTree: INodeTree[];
     groupedNodesByType: IGroupedNodesByType;
@@ -137,14 +137,16 @@ export interface IRhinoBuilder {
     buildRegions: (regionName: string) => THREE.Group;
     repaint: (renderedObjectsByType: IRenderedObjects["region"] | IRenderedObjects["volume"]) => void;
     selectObject: (object: IMesh, wantsBuilding: boolean) => void; 
+    destroyObject: (object: THREE.Group) => void;
 }
 
-export interface IRhinoToMap {
+export interface IThreeToMapbox {
     tb: Threebox;
     map: mapboxgl.Map;
     data: IRootObject;
-    masterPlan: IRhinoBuilder;
+    masterPlan: IRhinoToThree;
     layerId: mapboxgl.Layer["id"];
+
     addThreeboxLayer: (layerId: string) => void;
     removeThreeboxLayer: (layerId: string) => void;
     raycaster: (wantsBuilding: boolean) => void;

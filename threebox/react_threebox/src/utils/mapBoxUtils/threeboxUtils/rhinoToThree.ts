@@ -402,4 +402,8 @@ export class RhinoBuilder {
 
         this.setHex(object, GREEN);
     }
+
+    public destroyObject(object: THREE.Group) {
+        
+    }
 }
