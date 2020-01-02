@@ -131,13 +131,12 @@ export interface IRhinoToThree {
     data: IRootObject;
     nodeTree: INodeTree[];
     groupedNodesByType: IGroupedNodesByType;
-    renderedObjects: IRenderedObjects;
 
     buildVolumes: (volumeName: string) => THREE.Group;
     buildRegions: (regionName: string) => THREE.Group;
     repaint: (renderedObjectsByType: IRenderedObjects["region"] | IRenderedObjects["volume"]) => void;
     selectObject: (object: IMesh, wantsBuilding: boolean) => void; 
-    destroyObject: (object: THREE.Group) => void;
+    disposeGeometryAndMaterial: (object: THREE.Group) => void;
 }
 
 export interface IThreeToMapbox {

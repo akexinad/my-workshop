@@ -11,15 +11,14 @@ export class RhinoToMap {
     public tb: Threebox;
     public map: mapboxgl.Map;
     public data: IRootObject;
-    public rhino2THREE: IRhinoToThree;
+    public masterPlan: IRhinoToThree;
     public layerId = "threebox_layer";
     public canvas: HTMLCanvasElement;
-    // public threeboxObjects: THREE.Group[];
 
     constructor(map: mapboxgl.Map, data: IRootObject) {
         this.map = map;
         this.data = data;
-        this.rhino2THREE = new RhinoBuilder(this.data);
+        this.masterPlan = new RhinoBuilder(this.data);
 
         const canvas = this.map.getCanvas();
         this.canvas = canvas;
@@ -63,11 +62,11 @@ export class RhinoToMap {
                 let obj: THREE.Group;
 
                 switch (layerId) {
-                    case "volumes":
-                        obj = this.rhino2THREE.buildVolumes("floors");
+                    case "volume":
+                        obj = this.masterPlan.buildVolumes("floors");
                         break;
-                    case "regions":
-                        obj = this.rhino2THREE.buildRegions("buildings");
+                    case "region":
+                        obj = this.masterPlan.buildRegions("buildings");
                         break;
                     default:
                         break;
@@ -77,8 +76,8 @@ export class RhinoToMap {
 
                 // threebox.euston = new RhinoBuilder(EUSTON_DATA_191210);
 
-                console.log(this.rhino2THREE.nodeTree);
-                console.log(this.rhino2THREE.groupedNodesByType);
+                console.log(this.masterPlan.nodeTree);
+                console.log(this.masterPlan.groupedNodesByType);
 
                 // const site = euston.buildRegions("site")
                 // const footprint = euston.buildRegions("building")
@@ -104,7 +103,7 @@ export class RhinoToMap {
 
         // this.tb.world.children.splice(objectToRemoveIndex, 1);
 
-        this.rhino2THREE.destroyMesh(objectToRemove);
+        this.masterPlan.disposeGeometryAndMaterial(objectToRemove);
 
         this.tb.world.remove(objectToRemove);
 
@@ -131,7 +130,7 @@ export class RhinoToMap {
             if (selectedObject) this.canvas.style.cursor = "pointer";
 
             this.map.on("click", (e: mapboxgl.MapMouseEvent) => {
-                this.rhino2THREE.selectObject(selectedObject, wantsBuilding);
+                this.masterPlan.selectObject(selectedObject, wantsBuilding);
                 this.tb.repaint();
             });
         });

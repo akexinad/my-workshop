@@ -134,7 +134,7 @@ export class RhinoBuilder {
     public renderedObjects: IRenderedObjects = {
         volume: null,
         region: null
-    }
+    };
 
     constructor(rootData: IRootObject) {
         this.data = rootData;
@@ -156,7 +156,10 @@ export class RhinoBuilder {
             parent: null
         };
 
-        const recurseNodeMapping = (node: INode, parentDetails: INodeContent): INodeTree => {
+        const recurseNodeMapping = (
+            node: INode,
+            parentDetails: INodeContent
+        ): INodeTree => {
             let nodeBranch: INodeTree = {
                 id: null,
                 name: null,
@@ -165,23 +168,23 @@ export class RhinoBuilder {
                 geometry: null,
                 nodes: null
             };
-        
+
             let parent: INodeContent = {
                 id: null,
                 name: null,
                 type: null,
                 parent: parentDetails
             };
-        
+
             const { groupByGroupId, regionByRegionId, volumeByVolumeId } = node;
-        
+
             if (groupByGroupId) {
                 const { id, name }: IGroupByGroupId = groupByGroupId;
-        
+
                 nodeBranch.id = id;
                 nodeBranch.name = name.toLowerCase();
                 nodeBranch.type = "group";
-        
+
                 parent = {
                     id,
                     name: name.toLowerCase(),
@@ -190,13 +193,17 @@ export class RhinoBuilder {
                 };
             }
             if (regionByRegionId) {
-                const { id, name, oliveGeometry }: IRegionByRegionId = regionByRegionId;
-        
+                const {
+                    id,
+                    name,
+                    oliveGeometry
+                }: IRegionByRegionId = regionByRegionId;
+
                 nodeBranch.id = id;
                 nodeBranch.name = name.toLowerCase();
                 nodeBranch.type = "region";
                 nodeBranch.geometry = JSON.parse(oliveGeometry);
-        
+
                 parent = {
                     id,
                     name: name.toLowerCase(),
@@ -205,13 +212,17 @@ export class RhinoBuilder {
                 };
             }
             if (volumeByVolumeId) {
-                const { id, name, oliveGeometry }: IVolumeByVolumeId = volumeByVolumeId;
-        
+                const {
+                    id,
+                    name,
+                    oliveGeometry
+                }: IVolumeByVolumeId = volumeByVolumeId;
+
                 nodeBranch.id = id;
                 nodeBranch.name = name.toLowerCase();
                 nodeBranch.type = "volume";
                 nodeBranch.geometry = JSON.parse(oliveGeometry);
-        
+
                 parent = {
                     id,
                     name: name.toLowerCase(),
@@ -219,7 +230,7 @@ export class RhinoBuilder {
                     parent: parentDetails
                 };
             }
-        
+
             return {
                 ...nodeBranch,
                 nodes: node.nodeItemsByParentNodeId
@@ -228,7 +239,7 @@ export class RhinoBuilder {
                       )
                     : null
             };
-        }
+        };
 
         nodeTree.push({
             id,
@@ -298,7 +309,7 @@ export class RhinoBuilder {
 
     private createGroup(name: string) {
         const group = new THREE.Group();
-        group.name = `${ name }_collection`;
+        group.name = `${name}_collection`;
         return group;
     }
 
@@ -315,9 +326,11 @@ export class RhinoBuilder {
     public buildVolumes(volumeName: string) {
         const groupOfVolumeMesh = this.createGroup(volumeName);
 
-        const filteredVolumes = this.groupedNodesByType.volumes.filter(volume => {
-            return volume.name.includes(volumeName);
-        });
+        const filteredVolumes = this.groupedNodesByType.volumes.filter(
+            volume => {
+                return volume.name.includes(volumeName);
+            }
+        );
 
         if (filteredVolumes.length === 0) {
             console.error(`No volumes with the following name: ${volumeName}`);
@@ -340,9 +353,11 @@ export class RhinoBuilder {
     public buildRegions(regionName: string) {
         const groupOfRegionMesh = this.createGroup(regionName);
 
-        const filteredRegions = this.groupedNodesByType.regions.filter(region => {
-            return region.name.includes(regionName);
-        });
+        const filteredRegions = this.groupedNodesByType.regions.filter(
+            region => {
+                return region.name.includes(regionName);
+            }
+        );
 
         if (filteredRegions.length === 0) {
             console.error(`No regions with following name: ${regionName}`);
@@ -388,7 +403,10 @@ export class RhinoBuilder {
         if (wantsBuilding) {
             // change colour of selected building
             renderedObjectsByType.children.filter((child: IMesh) => {
-                if (child.nodeContent.parent.name === object.nodeContent.parent.name) {
+                if (
+                    child.nodeContent.parent.name ===
+                    object.nodeContent.parent.name
+                ) {
                     this.setOpacity(child, 0.8);
                     this.setHex(child, GREEN);
                 } else {
@@ -403,7 +421,24 @@ export class RhinoBuilder {
         this.setHex(object, GREEN);
     }
 
-    public destroyObject(object: THREE.Group) {
-        
+    public disposeGeometryAndMaterial(object: THREE.Group) {
+        console.log(object);
+
+        const type: INodeContent["type"] = object.name;
+
+        if (type !== "region" && type !== "volume") {
+            console.error(`object of type ${ type } does not exist. Only types volumes and regions are valid.`);
+            return;
+        }
+
+        const renderedObjectsByType = this.renderedObjects[type];
+        console.log("renderedObjectsByType: ", renderedObjectsByType);
+
+        const objectsToDispose = object.children[0];
+
+        objectsToDispose.children.forEach((child: THREE.Mesh) => {
+            child.geometry.dispose();
+            child.material.dispose();
+        });
     }
 }

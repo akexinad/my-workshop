@@ -83,15 +83,15 @@ const Mapbox: FC = () => {
     };
 
     const _handleThreeboxFloorsLayer = () => {
-        const volumes = "volumes";
+        const layerId = "volume";
         
         if (volumesVisible) {
-            rhino2Map.removeThreeboxLayer(volumes);
+            rhino2Map.removeThreeboxLayer(layerId);
             setVolumesVisible(false);
             return;
         }
 
-        rhino2Map.addThreeboxLayer(volumes);
+        rhino2Map.addThreeboxLayer(layerId);
         setVolumesVisible(true);
     };
 
