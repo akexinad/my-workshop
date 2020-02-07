@@ -21,3 +21,21 @@ export type FinanceTableTitle =
   | "Development Costs"
   | "Design And Construction Costs"
   | "Other Develeopment Costs";
+
+export interface Column {
+  Header: string;
+  columns: {
+    Header: string;
+    accessor: string;
+  }[];
+}
+
+export interface Data {
+  firstName: string;
+  lastName: string;
+  age: number;
+  visits: number;
+  progress: number;
+  status: string;
+  subrows: any;
+}
