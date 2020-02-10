@@ -7,6 +7,7 @@ import { Column, Data } from "../utils/interfaces";
 
 import "./App.css";
 import StyledTable from "../components/UI/StyledTable";
+import { TableInstance, Row } from "react-table";
 
 const App = () => {
   const [data, setData] = React.useState<Array<Data>>(() => makeData(20));
@@ -20,7 +21,8 @@ const App = () => {
         columns: [
           {
             Header: "First Name",
-            accessor: "firstName"
+            accessor: "firstName",
+            Footer: "Total"
           },
           {
             Header: "LastName",
@@ -38,6 +40,18 @@ const App = () => {
           {
             Header: "Visits",
             accessor: "visits"
+            // Footer: (info: TableInstance) => {
+            //   const total = useMemo(
+            //     () =>
+            //       info.rows.reduce(
+            //         (sum: number, row: Row) => row.values.visits + sum,
+            //         0
+            //       ),
+            //     [info.rows]
+            //   );
+
+            //   return <>Total: {total}</>;
+            // }
           },
           {
             Header: "Status",
@@ -45,7 +59,19 @@ const App = () => {
           },
           {
             Header: "Profile Progress",
-            accessor: "progress"
+            accessor: "progress",
+            Footer: (info: TableInstance) => {
+              const total = useMemo(
+                () =>
+                  info.rows.reduce(
+                    (sum: number, row: Row) => row.values.progress + sum,
+                    0
+                  ),
+                [info.rows]
+              );
+
+              return <>{total}</>;
+            }
           }
         ]
       }

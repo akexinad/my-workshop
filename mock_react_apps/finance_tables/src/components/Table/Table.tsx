@@ -13,6 +13,7 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
+    footerGroups,
     rows,
     prepareRow
   } = useTable({
@@ -48,6 +49,15 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
           );
         })}
       </tbody>
+      <tfoot>
+        {footerGroups.map((group: HeaderGroup) => (
+          <tr {...group.getFooterGroupProps()}>
+            {group.headers.map(column => (
+              <td {...column.getFooterProps()}>{column.render("Footer")}</td>
+            ))}
+          </tr>
+        ))}
+      </tfoot>
     </table>
   );
 };
