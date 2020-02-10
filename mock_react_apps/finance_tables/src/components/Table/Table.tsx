@@ -19,7 +19,7 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
     columns,
     data,
     defaultColumn: {
-        Cell: EditableCell
+      Cell: EditableCell
     },
     // @ts-ignore
     updateMyData
@@ -42,11 +42,7 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
-                return (
-                  <td {...cell.getCellProps()}>
-                    {cell.render("Cell")}
-                  </td>
-                );
+                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
               })}
             </tr>
           );
