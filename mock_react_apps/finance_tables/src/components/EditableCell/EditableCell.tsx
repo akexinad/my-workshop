@@ -1,5 +1,4 @@
 import React, { FC, useState, ChangeEvent, useEffect } from 'react';
-import { Data } from '../../utils/interfaces';
 
 interface EditableCellProps {
     cell: {
@@ -7,7 +6,7 @@ interface EditableCellProps {
     };
     row: { index: number }
     column: { id: number };
-    updateMyData: (index: number, id: number, value: string) => Data;
+    updateMyData: (index: number, id: number, value: string) => void;
 }
 
 const EditableCell: FC<EditableCellProps> = ({
@@ -24,15 +23,14 @@ const EditableCell: FC<EditableCellProps> = ({
     }
 
     const onBlur = () => {
-        updateMyData(index, id, value);
-    }
+        updateMyData(index, id, value)
+    };
 
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
 
     return <input type="text" value={value} onChange={onChange} onBlur={onBlur} />
-    
 }
 
 export default EditableCell;

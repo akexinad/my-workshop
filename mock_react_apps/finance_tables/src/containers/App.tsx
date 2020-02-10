@@ -9,10 +9,10 @@ import "./App.css";
 import StyledTable from "../components/UI/StyledTable";
 
 const App = () => {
-  const [data, setData] = React.useState<Array<Data>>(() => makeData(20))
-  const [originalData] = React.useState(data)
-  const [skipPageReset, setSkipPageReset] = React.useState(false)
-  
+  const [data, setData] = React.useState<Array<Data>>(() => makeData(20));
+  const [originalData] = React.useState(data);
+  const resetData = () => setData(originalData);
+
   const columns: Array<Column> = useMemo(
     () => [
       {
@@ -55,25 +55,30 @@ const App = () => {
 
   console.log(data);
 
-  const updateMyData = (rowIndex: number, columnId: number, value: string) => {
-
-    setData(old => old.map((row, index) => {
-      if (index === rowIndex) {
-        return {
-          ...old[rowIndex],
-          [columnId]: value
+  const _updateMyData = (
+    rowIndex: number,
+    columnId: number,
+    value: string
+  ): void => {
+    setData(old =>
+      old.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            ...old[rowIndex],
+            [columnId]: value
+          };
         }
-      }
-      return row;
-    }))
-    
-  }
+        return row;
+      })
+    );
+  };
 
   return (
     <div className="App">
       <h1>LL Finance</h1>
+      <button onClick={resetData}>RESET DATA</button>
       <StyledTable>
-        <Table columns={columns} data={data} updateMyData={updateMyData} />
+        <Table columns={columns} data={data} updateMyData={_updateMyData} />
       </StyledTable>
     </div>
   );

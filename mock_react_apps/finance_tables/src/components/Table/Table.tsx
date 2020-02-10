@@ -1,12 +1,11 @@
 import React, { FC } from "react";
 import { useTable, Column, HeaderGroup, Row } from "react-table";
 import EditableCell from "../EditableCell/EditableCell";
-import { Data } from "../../utils/interfaces";
 
 interface TableProps {
   columns: Column[];
   data: {}[];
-  updateMyData: (index: number, id: number, value: string) => Data;
+  updateMyData: (index: number, id: number, value: string) => void;
 }
 
 const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
@@ -22,7 +21,7 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
     defaultColumn: {
         Cell: EditableCell
     },
-    autoResetPage: false,
+    // @ts-ignore
     updateMyData
   });
 
@@ -43,7 +42,11 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                return (
+                  <td {...cell.getCellProps()}>
+                    {cell.render("Cell")}
+                  </td>
+                );
               })}
             </tr>
           );
