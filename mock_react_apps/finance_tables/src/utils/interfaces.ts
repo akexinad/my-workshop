@@ -1,9 +1,8 @@
+import { Column } from "react-table";
+
 export interface TableColumn {
   id: string;
   title: string;
-  field?: string;
-  editable?: boolean;
-  isVisible: boolean;
 }
 
 export interface TableRow {
@@ -11,9 +10,7 @@ export interface TableRow {
   name: string;
   input: number;
   quantity: number;
-  total: number;
-  isCalc: boolean;
-  isNull: boolean;
+  total?: number;
 }
 
 export type FinanceTableTitle =
@@ -22,11 +19,12 @@ export type FinanceTableTitle =
   | "Design And Construction Costs"
   | "Other Develeopment Costs";
 
-export interface Column {
+export interface MyColumn {
   Header: string;
   columns: {
     Header: string;
     accessor: string;
+    editable: boolean;
   }[];
 }
 

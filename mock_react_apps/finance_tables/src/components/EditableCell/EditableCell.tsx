@@ -30,7 +30,7 @@ const EditableCell: FC<EditableCellProps> = ({
   }, [initialValue]);
 
   return (
-    <input type="text" value={value} onChange={onChange} onBlur={onBlur} />
+    <input type="number" value={value} onChange={onChange} onBlur={onBlur} />
   );
 };
 

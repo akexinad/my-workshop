@@ -1,70 +1,68 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
+import { TableInstance, Row, Column } from "react-table";
 
 import Table from "../components/Table/Table";
 
 import makeData from "../utils/makeData";
-import { Column, Data } from "../utils/interfaces";
+import financeDataMapper from "../utils/financeDataMapper";
+import { MyColumn, Data } from "../utils/interfaces";
 
 import "./App.css";
 import StyledTable from "../components/UI/StyledTable";
-import { TableInstance, Row } from "react-table";
+import EditableCell from "../components/EditableCell/EditableCell";
 
 const App = () => {
-  const [data, setData] = React.useState<Array<Data>>(() => makeData(20));
-  const [originalData] = React.useState(data);
-  const resetData = () => setData(originalData);
+  const [data, setData] = React.useState(() => financeDataMapper.data);
+  // const [originalData] = React.useState(financeDataMapper.data);
+  // const resetData = () => setData(originalData);
 
-  const columns: Array<Column> = useMemo(
+  useEffect(() => {
+    financeDataMapper.sumTotals();
+    // setData(data);
+  }, [data]);
+
+  const columns = useMemo(
     () => [
+      // {
+      //   Header: "Name",
+      //   columns: [
+      //     {
+      //       Header: "First Name",
+      //       accessor: "firstName",
+      //       Footer: "Total"
+      //     },
+      //     {
+      //       Header: "LastName",
+      //       accessor: "lastName"
+      //     }
+      //   ]
+      // },
       {
-        Header: "Name",
+        Header: "Sales",
         columns: [
           {
-            Header: "First Name",
-            accessor: "firstName",
+            Header: "Unit Types (Sales)",
+            accessor: "name",
             Footer: "Total"
           },
           {
-            Header: "LastName",
-            accessor: "lastName"
-          }
-        ]
-      },
-      {
-        Header: "Info",
-        columns: [
-          {
-            Header: "Age",
-            accessor: "age"
+            Header: "Expected Sales Price Per Unit",
+            accessor: "input",
+            Cell: EditableCell
           },
           {
-            Header: "Visits",
-            accessor: "visits"
-            // Footer: (info: TableInstance) => {
-            //   const total = useMemo(
-            //     () =>
-            //       info.rows.reduce(
-            //         (sum: number, row: Row) => row.values.visits + sum,
-            //         0
-            //       ),
-            //     [info.rows]
-            //   );
+            Header: "Quantity",
+            accessor: "quantity"
+          },
+          {
+            Header: "Income",
+            accessor: "total",
 
-            //   return <>Total: {total}</>;
-            // }
-          },
-          {
-            Header: "Status",
-            accessor: "status"
-          },
-          {
-            Header: "Profile Progress",
-            accessor: "progress",
             Footer: (info: TableInstance) => {
               const total = useMemo(
                 () =>
                   info.rows.reduce(
-                    (sum: number, row: Row) => row.values.progress + sum,
+                    (sum: number, row: Row) => row.values.total + sum,
                     0
                   ),
                 [info.rows]
@@ -79,7 +77,7 @@ const App = () => {
     []
   );
 
-  console.log(data);
+  // console.log(data);
 
   const _updateMyData = (
     rowIndex: number,
@@ -97,14 +95,19 @@ const App = () => {
         return row;
       })
     );
+    financeDataMapper.sumTotals();
   };
 
   return (
     <div className="App">
       <h1>LL Finance</h1>
-      <button onClick={resetData}>RESET DATA</button>
+      {/* <button onClick={resetData}>RESET DATA</button> */}
       <StyledTable>
-        <Table columns={columns} data={data} updateMyData={_updateMyData} />
+        <Table
+          columns={columns}
+          data={data[0].rows}
+          updateMyData={_updateMyData}
+        />
       </StyledTable>
     </div>
   );

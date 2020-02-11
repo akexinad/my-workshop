@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { useTable, Column, HeaderGroup, Row } from "react-table";
+import {
+  useTable,
+  Column,
+  HeaderGroup,
+  Row,
+  TableInstance,
+  ColumnInstance
+} from "react-table";
 import EditableCell from "../EditableCell/EditableCell";
 
 interface TableProps {
@@ -19,12 +26,15 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
   } = useTable({
     columns,
     data,
-    defaultColumn: {
-      Cell: EditableCell
-    },
+    // defaultColumn: {
+    //   Cell: columns[0].columns?.map((column: any) => column.editable),
+    // },
     // @ts-ignore
     updateMyData
   });
+
+  console.log("data:", data);
+  
 
   return (
     <table {...getTableProps()}>
@@ -50,13 +60,11 @@ const Table: FC<TableProps> = ({ columns, data, updateMyData }) => {
         })}
       </tbody>
       <tfoot>
-        {footerGroups.map((group: HeaderGroup) => (
-          <tr {...group.getFooterGroupProps()}>
-            {group.headers.map(column => (
-              <td {...column.getFooterProps()}>{column.render("Footer")}</td>
-            ))}
-          </tr>
-        ))}
+        <tr {...footerGroups[0].getFooterGroupProps()}>
+          {footerGroups[0].headers.map((column: ColumnInstance) => (
+            <td {...column.getFooterProps()}>{column.render("Footer")}</td>
+          ))}
+        </tr>
       </tfoot>
     </table>
   );
