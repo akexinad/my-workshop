@@ -1,0 +1,29 @@
+.pythonEditor {
+    flex: 50;
+    width: 50vw;
+    text-align: left;
+    margin: 2rem;
+    padding: 1rem;
+    background-color: $white;
+    border-radius: $kalamata-border-radius;
+    transition: flex 900ms ease-in-out;
+  
+    label {
+        vertical-align: bottom;
+    }
+
+    & .hideable {
+        opacity: 1;
+        transition: opacity 200ms ease-in;
+        transition-delay: 900ms;
+    }
+
+  .nameEditor {
+      border: 1px solid #f4f2f2;
+      text-align: right;
+      background: #fff5de;
+      display: inline-block;
+      padding: 0.25rem;
+      border-radius: 2px;
+  }
+}
