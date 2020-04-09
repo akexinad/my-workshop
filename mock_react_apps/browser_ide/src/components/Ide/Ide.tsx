@@ -10,15 +10,20 @@ require("codemirror/mode/python/python");
 require("codemirror/keymap/sublime");
 
 const Ide = () => {
-  const [code, setCode] = useState<string>("");
+  const [script, setScript] = useState<string>("")
+
+  const _handleClick = () => {
+    console.log('script', script)
+  }
 
   return (
     <div className="pythonEditor">
       <h2>IDE</h2>
       <CodeMirror
-        value={code}
+        value={script}
         options={{
           mode: "python",
+          indentUnit: 4,
           theme: "material",
           lineNumbers: "true",
           keyMap: "sublime"
@@ -28,9 +33,11 @@ const Ide = () => {
           console.log("data", data);
           console.log("value", value);
 
-          setCode(value);
+          setScript(value);
         }}
       />
+
+      <button onClick={_handleClick}>EXECUTE</button>
     </div>
   );
 };
