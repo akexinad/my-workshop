@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Canvas, useFrame } from "react-three-fiber";
+import { Canvas } from "react-three-fiber";
 
 import Box from "./Box/Box";
 
