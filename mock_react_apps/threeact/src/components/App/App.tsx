@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Canvas } from "react-three-fiber";
+import { Canvas, useThree } from "react-three-fiber";
 import { AxesHelper } from "three";
 
 import CameraController from "../CameraController/CameraController";
@@ -8,8 +8,14 @@ import Rectangle from "../Rectangle/Rectangle";
 import Sphere from "../Sphere/Sphere";
 
 import "./App.css";
+import Floor from "../Floor/Floor";
+import FiberDirectionalLight from "../FiberDirectionalLight/FiberDirectionalLight";
+import FiberPerspectiveCamera from "../FiberPerspectiveCamera/FiberPerspectiveCamera";
+import Plane from "../Plane/Plane";
 
 const App = () => {
+
+  const { scene } = useThree();
 
   return (
     <Fragment>
@@ -20,17 +26,31 @@ const App = () => {
       </div>
 
       <Canvas
-        style={{ height: "85vh" }}
-        // camera={}
+        style={{ height: "85vh", backgroundColor: "grey" }}
+        
       >
-        <CameraController />
-        {/* <ambientLight /> */}
-        <pointLight position={[10, 10, 10]} />
+        <FiberPerspectiveCamera position={[0, 0, 1000]} />
+        {/* <CameraController /> */}
+        <FiberDirectionalLight position={[50, 500, 22]} />
+        <Sphere />
+        <Plane />
+        
+        {/* <CameraController />
+        <FiberDirectionalLight />
+        <Floor position={[0, 0, 0]} />
+        
+        <ambientLight />
+        <pointLight position={[40, 40, 40]} />
+        <directionalLight
+          castShadow={true}
+          position={[20, 50, 30]}
+        />
         <primitive object={new AxesHelper(10)} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
-        <Rectangle position={[3, 3, 0]} />
-        <Sphere position={[3, 7, 0]} />
+        <Box position={[-1.2, 1, 0]} />
+        <Box position={[1.2, 1, 0]} />
+        
+        <Rectangle position={[3, 1, 3]} />
+        <Sphere position={[1, 1, 5]} /> */}
       </Canvas>
     </Fragment>
   );
