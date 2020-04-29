@@ -18,9 +18,11 @@ const Box: FC<ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>> = (props) => {
             onClick={(e) => setActive(!active)}
             onPointerOver={(e) => setHover(true)}
             onPointerOut={(e) => setHover(false)}
+            castShadow={true}
+            receiveShadow={true}
         >
-            <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-            <meshStandardMaterial
+            <boxGeometry attach="geometry" args={[1, 1, 1]} />
+            <meshLambertMaterial
                 attach="material"
                 color={hovered ? "red" : "blue"}
             />

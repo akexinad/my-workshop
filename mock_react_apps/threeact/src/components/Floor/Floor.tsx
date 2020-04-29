@@ -1,15 +1,20 @@
-import React, { FC } from 'react'
-import { ReactThreeFiber } from 'react-three-fiber'
-import { Mesh } from 'three'
+import React, { FC, useRef, useEffect } from "react";
+import { ReactThreeFiber } from "react-three-fiber";
+import { Mesh } from "three";
 
 const Floor: FC<ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>> = (props) => {
-    
+    const floor = useRef(new Mesh());
+
+    useEffect(() => {
+        floor.current.rotation.x = -Math.PI / 2;
+    }, []);
+
     return (
-        <mesh {...props} receiveShadow={true} castShadow={true} >
-            <boxGeometry attach="geometry" args={[20, 0.1, 20]} />
-            <meshLambertMaterial attach="material" color={"green"} />
+        <mesh {...props} ref={floor} receiveShadow={true} castShadow={true}>
+            <planeGeometry attach="geometry" args={[100, 100, 1, 1]} />
+            <meshPhongMaterial attach="material" color={"green"} />
         </mesh>
-    )
-}
+    );
+};
 
 export default Floor;

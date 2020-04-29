@@ -9,15 +9,17 @@ const FiberDirectionalLight: FC<ReactThreeFiber.Object3DNode<
     const light = useRef(new DirectionalLight(0xffffff, 1));
 
     useFrame(() => {
-        light.current.position.set(50, 500, 22);
+        light.current.position.set(50, 100, 22);
         light.current.target.position.set(300, 400, 200);
         
-        light.current.shadow.camera.near = 0.5;
-        light.current.shadow.camera.far = 5000;
-        light.current.shadow.camera.left = -500;
-        light.current.shadow.camera.bottom = -500;
-        light.current.shadow.camera.right = 500;
-        light.current.shadow.camera.top = 500;
+        const { camera } = light.current.shadow;
+        
+        camera.near = 0.5;
+        camera.far = 5000;
+        camera.left = -50;
+        camera.bottom = -50;
+        camera.right = 50;
+        camera.top = 50;
 
         light.current.castShadow = true;
     });

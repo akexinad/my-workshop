@@ -6,11 +6,12 @@ import CameraController from "../CameraController/CameraController";
 import Box from "../Box/Box";
 import Rectangle from "../Rectangle/Rectangle";
 import Sphere from "../Sphere/Sphere";
+import FiberDirectionalLight from "../FiberDirectionalLight/FiberDirectionalLight";
+import Floor from "../Floor/Floor";
 
 import "./App.css";
 
 const App = () => {
-
     return (
         <Fragment>
             <div className="App">
@@ -19,16 +20,22 @@ const App = () => {
                 </header>
             </div>
 
-            <Canvas style={{ height: "85vh", backgroundColor: "grey" }}>
+            <Canvas
+                shadowMap={true}
+                style={{ height: "85vh", backgroundColor: "grey" }}
+            >
+                {/*
+                Camera controller is where you can set up orbit controls by passing in the camera and the dom element.
+                 */}
                 <CameraController />
-                <ambientLight />
+                {/* <ambientLight /> */}
+                <FiberDirectionalLight />
                 <primitive object={new AxesHelper(10)} />
+                <Floor position={[0, 0, 0]} />
                 <Rectangle position={[3, 1, 3]} />
-                <Sphere position={[1, 1, 5]} />
-                <Sphere />
-                <Box position={[-1.2, 1, 0]} />
-                <Box position={[1.2, 1, 0]} />
-
+                <Box position={[-1.2, 4, 0]} />
+                <Box position={[1.2, 4, 0]} />
+                <Sphere position={[5, 4, 6]} />
             </Canvas>
         </Fragment>
     );

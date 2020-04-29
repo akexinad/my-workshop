@@ -4,7 +4,7 @@ import { Mesh } from "three";
 
 const Sphere: FC<ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>> = (props) => (
     <mesh {...props} receiveShadow={true} castShadow={true}>
-        <sphereGeometry attach="geometry" args={[200, 12, 12]} />
+        <sphereGeometry attach="geometry" args={[1.5, 30, 30]} />
         <meshLambertMaterial attach="material" color="#d40000" />
     </mesh>
 );
