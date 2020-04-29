@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Canvas, useThree } from "react-three-fiber";
+import { Canvas } from "react-three-fiber";
 import { AxesHelper } from "three";
 
 import CameraController from "../CameraController/CameraController";
