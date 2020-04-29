@@ -1,25 +1,29 @@
-var width = window.innerWidth;
-var height = window.innerHeight;
-var canvas = document.getElementById("c");
-canvas.setAttribute("width", width);
-canvas.setAttribute("height", height);
+const createRenderer = () => {
+    const canvas = document.getElementById("c");
+    canvas.setAttribute("width", window.innerWidth);
+    canvas.setAttribute("height", window.innerHeight);
 
-const renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    canvas: canvas,
-});
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        canvas: canvas,
+    });
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    return renderer;
+};
 
 const createCamera = () => {
-    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 500);
+    const camera = new THREE.PerspectiveCamera(
+        50,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        500
+    );
     camera.position.set(0, 50, 100);
 
     return camera;
-}
-
-
+};
 
 const createDirectionalLight = () => {
     const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -41,7 +45,7 @@ const createDirectionalLight = () => {
 const createRectangle = ({ width, height, depth, x, y, z }) => {
     const geo = new THREE.BoxGeometry(width, height, depth);
     const mat = new THREE.MeshLambertMaterial({
-        color: "#FFC0CB"
+        color: "#FFC0CB",
     });
 
     const mesh = new THREE.Mesh(geo, mat);
@@ -49,7 +53,7 @@ const createRectangle = ({ width, height, depth, x, y, z }) => {
     mesh.castShadow = true;
     mesh.recieveShadow = true;
     return mesh;
-}
+};
 
 const createSphere = () => {
     const geometry = new THREE.SphereGeometry(4, 20, 30);
@@ -78,6 +82,8 @@ const createPlane = () => {
     return mesh;
 };
 
+const renderer = createRenderer();
+
 const light = createDirectionalLight();
 const lightHelper = new THREE.DirectionalLightHelper(light, 5);
 const cameraHelper = new THREE.CameraHelper(light.shadow.camera);
@@ -89,7 +95,7 @@ const rectangle = createRectangle({
     depth: 4,
     x: 10,
     y: 4,
-    z: 4
+    z: 4,
 });
 const plane = createPlane();
 
@@ -100,9 +106,9 @@ const scene = new THREE.Scene();
 
 scene.add(light, lightHelper, cameraHelper, sphere, rectangle, plane);
 
-function loop() {
-    requestAnimationFrame(loop);
+function animate() {
+    requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
 
-loop();
+animate();
