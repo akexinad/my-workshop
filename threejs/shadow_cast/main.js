@@ -8,30 +8,43 @@ const createRenderer = () => {
         canvas: canvas,
     });
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.BasicShadowMap;
 
     return renderer;
 };
 
-const createCamera = () => {
+const createCamera = (scene) => {
     const camera = new THREE.PerspectiveCamera(
-        50,
+        30,
         window.innerWidth / window.innerHeight,
         0.1,
         500
     );
-    camera.position.set(0, 50, 100);
+    camera.position.set(0, 100, 0);
+
+    camera.lookAt(scene);
 
     return camera;
 };
 
 const createDirectionalLight = () => {
     const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(50, 100, 22);
+    light.position.set(50, 100, 0);
     // light.target.position.set(300, 400, 200);
 
+    // Sharpness of the shadow
+    light.shadow.mapSize.width = 1024;
+    light.shadow.mapSize.height = 1024;
+
+    /**
+     * Where the shadow is actually visible.
+     * With the light helper you will see a yellow cuve. This box determines
+     * where exactly the shadow will be visible. This is so you can taylor 
+     * exactly where you want to show shadow and improve performance. 
+     */
     light.shadow.camera.near = 0.5;
-    light.shadow.camera.far = 5000;
+    light.shadow.camera.far = 500;
     light.shadow.camera.left = -50;
     light.shadow.camera.bottom = -50;
     light.shadow.camera.right = 50;
@@ -56,7 +69,7 @@ const createRectangle = ({ width, height, depth, x, y, z }) => {
 };
 
 const createSphere = () => {
-    const geometry = new THREE.SphereGeometry(4, 20, 30);
+    const geometry = new THREE.SphereGeometry(4, 50, 50);
     const material = new THREE.MeshLambertMaterial({ color: "red" });
 
     var mesh = new THREE.Mesh(geometry, material);
@@ -94,15 +107,15 @@ const rectangle = createRectangle({
     height: 4,
     depth: 4,
     x: 10,
-    y: 4,
-    z: 4,
+    y: 9,
+    z: 1,
 });
 const plane = createPlane();
 
-const camera = createCamera();
+const scene = new THREE.Scene();
+const camera = createCamera(scene);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-const scene = new THREE.Scene();
 
 scene.add(light, lightHelper, cameraHelper, sphere, rectangle, plane);
 
