@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useThree } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import FiberPerspectiveCamera from "../FiberPerspectiveCamera/FiberPerspectiveCamera";
 
 const CameraController = () => {
 
@@ -18,8 +17,8 @@ const CameraController = () => {
 
         const controls = new OrbitControls(camera, domElement);
 
-        controls.minDistance = 0.001;
-        controls.maxDistance = 200;
+        // controls.minDistance = 0.001;
+        // controls.maxDistance = 200;
 
         return () => controls.dispose();
     }, [camera, domElement]);
