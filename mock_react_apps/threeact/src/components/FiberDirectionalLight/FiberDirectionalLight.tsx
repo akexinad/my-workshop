@@ -11,8 +11,8 @@ const FiberDirectionalLight: FC<ReactThreeFiber.Object3DNode<
     useFrame(() => {
         light.current.position.set(50, 100, 22);
         light.current.target.position.set(300, 400, 200);
-        light.current.shadow.mapSize.width = 1024;
-        light.current.shadow.mapSize.height = 1024;
+        light.current.shadow.mapSize.width = 2048;
+        light.current.shadow.mapSize.height = 2048;
 
         const { camera } = light.current.shadow;
 
