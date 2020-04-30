@@ -5,7 +5,7 @@ const createRenderer = () => {
 
     const renderer = new THREE.WebGLRenderer({
         alpha: true,
-        canvas: canvas,
+        canvas: canvas
     });
     renderer.shadowMap.enabled = true;
     // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -21,7 +21,7 @@ const createCamera = (scene) => {
         0.1,
         500
     );
-    camera.position.set(0, 100, 0);
+    camera.position.set(50, 50, 50);
 
     camera.lookAt(scene);
 
@@ -40,8 +40,8 @@ const createDirectionalLight = () => {
     /**
      * Where the shadow is actually visible.
      * With the light helper you will see a yellow cuve. This box determines
-     * where exactly the shadow will be visible. This is so you can taylor 
-     * exactly where you want to show shadow and improve performance. 
+     * where exactly the shadow will be visible. This is so you can taylor
+     * exactly where you want to show shadow and improve performance.
      */
     light.shadow.camera.near = 0.5;
     light.shadow.camera.far = 500;
@@ -58,7 +58,7 @@ const createDirectionalLight = () => {
 const createRectangle = ({ width, height, depth, x, y, z }) => {
     const geo = new THREE.BoxGeometry(width, height, depth);
     const mat = new THREE.MeshLambertMaterial({
-        color: "#FFC0CB",
+        color: "#FFC0CB"
     });
 
     const mesh = new THREE.Mesh(geo, mat);
@@ -82,13 +82,55 @@ const createSphere = () => {
 const createPlane = () => {
     const geometry = new THREE.PlaneGeometry(100, 100, 1, 1);
     const material = new THREE.MeshPhongMaterial({
-        color: "green",
+        color: "green"
     });
 
     const mesh = new THREE.Mesh(geometry, material);
 
     mesh.receiveShadow = true;
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.y = -5;
+
+    return mesh;
+};
+
+const textureLoader = (img) => {
+    const loader = new THREE.TextureLoader();
+
+    return loader.load(img);
+};
+
+const img = "https://threejsfundamentals.org/threejs/resources/images/wall.jpg";
+const img2 = "./img/map_plane.png";
+const img3 = "./img/siena.png";
+
+const createTextureBox = (img) => {
+    const geometry = new THREE.BoxGeometry(10, 10, 10);
+    /*
+     * MeshBasicMaterial can cast shadows but it cannot recieve shadows
+     */
+    const material = new THREE.MeshLambertMaterial({
+        map: textureLoader(img)
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+
     mesh.castShadow = true;
+    mesh.recieveShadow = true;
+    mesh.position.set(-10, 10, -10);
+
+    return mesh;
+};
+
+const createTexturePlane = (img) => {
+    const geometry = new THREE.PlaneGeometry(100, 100, 1, 1);
+    const material = new THREE.MeshPhongMaterial({
+        map: textureLoader(img)
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+
+    mesh.receiveShadow = true;
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.y = -5;
 
@@ -108,16 +150,26 @@ const rectangle = createRectangle({
     depth: 4,
     x: 10,
     y: 9,
-    z: 1,
+    z: 1
 });
-const plane = createPlane();
+// const plane = createPlane();
+const texturePlane = createTexturePlane(img3);
+const textureBox = createTextureBox(img);
 
 const scene = new THREE.Scene();
 const camera = createCamera(scene);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-
-scene.add(light, lightHelper, cameraHelper, sphere, rectangle, plane);
+scene.add(
+    light,
+    lightHelper,
+    cameraHelper,
+    sphere,
+    rectangle,
+    // plane,
+    texturePlane,
+    textureBox
+);
 
 function animate() {
     requestAnimationFrame(animate);
