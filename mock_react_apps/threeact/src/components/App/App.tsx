@@ -7,11 +7,10 @@ import Box from "../Box/Box";
 import Rectangle from "../Rectangle/Rectangle";
 import Sphere from "../Sphere/Sphere";
 import FiberDirectionalLight from "../FiberDirectionalLight/FiberDirectionalLight";
-import Floor from "../Floor/Floor";
+// import Floor from "../Floor/Floor";
 import MapPlane from "../MapPlane/MapPlane";
 
 import "./App.css";
-import planeMesh from "../../vanillaThree/mapPlane";
 
 const App = () => {
     return (

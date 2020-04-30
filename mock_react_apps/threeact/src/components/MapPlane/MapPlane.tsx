@@ -7,8 +7,8 @@ const MapPlane: FC<ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>> = (
 ) => {
     const mesh = useRef(new Mesh());
 
-    const img = "https://threejsfundamentals.org/threejs/resources/images/wall.jpg";
-    const img2 = "./images/map_plane.png";
+    // const img = "https://threejsfundamentals.org/threejs/resources/images/wall.jpg";
+    // const img2 = "./images/map_plane.png";
     const img3 = "./images/siena.png";
 
     const textureLoader = new TextureLoader();
