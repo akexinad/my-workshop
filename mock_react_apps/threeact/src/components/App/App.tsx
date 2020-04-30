@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Canvas } from "react-three-fiber";
-import { AxesHelper } from "three";
+import { AxesHelper, PCFSoftShadowMap } from "three";
 
 import CameraController from "../CameraController/CameraController";
 import Box from "../Box/Box";
@@ -16,12 +16,15 @@ const App = () => {
         <Fragment>
             <div className="App">
                 <header className="App-header">
-                    <h3>3ACT</h3>
+                    <h3>THREEACT</h3>
                 </header>
             </div>
 
             <Canvas
-                shadowMap={true}
+                shadowMap={{
+                    enabled: true,
+                    type: PCFSoftShadowMap,
+                }}
                 style={{ height: "85vh", backgroundColor: "grey" }}
             >
                 {/*
