@@ -37,7 +37,7 @@ const App = () => {
                 Camera controller is where you can set up orbit controls by passing in the camera and the dom element.
                  */}
                 <CameraController />
-                {/* <ambientLight /> */}
+                <ambientLight intensity={0.1} />
                 <FiberDirectionalLight />
                 <primitive object={new AxesHelper(10)} />
                 <mesh
