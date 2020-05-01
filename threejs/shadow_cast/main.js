@@ -168,7 +168,7 @@ scene.add(
     rectangle,
     // plane,
     texturePlane,
-    textureBox
+    textureBox,
 );
 
 function animate() {
