@@ -1,6 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Canvas } from "react-three-fiber";
-import { AxesHelper, PCFSoftShadowMap, BoxGeometry, MeshLambertMaterial } from "three";
+import {
+    AxesHelper,
+    PCFSoftShadowMap,
+    BoxGeometry,
+    MeshLambertMaterial,
+} from "three";
 
 import CameraController from "../CameraController/CameraController";
 import Box from "../Box/Box";
@@ -14,7 +19,7 @@ import "./App.css";
 
 const App = () => {
     return (
-        <Fragment>
+        <>
             <div className="App">
                 <header className="App-header">
                     <h3>THREEACT</h3>
@@ -38,7 +43,7 @@ const App = () => {
                 <mesh
                     castShadow
                     geometry={new BoxGeometry(5, 5, 5)}
-                    material={new MeshLambertMaterial({color: 0xd40000})}
+                    material={new MeshLambertMaterial({ color: "green" })}
                     position={[10, 10, -15]}
                 />
                 {/* <Floor position={[0, 0, 0]} /> */}
@@ -48,7 +53,7 @@ const App = () => {
                 <Box position={[1.2, 4, 0]} />
                 <Sphere position={[5, 4, 6]} />
             </Canvas>
-        </Fragment>
+        </>
     );
 };
 
