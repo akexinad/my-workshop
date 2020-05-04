@@ -10,8 +10,8 @@ const CameraController = () => {
 
     useEffect(() => {
         camera.position.x = -10;
-        camera.position.y = 5;
-        camera.position.z = 10;
+        camera.position.y = 15;
+        camera.position.z = 20;
 
         const controls = new OrbitControls(camera, domElement);
 

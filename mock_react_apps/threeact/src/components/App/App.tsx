@@ -16,6 +16,7 @@ import FiberDirectionalLight from "../FiberDirectionalLight/FiberDirectionalLigh
 import MapPlane from "../MapPlane/MapPlane";
 
 import "./App.css";
+import Sun from "../Sun/Sun";
 
 const App = () => {
     return (
@@ -38,7 +39,7 @@ const App = () => {
                  */}
                 <CameraController />
                 <ambientLight intensity={0.1} />
-                <FiberDirectionalLight />
+                <Sun initialPosition={{x: 50, y: 100, z: 20}} />
                 <primitive object={new AxesHelper(10)} />
                 <mesh
                     castShadow
