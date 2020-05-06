@@ -11,7 +11,7 @@ const Floor: FC<ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>> = (props) => {
 
     return (
         <mesh {...props} ref={floor} receiveShadow={true} castShadow={true}>
-            <planeGeometry attach="geometry" args={[1000, 1000, 1, 1]} />
+            <planeGeometry attach="geometry" args={[500, 500, 1, 1]} />
             <meshPhongMaterial attach="material" color="green" />
         </mesh>
     );
