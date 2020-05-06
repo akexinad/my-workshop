@@ -1,39 +1,34 @@
 import { GUI } from "dat.gui";
 import { Sky } from "three/examples/jsm/objects/Sky";
-import { Mesh, Scene, Camera, WebGLRenderer, DirectionalLight } from "three";
+import { DirectionalLight, Object3D } from "three";
 
-const DISTANCE = 400000;
+const DISTANCE = 1000;
 
-const addGUIControls = (
+const initSkyControls = (
     sky: Sky,
-    sunSphere: Mesh,
     light: DirectionalLight,
-    renderer: WebGLRenderer,
-    scene: Scene,
-    camera: Camera
 ) => {
     const gui = new GUI();
 
-    sky.scale.setScalar(450000);
+    sky.scale.setScalar(2500);
     sky.castShadow = true;
-    sky.receiveShadow = true;
 
-    sunSphere.position.y = -700000;
 
-    light.position.y = -700000;
-    light.shadow.mapSize.width = 2048;
-    light.shadow.mapSize.height = 2048;
+    light.position.y = -1000;
 
     const lightCamera = light.shadow.camera;
 
     lightCamera.near = 1;
-    lightCamera.far = 200000;
-    lightCamera.left = -5000;
+    lightCamera.far = 2000;
+    lightCamera.left = -500;
     lightCamera.bottom = -500;
     lightCamera.right = 500;
     lightCamera.top = 500;
 
     light.castShadow = true;
+
+    light.shadow.mapSize.width = 2048;
+    light.shadow.mapSize.height = 2048;
 
     const effectController = {
         turbidity: 10,
@@ -45,7 +40,7 @@ const addGUIControls = (
         azimuth: 0.25, // Facing front,
     };
 
-    const guiChanged = () => {
+    const guiChanged = () => { 
         const uniforms = sky.material.uniforms;
 
         uniforms["turbidity"].value = effectController.turbidity;
@@ -57,22 +52,19 @@ const addGUIControls = (
         const theta = Math.PI * (effectController.inclination - 0.5);
         const phi = 2 * Math.PI * (effectController.azimuth - 0.5);
 
-        sunSphere.position.x = DISTANCE * Math.cos(phi);
-        sunSphere.position.y = DISTANCE * Math.sin(phi) * Math.sin(theta);
-        sunSphere.position.z = DISTANCE * Math.sin(phi) * Math.cos(theta);
+        const inclineAzimuth = (mesh: Object3D) => {
+            mesh.position.x = DISTANCE * Math.cos(phi);
+            mesh.position.y = DISTANCE * Math.sin(phi) * Math.sin(theta);
+            mesh.position.z = DISTANCE * Math.sin(phi) * Math.cos(theta);
+        }
 
-        light.position.x = DISTANCE * Math.cos(phi);
-        light.position.y = DISTANCE * Math.sin(phi) * Math.sin(theta);
-        light.position.z = DISTANCE * Math.sin(phi) * Math.cos(theta);
+        inclineAzimuth(light);
 
-        uniforms["sunPosition"].value.copy(sunSphere.position);
+        uniforms["sunPosition"].value.copy(light.position);
 
-        renderer.render(scene, camera);
     };
 
-    sunSphere.position.set(0, -700000, 0);
-    light.position.set(0, -700000, 0);
-    sunSphere.visible = false;
+    light.position.set(0, -7000, 0);
 
     gui.add(effectController, "turbidity", 1.0, 20.0, 0.1).onChange(guiChanged);
     gui.add(effectController, "rayleigh", 0.0, 4, 0.001).onChange(guiChanged);
@@ -89,4 +81,4 @@ const addGUIControls = (
     guiChanged();
 };
 
-export default addGUIControls;
+export default initSkyControls;
