@@ -5,6 +5,7 @@ import {
     PCFSoftShadowMap,
     BoxGeometry,
     MeshLambertMaterial,
+    BasicShadowMap,
 } from "three";
 
 import CameraController from "../Controls/CameraController/CameraController";
@@ -57,7 +58,6 @@ const App = () => {
                 }}
                 style={{
                     height: "85vh",
-                    // backgroundColor: "grey"
                 }}
             >
                 {/*
@@ -65,7 +65,7 @@ const App = () => {
                  */}
                 <CameraController />
                 <SkyController />
-                {/* <ambientLight intensity={0.1} /> */}
+                <ambientLight intensity={0.3} />
                 {/* <Sun initialPosition={{ x: 50, y: 100, z: 20 }} /> */}
                 <primitive object={new AxesHelper(10)} />
                 <mesh
