@@ -1,11 +1,10 @@
 import React from "react";
-import { Canvas, useThree, useFrame } from "react-three-fiber";
+import { Canvas } from "react-three-fiber";
 import {
     AxesHelper,
     PCFSoftShadowMap,
     BoxGeometry,
     MeshLambertMaterial,
-    BasicShadowMap,
 } from "three";
 
 import CameraController from "../Controls/CameraController/CameraController";
@@ -13,10 +12,8 @@ import Box from "../Box/Box";
 import Rectangle from "../Rectangle/Rectangle";
 import Sphere from "../Sphere/Sphere";
 import MapPlane from "../MapPlane/MapPlane";
-import Sun from "../Sun/Sun";
-import addGuiControls from "../../utils/guiControls";
-import FiberSky from "../FiberSky/FiberSky";
-import Floor from "../Floor/Floor";
+// import Sun from "../Sun/Sun";
+// import Floor from "../Floor/Floor";
 import SkyController from "../Controls/SkyController/SkyController";
 
 import "./App.css";
@@ -65,7 +62,7 @@ const App = () => {
                  */}
                 <CameraController />
                 <SkyController />
-                <ambientLight intensity={0.3} />
+                <ambientLight intensity={0.5} />
                 {/* <Sun initialPosition={{ x: 50, y: 100, z: 20 }} /> */}
                 <primitive object={new AxesHelper(10)} />
                 <mesh
@@ -75,12 +72,12 @@ const App = () => {
                     material={new MeshLambertMaterial({ color: 0xd40000 })}
                     position={[10, 50, -15]}
                 />
-                <Floor position={[0, 0, 0]} />
-                {/* <MapPlane position={[0, 0, 0]} /> */}
-                {/* <Rectangle position={[3, 1, 3]} /> */}
-                {/* <Box position={[-1.2, 4, 0]} /> */}
-                {/* <Box position={[1.2, 4, 0]} /> */}
-                {/* <Sphere position={[5, 4, 6]} /> */}
+                {/* <Floor position={[0, 0, 0]} /> */}
+                <MapPlane position={[0, 0, 0]} />
+                <Rectangle position={[3, 1, 3]} />
+                <Box position={[-1.2, 4, 0]} />
+                <Box position={[1.2, 4, 0]} />
+                <Sphere position={[5, 4, 6]} />
             </Canvas>
         </>
     );
