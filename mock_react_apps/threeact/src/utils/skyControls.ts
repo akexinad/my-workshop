@@ -3,7 +3,6 @@ import { Sky } from "three/examples/jsm/objects/Sky";
 import { DirectionalLight, Object3D, Vector3, Mesh } from "three";
 
 const DISTANCE = 1000;
-const RADIAN = Math.PI / 180
 
 const initSkyControls = (
     sky: Sky,

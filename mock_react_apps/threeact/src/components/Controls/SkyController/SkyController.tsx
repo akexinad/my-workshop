@@ -41,6 +41,7 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
 
         setlightHelper(new DirectionalLightHelper(light.current));
         setCameraHelper(new CameraHelper(light.current.shadow.camera));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
