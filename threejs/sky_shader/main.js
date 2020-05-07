@@ -21,11 +21,9 @@ const createCamera = (scene) => {
         0.1,
         3000
     );
-    camera.position.set(50, 200, 50);
+    camera.position.set(-61, -204, 18);
 
     camera.lookAt(scene);
-
-    // camera.DefaultUp = new THREE.Vector3(0, 0, 1);
 
     camera.up = new THREE.Vector3(0, 0, 1);
     
@@ -36,7 +34,7 @@ const createAxesHelper = () => {
 
     const axesHelper = new THREE.AxesHelper(10);
 
-    axesHelper.rotateX(Math.PI / -2);
+    axesHelper.up = new THREE.Vector3(0, 0, 1);
 
     return axesHelper;
 }
@@ -44,7 +42,7 @@ const createAxesHelper = () => {
 const createSky = () => {
     const sky = new Sky();
     sky.scale.setScalar(4500);
-    // sky.material.uniforms.up.value.set( 0, 0, 1 )
+    sky.material.uniforms.up.value.set( 0, 0, 1 )
     // sky.DefaultUp = new THREE.Vector3(0, 0, 1);
     return sky
 }
@@ -168,7 +166,7 @@ var effectController = {
     mieCoefficient: 0.005,
     mieDirectionalG: 0.8,
     luminance: 1,
-    inclination: 0.49, // elevation / inclination
+    inclination: 0.0033, // elevation / inclination
     azimuth: 0.25, // Facing front,
     sun: !true
 };
@@ -186,8 +184,8 @@ function guiChanged() {
     uniforms["mieDirectionalG"].value = effectController.mieDirectionalG;
     uniforms["luminance"].value = effectController.luminance;
 
-    var theta = Math.PI * (effectController.inclination - 0.5);
-    var phi = 2 * Math.PI * (effectController.azimuth - 0.5);
+    var theta = Math.PI * -(effectController.inclination - 0.5);
+    var phi = 2 * Math.PI * -(effectController.azimuth - 0.5);
 
     sunSphere.position.x = distance * Math.cos(phi);
     sunSphere.position.y = distance * Math.sin(phi) * Math.sin(theta);
@@ -211,7 +209,7 @@ gui.add(effectController, "mieDirectionalG", 0.0, 1, 0.001).onChange(
     guiChanged
 );
 gui.add(effectController, "luminance", 0.0, 2).onChange(guiChanged);
-gui.add(effectController, "inclination", 0, 1, 0.0001).onChange(guiChanged);
+gui.add(effectController, "inclination", -.2, 1.2, 0.0001).onChange(guiChanged);
 gui.add(effectController, "azimuth", 0, 1, 0.0001).onChange(guiChanged);
 gui.add(effectController, "sun").onChange(guiChanged);
 
@@ -231,6 +229,7 @@ const textureBox = createTextureBox(img);
 const scene = new THREE.Scene();
 const camera = createCamera(scene);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
 
 scene.add(
     createAxesHelper(),
