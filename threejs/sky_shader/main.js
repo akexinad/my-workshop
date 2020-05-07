@@ -21,9 +21,11 @@ const createCamera = (scene) => {
         0.1,
         3000
     );
-    camera.position.set(50, 50, 50);
+    camera.position.set(50, 200, 50);
 
     camera.lookAt(scene);
+
+    // camera.DefaultUp = new THREE.Vector3(0, 0, 1);
 
     camera.up = new THREE.Vector3(0, 0, 1);
     
@@ -43,6 +45,7 @@ const createSky = () => {
     const sky = new Sky();
     sky.scale.setScalar(4500);
     // sky.material.uniforms.up.value.set( 0, 0, 1 )
+    // sky.DefaultUp = new THREE.Vector3(0, 0, 1);
     return sky
 }
 
