@@ -18,6 +18,7 @@ import MapPlane from "../MapPlane/MapPlane";
 import SunController from "../SunController/SunController";
 
 import "./App.css";
+import SkyController from "../Controls/SkyController/SkyController";
 
 /**
  * 
@@ -62,8 +63,8 @@ const App = () => {
                 Camera controller is where you can set up orbit controls by passing in the camera and the dom element.
                  */}
                 <CameraController />
-                {/* <SkyController /> */}
-                <SunController />
+                <SkyController />
+                {/* <SunController /> */}
                 <ambientLight intensity={0.4} />
                 {/* <Sun initialPosition={{ x: 0, y: 50, z: -700 }} /> */}
                 <primitive object={new AxesHelper(10)} />

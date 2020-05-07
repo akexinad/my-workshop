@@ -7,6 +7,10 @@ export const addGUIControls = (
 ) => {
     const gui = new GUI();
 
+    gui.domElement.id = "gui";
+
+    console.log((gui.domElement.parentNode));
+
     gui.add(effectController, "inclination", 0, 1, 0.0001).onChange(
         handleChange
     );

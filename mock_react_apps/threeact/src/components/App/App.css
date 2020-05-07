@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+#gui {
+  position: absolute;
+  right: -15px;
+  top: 110px;
+}
