@@ -28,10 +28,10 @@ const FiberDirectionalLight: FC<DirectionalLightProps> = (props) => {
     
         camera.near = 0.5;
         camera.far = 5000;
-        camera.left = -50;
-        camera.bottom = -50;
-        camera.right = 50;
-        camera.top = 50;
+        camera.left = -100;
+        camera.bottom = -100;
+        camera.right = 100;
+        camera.top = 100;
     
         light.current.castShadow = true;
     

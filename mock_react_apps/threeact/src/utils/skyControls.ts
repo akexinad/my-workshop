@@ -1,29 +1,31 @@
 import { GUI } from "dat.gui";
 import { Sky } from "three/examples/jsm/objects/Sky";
-import { DirectionalLight, Object3D } from "three";
+import { DirectionalLight, Object3D, Vector3, Mesh } from "three";
 
 const DISTANCE = 1000;
+const RADIAN = Math.PI / 180
 
 const initSkyControls = (
     sky: Sky,
     light: DirectionalLight,
+    cube: Mesh
 ) => {
     const gui = new GUI();
 
     sky.scale.setScalar(2500);
     sky.castShadow = true;
-
+    sky.material.uniforms.up.value = new Vector3( 0, 1, 0 );
 
     light.position.y = -1000;
 
-    const lightCamera = light.shadow.camera;
+    const { camera } = light.shadow;
 
-    lightCamera.near = 1;
-    lightCamera.far = 2000;
-    lightCamera.left = -500;
-    lightCamera.bottom = -500;
-    lightCamera.right = 500;
-    lightCamera.top = 500;
+    camera.near = 1;
+    camera.far = 2000;
+    camera.left = -500;
+    camera.bottom = -500;
+    camera.right = 500;
+    camera.top = 500;
 
     light.castShadow = true;
 
@@ -59,22 +61,13 @@ const initSkyControls = (
         }
 
         inclineAzimuth(light);
+        inclineAzimuth(cube);
 
         uniforms["sunPosition"].value.copy(light.position);
-
     };
 
     light.position.set(0, -7000, 0);
 
-    gui.add(effectController, "turbidity", 1.0, 20.0, 0.1).onChange(guiChanged);
-    gui.add(effectController, "rayleigh", 0.0, 4, 0.001).onChange(guiChanged);
-    gui.add(effectController, "mieCoefficient", 0.0, 0.1, 0.001).onChange(
-        guiChanged
-    );
-    gui.add(effectController, "mieDirectionalG", 0.0, 1, 0.001).onChange(
-        guiChanged
-    );
-    gui.add(effectController, "luminance", 0.0, 2).onChange(guiChanged);
     gui.add(effectController, "inclination", 0, 1, 0.0001).onChange(guiChanged);
     gui.add(effectController, "azimuth", 0, 1, 0.0001).onChange(guiChanged);
 

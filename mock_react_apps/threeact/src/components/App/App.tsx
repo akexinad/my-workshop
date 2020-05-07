@@ -12,11 +12,12 @@ import Box from "../Box/Box";
 import Rectangle from "../Rectangle/Rectangle";
 import Sphere from "../Sphere/Sphere";
 import MapPlane from "../MapPlane/MapPlane";
-// import Sun from "../Sun/Sun";
+import Sun from "../Sun/Sun";
 // import Floor from "../Floor/Floor";
 import SkyController from "../Controls/SkyController/SkyController";
 
 import "./App.css";
+import SunController from "../SunController/SunController";
 
 /**
  * 
@@ -61,9 +62,10 @@ const App = () => {
                 Camera controller is where you can set up orbit controls by passing in the camera and the dom element.
                  */}
                 <CameraController />
-                <SkyController />
-                <ambientLight intensity={0.5} />
-                {/* <Sun initialPosition={{ x: 50, y: 100, z: 20 }} /> */}
+                {/* <SkyController /> */}
+                <SunController />
+                <ambientLight intensity={0.4} />
+                {/* <Sun initialPosition={{ x: 0, y: 50, z: -700 }} /> */}
                 <primitive object={new AxesHelper(10)} />
                 <mesh
                     castShadow={true}

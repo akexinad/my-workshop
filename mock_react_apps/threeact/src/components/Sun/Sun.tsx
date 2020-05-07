@@ -15,8 +15,8 @@ const Sun: FC<SunProps> = (props) => {
     const sun = useRef(new Mesh());
 
     useEffect(() => {
-        sun.current.position.set(x, y, z);
-    }, [x, y, z])
+        sun.current.position.set(0, 50, -700);
+    }, [])
 
     useFrame(() => {
     });

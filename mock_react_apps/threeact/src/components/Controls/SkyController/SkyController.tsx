@@ -5,6 +5,8 @@ import {
     DirectionalLight,
     DirectionalLightHelper,
     CameraHelper,
+    BoxGeometry,
+    MeshLambertMaterial,
 } from "three";
 import { Sky } from "../../../../node_modules/three/examples/jsm/objects/Sky";
 
@@ -17,6 +19,10 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
     const sky = useRef<Sky>(new Sky());
     const sunSphere = useRef<Mesh>(new Mesh());
     const light = useRef<DirectionalLight>(new DirectionalLight(0xffffff, 1));
+    const cube = new Mesh(
+        new BoxGeometry(30, 30, 30),
+        new MeshLambertMaterial({ color: "purple" })
+    )
 
     const [lightHelper, setlightHelper] = useState(
         new DirectionalLightHelper(light.current)
@@ -30,6 +36,7 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
         initSkyControls(
             sky.current,
             light.current,
+            cube
         );
 
         setlightHelper(new DirectionalLightHelper(light.current));
@@ -43,6 +50,7 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
                 object={sky.current}
             />
             <directionalLight ref={light} position={sunSphere.current.position} />
+            <primitive object={cube} position={[0, 50, -700]} />
             <primitive object={cameraHelper} />
             <primitive object={lightHelper} />
         </>
