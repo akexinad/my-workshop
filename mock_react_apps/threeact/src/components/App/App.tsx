@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Canvas } from "react-three-fiber";
 import {
     AxesHelper,
     PCFSoftShadowMap,
     BoxGeometry,
     MeshLambertMaterial,
+    Vector3,
 } from "three";
 
 import CameraController from "../Controls/CameraController/CameraController";
@@ -42,6 +43,12 @@ import SkyController from "../Controls/SkyController/SkyController";
  */
 
 const App = () => {
+    const axesHelper = useRef(new AxesHelper(10))
+
+    useEffect(() => {
+        axesHelper.current.up = new Vector3(0, 0, 1);
+    }, [])
+
     return (
         <>
             <div className="App">
@@ -67,20 +74,20 @@ const App = () => {
                 {/* <SunController /> */}
                 <ambientLight intensity={0.4} />
                 {/* <Sun initialPosition={{ x: 0, y: 50, z: -700 }} /> */}
-                <primitive object={new AxesHelper(10)} />
+                <primitive ref={axesHelper} object={axesHelper.current} />
                 <mesh
                     castShadow={true}
                     receiveShadow={true}
                     geometry={new BoxGeometry(50, 50, 50)}
                     material={new MeshLambertMaterial({ color: 0xd40000 })}
-                    position={[10, 50, -15]}
+                    position={[10, 50, 25]}
                 />
                 {/* <Floor position={[0, 0, 0]} /> */}
                 <MapPlane position={[0, 0, 0]} />
-                <Rectangle position={[3, 1, 3]} />
-                <Box position={[-1.2, 4, 0]} />
-                <Box position={[1.2, 4, 0]} />
-                <Sphere position={[5, 4, 6]} />
+                {/* <Rectangle position={[3, 1, 3]} /> */}
+                {/* <Box position={[-1.2, 4, 0]} /> */}
+                {/* <Box position={[1.2, 4, 0]} /> */}
+                {/* <Sphere position={[5, 4, 6]} /> */}
             </Canvas>
         </>
     );

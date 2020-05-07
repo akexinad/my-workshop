@@ -2,16 +2,16 @@ import React, { FC } from "react";
 import { useEffect, useRef } from "react";
 import { useThree, ReactThreeFiber } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { PerspectiveCamera } from "three";
+import { PerspectiveCamera, Vector3 } from "three";
 
 const CameraController: FC<ReactThreeFiber.Object3DNode<PerspectiveCamera, typeof PerspectiveCamera>> = (props) => {
 
     const perspectiveCamera = useRef(
         new PerspectiveCamera(
-            60,
+            30,
             window.innerWidth / window.innerHeight,
-            1,
-            1000
+            0.1,
+            3000
         )
     );
 
@@ -21,9 +21,10 @@ const CameraController: FC<ReactThreeFiber.Object3DNode<PerspectiveCamera, typeo
     } = useThree();
 
     useEffect(() => {
+        perspectiveCamera.current.up = new Vector3(0, 0, 1);
         setDefaultCamera(perspectiveCamera.current);
 
-        perspectiveCamera.current.position.set(0, 100, 400);
+        perspectiveCamera.current.position.set(-61, -204, 18);
         
         const controls = new OrbitControls(
             perspectiveCamera.current,

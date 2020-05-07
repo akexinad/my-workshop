@@ -12,10 +12,6 @@ const MapPlane: FC<ReactThreeFiber.Object3DNode<Mesh, typeof Mesh>> = (
 ) => {
     const mesh = useRef(new Mesh());
 
-    useEffect(() => {
-        mesh.current.rotation.x = -Math.PI / 2;
-    }, []);
-
     return (
         <>
             <mesh ref={mesh} receiveShadow={true} {...props}>
