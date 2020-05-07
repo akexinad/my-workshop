@@ -1,8 +1,7 @@
 import { GUI } from "dat.gui";
-import { IEffectController } from "../interfaces";
 
 export const addGUIControls = (
-    effectController: IEffectController,
+    effectController: {},
     handleChange: () => void
 ) => {
     const gui = new GUI();

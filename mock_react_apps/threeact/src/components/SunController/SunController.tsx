@@ -8,7 +8,6 @@ import {
     Object3D,
 } from "three";
 import { addGUIControls } from "../../utils/guiControls";
-import { IEffectController } from "../../interfaces";
 
 const SunController: FC<ReactThreeFiber.Object3DNode<
     Mesh,
@@ -26,7 +25,7 @@ const SunController: FC<ReactThreeFiber.Object3DNode<
         new CameraHelper(light.current.shadow.camera)
     );
 
-    const effectController: IEffectController = {
+    const effectController = {
         inclination: 0.49,
         azimuth: 0.25,
     };
