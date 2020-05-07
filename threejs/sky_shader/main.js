@@ -26,26 +26,25 @@ const createCamera = (scene) => {
     camera.lookAt(scene);
 
     camera.up = new THREE.Vector3(0, 0, 1);
-    
+
     return camera;
 };
 
 const createAxesHelper = () => {
-
     const axesHelper = new THREE.AxesHelper(10);
 
     axesHelper.up = new THREE.Vector3(0, 0, 1);
 
     return axesHelper;
-}
+};
 
 const createSky = () => {
     const sky = new Sky();
     sky.scale.setScalar(4500);
-    sky.material.uniforms.up.value.set( 0, 0, 1 )
+    sky.material.uniforms.up.value.set(0, 0, 1);
     // sky.DefaultUp = new THREE.Vector3(0, 0, 1);
-    return sky
-}
+    return sky;
+};
 
 const createDirectionalLight = () => {
     const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -143,12 +142,9 @@ const createTexturePlane = (img) => {
     return mesh;
 };
 
-
-
 const renderer = createRenderer();
 
 const sky = createSky();
-
 
 // Add Sun Helper
 sunSphere = new THREE.Mesh(
@@ -176,8 +172,6 @@ var distance = 400000;
 function guiChanged() {
     var uniforms = sky.material.uniforms;
 
-
-    
     uniforms["turbidity"].value = effectController.turbidity;
     uniforms["rayleigh"].value = effectController.rayleigh;
     uniforms["mieCoefficient"].value = effectController.mieCoefficient;
@@ -209,13 +203,13 @@ gui.add(effectController, "mieDirectionalG", 0.0, 1, 0.001).onChange(
     guiChanged
 );
 gui.add(effectController, "luminance", 0.0, 2).onChange(guiChanged);
-gui.add(effectController, "inclination", -.2, 1.2, 0.0001).onChange(guiChanged);
+gui.add(effectController, "inclination", -0.2, 1.2, 0.0001).onChange(
+    guiChanged
+);
 gui.add(effectController, "azimuth", 0, 1, 0.0001).onChange(guiChanged);
 gui.add(effectController, "sun").onChange(guiChanged);
 
 guiChanged();
-
-
 
 const light = createDirectionalLight();
 const lightHelper = new THREE.DirectionalLightHelper(light, 5);
@@ -229,7 +223,6 @@ const textureBox = createTextureBox(img);
 const scene = new THREE.Scene();
 const camera = createCamera(scene);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-
 
 scene.add(
     createAxesHelper(),
