@@ -27,6 +27,8 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
         new CameraHelper(light.current.shadow.camera)
     );
 
+    // const
+
     var effectController = {
         turbidity: 10,
         rayleigh: 2,
@@ -74,14 +76,14 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
         sunSphere.current.position.set(x, y, z);
         light.current.position.set(x, y, z);
 
-        const lightCamera = light.current.shadow.camera;
+        const { camera } = light.current.shadow;
 
-        lightCamera.near = 1;
-        lightCamera.far = 2000;
-        lightCamera.left = -500;
-        lightCamera.bottom = -500;
-        lightCamera.right = 500;
-        lightCamera.top = 500;
+        camera.near = 1;
+        camera.far = 2000;
+        camera.left = -500;
+        camera.bottom = -500;
+        camera.right = 500;
+        camera.top = 500;
 
         light.current.castShadow = true;
 
