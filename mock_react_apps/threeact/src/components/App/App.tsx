@@ -9,14 +9,14 @@ import {
 } from "three";
 
 import CameraController from "../Controls/CameraController/CameraController";
-import Box from "../Box/Box";
-import Rectangle from "../Rectangle/Rectangle";
-import Sphere from "../Sphere/Sphere";
+// import Box from "../Box/Box";
+// import Rectangle from "../Rectangle/Rectangle";
+// import Sphere from "../Sphere/Sphere";
 import MapPlane from "../MapPlane/MapPlane";
 // import Sun from "../Sun/Sun";
 // import Floor from "../Floor/Floor";
 // import SkyController from "../Controls/SkyController/SkyController";
-import SunController from "../SunController/SunController";
+// import SunController from "../SunController/SunController";
 
 import "./App.css";
 import SkyController from "../Controls/SkyController/SkyController";

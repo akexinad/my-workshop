@@ -1,12 +1,6 @@
 import React, { FC, useRef, useEffect, useState } from "react";
 import { ReactThreeFiber, useFrame } from "react-three-fiber";
-import {
-    Mesh,
-    DirectionalLight,
-    CameraHelper,
-    Vector3,
-    Object3D,
-} from "three";
+import { Mesh, DirectionalLight, CameraHelper, Vector3, Object3D } from "three";
 import { Sky } from "../../../../node_modules/three/examples/jsm/objects/Sky";
 
 import { addGUIControls } from "../../../utils/guiControls";
@@ -18,7 +12,7 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
     const DISTANCE = 700;
     const initialPosition = new Vector3(0, 50, -DISTANCE);
     const { x, y, z } = initialPosition;
-    
+
     const sky = useRef<Sky>(new Sky());
     const sunSphere = useRef<Mesh>(new Mesh());
     const light = useRef<DirectionalLight>(new DirectionalLight(0xffffff, 1));
@@ -26,8 +20,6 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
     const [cameraHelper, setCameraHelper] = useState(
         new CameraHelper(light.current.shadow.camera)
     );
-
-    // const
 
     var effectController = {
         turbidity: 10,
@@ -93,12 +85,14 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
         addGUIControls(effectController, handleChange);
 
         setCameraHelper(new CameraHelper(light.current.shadow.camera));
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <>
             <primitive ref={sky} object={sky.current} />
-            <mesh ref={sunSphere} >
+            <mesh ref={sunSphere}>
                 <sphereBufferGeometry attach="geometry" args={[50, 30, 30]} />
                 <meshBasicMaterial attach="material" color="yellow" />
             </mesh>

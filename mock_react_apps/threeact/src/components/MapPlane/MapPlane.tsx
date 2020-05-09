@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { ReactThreeFiber } from "react-three-fiber";
 import { Mesh, TextureLoader } from "three";
 
