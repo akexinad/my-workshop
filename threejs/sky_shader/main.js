@@ -19,7 +19,7 @@ const createCamera = (scene) => {
         30,
         window.innerWidth / window.innerHeight,
         0.1,
-        3000
+        4000
     );
     camera.position.set(-61, -204, 18);
 
@@ -39,8 +39,8 @@ const createAxesHelper = () => {
 };
 
 const createSky = () => {
-    const sky = new Sky();
-    sky.scale.setScalar(4500);
+    const sky = new SphereSky();
+    sky.scale.setScalar(1500);
     sky.material.uniforms.up.value.set(0, 0, 1);
     // sky.DefaultUp = new THREE.Vector3(0, 0, 1);
     return sky;
