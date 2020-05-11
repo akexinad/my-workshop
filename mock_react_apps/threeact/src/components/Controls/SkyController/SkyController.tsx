@@ -1,7 +1,7 @@
 import React, { FC, useRef, useEffect, useState } from "react";
 import { ReactThreeFiber, useFrame } from "react-three-fiber";
 import { Mesh, DirectionalLight, CameraHelper, Vector3, Object3D } from "three";
-import { Sky } from "../../../../node_modules/three/examples/jsm/objects/Sky";
+import Sky from "./Sky";
 
 import { addGUIControls } from "../../../utils/guiControls";
 

@@ -13,13 +13,10 @@ import CameraController from "../Controls/CameraController/CameraController";
 // import Rectangle from "../Rectangle/Rectangle";
 // import Sphere from "../Sphere/Sphere";
 import MapPlane from "../MapPlane/MapPlane";
-// import Sun from "../Sun/Sun";
 // import Floor from "../Floor/Floor";
-// import SkyController from "../Controls/SkyController/SkyController";
-// import SunController from "../SunController/SunController";
+import SkyController from "../Controls/SkyController/SkyController";
 
 import "./App.css";
-import SkyController from "../Controls/SkyController/SkyController";
 
 /**
  * 
@@ -71,9 +68,7 @@ const App = () => {
                  */}
                 <CameraController />
                 <SkyController />
-                {/* <SunController /> */}
                 <ambientLight intensity={0.4} />
-                {/* <Sun initialPosition={{ x: 0, y: 50, z: -700 }} /> */}
                 <primitive ref={axesHelper} object={axesHelper.current} />
                 <mesh
                     castShadow={true}
