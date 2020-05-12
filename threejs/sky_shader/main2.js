@@ -1,130 +1,186 @@
-// import * as THREE from "../build/three.module.js";
+// import SunCalc from "suncalc";
 
-// import { GUI } from "./jsm/libs/dat.gui.module.js";
-// import { OrbitControls } from "./jsm/controls/OrbitControls.js";
-// import { Sky } from "./jsm/objects/Sky.js";
+// RENDERER ///////////////////
 
-var camera, controls, scene, renderer;
+const scene = new THREE.Scene();
 
-var sky, sunSphere;
-
-init();
-render();
-
-function initSky() {
-    // Add Sky
-    sky = new Sky();
-    sky.scale.setScalar(4500);
-    scene.add(sky);
-
-    // Add Sun Helper
-    sunSphere = new THREE.Mesh(
-        new THREE.SphereBufferGeometry(20000, 16, 8),
-        new THREE.MeshBasicMaterial({ color: 0xffffff })
-    );
-    sunSphere.position.y = -700000;
-    sunSphere.visible = false;
-    scene.add(sunSphere);
-
-    /// GUI
-
-    var effectController = {
-        turbidity: 10,
-        rayleigh: 2,
-        mieCoefficient: 0.005,
-        mieDirectionalG: 0.8,
-        luminance: 1,
-        inclination: 0.49, // elevation / inclination
-        azimuth: 0.25, // Facing front,
-        sun: !true
-    };
-
-    var distance = 400000;
-
-    function guiChanged() {
-        var uniforms = sky.material.uniforms;
-        uniforms["turbidity"].value = effectController.turbidity;
-        uniforms["rayleigh"].value = effectController.rayleigh;
-        uniforms["mieCoefficient"].value = effectController.mieCoefficient;
-        uniforms["mieDirectionalG"].value = effectController.mieDirectionalG;
-        uniforms["luminance"].value = effectController.luminance;
-
-        var theta = Math.PI * (effectController.inclination - 0.5);
-        var phi = 2 * Math.PI * (effectController.azimuth - 0.5);
-
-        sunSphere.position.x = distance * Math.cos(phi);
-        sunSphere.position.y = distance * Math.sin(phi) * Math.sin(theta);
-        sunSphere.position.z = distance * Math.sin(phi) * Math.cos(theta);
-
-        sunSphere.visible = effectController.sun;
-
-        uniforms["sunPosition"].value.copy(sunSphere.position);
-
-        renderer.render(scene, camera);
-    }
-
-    var gui = new dat.GUI();
-
-    gui.add(effectController, "turbidity", 1.0, 20.0, 0.1).onChange(guiChanged);
-    gui.add(effectController, "rayleigh", 0.0, 4, 0.001).onChange(guiChanged);
-    gui.add(effectController, "mieCoefficient", 0.0, 0.1, 0.001).onChange(
-        guiChanged
-    );
-    gui.add(effectController, "mieDirectionalG", 0.0, 1, 0.001).onChange(
-        guiChanged
-    );
-    gui.add(effectController, "luminance", 0.0, 2).onChange(guiChanged);
-    gui.add(effectController, "inclination", 0, 1, 0.0001).onChange(guiChanged);
-    gui.add(effectController, "azimuth", 0, 1, 0.0001).onChange(guiChanged);
-    gui.add(effectController, "sun").onChange(guiChanged);
-
-    guiChanged();
-}
-
-function init() {
-    camera = new THREE.PerspectiveCamera(
-        60,
-        window.innerWidth / window.innerHeight,
-        100,
-        2000000
-    );
-    camera.position.set(0, 100, 2000);
-
-    scene = new THREE.Scene();
-
-    var helper = new THREE.GridHelper(10000, 2, 0xffffff, 0xffffff);
-    scene.add(helper);
-
+const createRenderer = () => {
     const canvas = document.getElementById("c");
+    canvas.setAttribute("width", window.innerWidth);
+    canvas.setAttribute("height", window.innerHeight);
 
-    renderer = new THREE.WebGLRenderer({
+    const renderer = new THREE.WebGLRenderer({
         alpha: true,
         canvas
     });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    // document.body.appendChild(renderer.domElement);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.BasicShadowMap;
 
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.addEventListener("change", render);
-    //controls.maxPolarAngle = Math.PI / 2;
-    controls.enableZoom = false;
-    controls.enablePan = false;
+    return renderer;
+};
 
-    initSky();
+// CAMERA /////////////////////
 
-    window.addEventListener("resize", onWindowResize, false);
-}
+const createCamera = (scene) => {
+    const camera = new THREE.PerspectiveCamera(
+        30,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        3000
+    );
+    camera.position.set(0, 0, 200);
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    camera.lookAt(scene);
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.up = new THREE.Vector3(0, 0, 1);
 
-    render();
-}
+    return camera;
+};
 
-function render() {
+// AXES HELPER ///////////////////
+
+const createAxesHelper = () => {
+    const axesHelper = new THREE.AxesHelper(10);
+
+    axesHelper.rotateX(Math.PI / -2);
+
+    return axesHelper;
+};
+
+// SKY /////////////////////////////
+
+const createSky = () => {
+    const sky = new Sky();
+    sky.scale.setScalar(2500);
+    sky.castShadow = true;
+
+    return sky;
+};
+
+// DIRECTIONAL LIGHT ////////////////////////
+
+const createDirectionalLight = () => {
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+
+    light.shadow.mapSize.width = 1024;
+    light.shadow.mapSize.height = 1024;
+
+    light.shadow.camera.near = 0.1;
+    light.shadow.camera.far = 500;
+    light.shadow.camera.left = -50;
+    light.shadow.camera.bottom = -50;
+    light.shadow.camera.right = 50;
+    light.shadow.camera.top = 50;
+
+    light.castShadow = true;
+
+    light.position.set(100, 100, 100);
+
+    return light;
+};
+
+const createPlane = () => {
+    const geometry = new THREE.PlaneGeometry(100, 100, 1, 1);
+    const material = new THREE.MeshLambertMaterial({
+        color: "green"
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+
+    mesh.receiveShadow = true;
+    mesh.castShadow = true;
+    mesh.position.y = 0;
+
+    return mesh;
+};
+
+const createTextureBox = () => {
+    const img =
+        "https://threejsfundamentals.org/threejs/resources/images/wall.jpg";
+
+    const loader = new THREE.TextureLoader();
+    const geometry = new THREE.BoxGeometry(10, 10, 10);
+    /*
+     * MeshBasicMaterial can cast shadows but it cannot recieve shadows
+     */
+    const material = new THREE.MeshLambertMaterial({
+        map: loader.load(img)
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+
+    mesh.castShadow = true;
+    mesh.recieveShadow = true;
+    mesh.position.set(10, 10, 10);
+
+    mesh.rotateZ(Math.PI / 5);
+
+    return mesh;
+};
+
+const renderer = createRenderer();
+
+const calculateSunPosition = () => {
+    const distance = 400;
+    const latLng = [-33.86503, 151.20221];
+    const [lat, lng] = latLng;
+
+    const inclineAzimuth = (object) => {
+        const position = SunCalc.getPosition(
+            new Date("12/01/2020, 17:40:00"),
+            lat,
+            lng
+        );
+
+        console.log("position", position);
+
+        const alpha =
+            Math.cos(position.altitude) *
+            Math.cos(Math.PI / 2 + position.azimuth);
+        const beta =
+            Math.cos(position.altitude) *
+            Math.sin(Math.PI / 2 + position.azimuth);
+        const gamma = Math.sin(position.altitude);
+        object.position.set(
+            // X
+            distance * alpha,
+            // Y
+            -distance * beta,
+            // Z
+            distance * gamma
+        );
+    };
+
+    inclineAzimuth(light);
+
+    sky.material.uniforms.sunPosition.value.copy(light.position);
+};
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+const sky = createSky();
+const light = createDirectionalLight();
+const plane = createPlane();
+const axesHelper = createAxesHelper();
+const textureBox = createTextureBox();
+const camera = createCamera(scene);
+const cameraHelper = new THREE.CameraHelper(light.shadow.camera);
+new THREE.OrbitControls(camera, renderer.domElement);
+
+scene.add(
+    axesHelper,
+    cameraHelper,
+    sky,
+    plane,
+    textureBox,
+    light,
+    ambientLight
+);
+
+calculateSunPosition();
+
+function animate() {
+    requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
+
+animate();

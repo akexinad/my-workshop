@@ -25,7 +25,7 @@ var Sky = function () {
         depthWrite: false
     });
 
-    THREE.Mesh.call(this, new THREE.BoxBufferGeometry(1, 1, 1), material);
+    THREE.Mesh.call(this, new THREE.SphereBufferGeometry(1, 32, 32), material);
 };
 
 Sky.prototype = Object.create(THREE.Mesh.prototype);
@@ -38,7 +38,7 @@ Sky.SkyShader = {
         mieCoefficient: { value: 0.005 },
         mieDirectionalG: { value: 0.8 },
         sunPosition: { value: new THREE.Vector3() },
-        up: { value: new THREE.Vector3(0, 1, 0) }
+        up: { value: new THREE.Vector3(0, 0, 1) }
     },
 
     vertexShader: [
