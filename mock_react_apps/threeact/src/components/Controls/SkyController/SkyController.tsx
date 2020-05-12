@@ -5,9 +5,7 @@ import {
     DirectionalLight,
     CameraHelper,
     Vector3,
-    Object3D,
-    Vector2,
-    Euler,
+    Object3D
 } from "three";
 import SunCalc, { GetSunPositionResult } from "suncalc";
 
@@ -49,8 +47,6 @@ console.log("positionMidnight", positionMidnight);
 console.log("position2Midday", position2Midday);
 console.log("position2Midnight", position2Midnight);
 
-type ICoordinates = Array<number>;
-
 const getTrueNorth = (distance: number, lat: number, lng: number): Vector3 => {
     // const [lat, lng] = coords;
 
@@ -68,6 +64,7 @@ const getTrueNorth = (distance: number, lat: number, lng: number): Vector3 => {
         distance *
             Math.cos(northPosition.altitude) *
             Math.sin(Math.PI / 2 + northPosition.azimuth),
+        //Z
         0
     );
 
@@ -126,8 +123,6 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
                 // Z
                 DISTANCE * gamma
             );
-
-            console.log("object.position", object.position);
         };
 
         inclineAzimuth(sunSphere.current, position);
@@ -140,11 +135,6 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
             light.current.position
         );
     };
-
-    useFrame(() => {
-        // sky.current.ro
-        // sky.current.rotation.set(0, 0, Math.PI / 2);
-    });
 
     useEffect(() => {
         sky.current.scale.setScalar(2500);
