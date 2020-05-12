@@ -24,7 +24,8 @@ const CameraController: FC<ReactThreeFiber.Object3DNode<PerspectiveCamera, typeo
         perspectiveCamera.current.up = new Vector3(0, 0, 1);
         setDefaultCamera(perspectiveCamera.current);
 
-        perspectiveCamera.current.position.set(-61, -204, 18);
+        // perspectiveCamera.current.position.set(0, -800, 120);
+        perspectiveCamera.current.position.set(0, 0, 700);
         
         const controls = new OrbitControls(
             perspectiveCamera.current,

@@ -9,12 +9,12 @@ import { Vector3 } from "three";
 const shader = {
     uniforms: {
         luminance: { value: 1 },
-        turbidity: { value: 2 },
-        rayleigh: { value: 1 },
+        turbidity: { value: 10 },
+        rayleigh: { value: 2 },
         mieCoefficient: { value: 0.005 },
         mieDirectionalG: { value: 0.8 },
         sunPosition: { value: new Vector3() },
-        up: { value: new Vector3(0, 0, 1) }
+        up: { value: new Vector3(0, 0, 0) }
     },
 
     vertexShader: [

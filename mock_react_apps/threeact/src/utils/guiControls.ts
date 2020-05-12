@@ -23,7 +23,7 @@ export const addGUIControls = (
         handleChange
     );
     gui.add(effectController, "azimuth", 0, 1, 0.0001).onChange(handleChange);
-    gui.add(effectController, "sun").onChange(handleChange);
+    // gui.add(effectController, "sun").onChange(handleChange);
 
     handleChange();
 };

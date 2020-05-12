@@ -10,10 +10,10 @@ import {
   export default class Sky extends Mesh {
     geometry: SphereBufferGeometry;
     material: ShaderMaterial;
-  
+    
     constructor() {
       super();
-  
+
       this.geometry = new SphereBufferGeometry(1, 32, 32);
       this.material = new ShaderMaterial({
         fragmentShader: shader.fragmentShader,
@@ -22,6 +22,10 @@ import {
         side: BackSide,
         depthWrite: false
       });
+
+      this.rotateX(Math.PI / 2);
+      this.rotateY(Math.PI / 2);
+      this.rotateZ(Math.PI / 2);
     }
   }
   
