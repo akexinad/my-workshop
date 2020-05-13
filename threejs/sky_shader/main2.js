@@ -137,7 +137,7 @@ const calculateSunPosition = () => {
         const alpha =
             Math.cos(position.altitude) *
             Math.cos(Math.PI / 2 + position.azimuth);
-        const beta =
+        const theta =
             Math.cos(position.altitude) *
             Math.sin(Math.PI / 2 + position.azimuth);
         const gamma = Math.sin(position.altitude);
@@ -145,7 +145,7 @@ const calculateSunPosition = () => {
             // X
             distance * alpha,
             // Y
-            -distance * beta,
+            -distance * theta,
             // Z
             distance * gamma
         );
@@ -166,13 +166,22 @@ const camera = createCamera(scene);
 const cameraHelper = new THREE.CameraHelper(light.shadow.camera);
 new THREE.OrbitControls(camera, renderer.domElement);
 
+let sunPivot = new THREE.Object3D();
+sunPivot.add(light);
+
+const rotateSun = () => {
+    sunPivot.rotateZ(0.005);
+    light.getWorldPosition(sky.material.uniforms.sunPosition.value);
+};
+
 scene.add(
+    // the light has been added to the sun pivot
+    sunPivot,
     axesHelper,
     cameraHelper,
     sky,
     plane,
     textureBox,
-    light,
     ambientLight
 );
 
@@ -180,6 +189,7 @@ calculateSunPosition();
 
 function animate() {
     requestAnimationFrame(animate);
+    rotateSun();
     renderer.render(scene, camera);
 }
 
