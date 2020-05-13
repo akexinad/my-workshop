@@ -50,7 +50,7 @@ const createAxesHelper = () => {
 // SKY /////////////////////////////
 
 const createSky = () => {
-    const sky = new Sky();
+    const sky = new SphereSky();
     sky.scale.setScalar(2500);
     sky.castShadow = true;
 
@@ -126,21 +126,22 @@ const calculateSunPosition = () => {
     const [lat, lng] = latLng;
 
     const inclineAzimuth = (object) => {
-        const position = SunCalc.getPosition(
-            new Date("12/01/2020, 17:40:00"),
-            lat,
-            lng
-        );
+        const time = new Date("12/01/2020");
 
-        console.log("position", position);
+        console.log('time', time)
+
+        const position = SunCalc.getPosition(moment(time).add(10, "h"), lat, lng);
 
         const alpha =
             Math.cos(position.altitude) *
             Math.cos(Math.PI / 2 + position.azimuth);
+
         const theta =
             Math.cos(position.altitude) *
             Math.sin(Math.PI / 2 + position.azimuth);
+
         const gamma = Math.sin(position.altitude);
+
         object.position.set(
             // X
             distance * alpha,
@@ -189,7 +190,7 @@ calculateSunPosition();
 
 function animate() {
     requestAnimationFrame(animate);
-    rotateSun();
+    // rotateSun();
     renderer.render(scene, camera);
 }
 

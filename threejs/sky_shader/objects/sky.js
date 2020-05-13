@@ -1,20 +1,36 @@
-class SphereSky {
+/**
+ * @author zz85 / https://github.com/zz85
+ *
+ * Based on "A Practical Analytic Model for Daylight"
+ * aka The Preetham Model, the de facto standard analytic skydome model
+ * http://www.cs.utah.edu/~shirley/papers/sunsky/sunsky.pdf
+ *
+ * First implemented by Simon Wallner
+ * http://www.simonwallner.at/projects/atmospheric-scattering
+ *
+ * Improved by Martin Upitis
+ * http://blenderartists.org/forum/showthread.php?245954-preethams-sky-impementation-HDR
+ *
+ * Three.js integration by zz85 http://twitter.com/blurspline
+ */
 
-    constructor() {
+var Sky = function () {
+    var shader = Sky.SkyShader;
 
-        const material = new THREE.ShaderMaterial({
-            fragmentShader: skyShader.fragmentShader,
-            vertexShader: skyShader.vertexShader,
-            uniforms: THREE.UniformsUtils.clone(skyShader.uniforms),
-            side: THREE.BackSide,
-            depthWrite: false
-        });
+    var material = new THREE.ShaderMaterial({
+        fragmentShader: shader.fragmentShader,
+        vertexShader: shader.vertexShader,
+        uniforms: THREE.UniformsUtils.clone(shader.uniforms),
+        side: THREE.BackSide,
+        depthWrite: false
+    });
 
-        return new THREE.Mesh(new THREE.SphereBufferGeometry(1, 32, 32), material);
-    }
-}
+    THREE.Mesh.call(this, new THREE.BoxBufferGeometry(1, 1, 1), material);
+};
 
-const skyShader = {
+Sky.prototype = Object.create(THREE.Mesh.prototype);
+
+Sky.SkyShader = {
     uniforms: {
         luminance: { value: 1 },
         turbidity: { value: 2 },
@@ -22,7 +38,7 @@ const skyShader = {
         mieCoefficient: { value: 0.005 },
         mieDirectionalG: { value: 0.8 },
         sunPosition: { value: new THREE.Vector3() },
-        up: { value: new THREE.Vector3(0, 1, 0) }
+        up: { value: new THREE.Vector3(0, 0, 1) }
     },
 
     vertexShader: [

@@ -1,36 +1,19 @@
-/**
- * @author zz85 / https://github.com/zz85
- *
- * Based on "A Practical Analytic Model for Daylight"
- * aka The Preetham Model, the de facto standard analytic skydome model
- * http://www.cs.utah.edu/~shirley/papers/sunsky/sunsky.pdf
- *
- * First implemented by Simon Wallner
- * http://www.simonwallner.at/projects/atmospheric-scattering
- *
- * Improved by Martin Upitis
- * http://blenderartists.org/forum/showthread.php?245954-preethams-sky-impementation-HDR
- *
- * Three.js integration by zz85 http://twitter.com/blurspline
- */
+class SphereSky extends THREE.Mesh {
+    constructor() {
+        const geometry = new THREE.SphereBufferGeometry(1, 32, 32);
+        const material = new THREE.ShaderMaterial({
+            fragmentShader: skyShader.fragmentShader,
+            vertexShader: skyShader.vertexShader,
+            uniforms: THREE.UniformsUtils.clone(skyShader.uniforms),
+            side: THREE.BackSide,
+            depthWrite: false
+        });
 
-var Sky = function () {
-    var shader = Sky.SkyShader;
+        super(geometry, material);
+    }
+}
 
-    var material = new THREE.ShaderMaterial({
-        fragmentShader: shader.fragmentShader,
-        vertexShader: shader.vertexShader,
-        uniforms: THREE.UniformsUtils.clone(shader.uniforms),
-        side: THREE.BackSide,
-        depthWrite: false
-    });
-
-    THREE.Mesh.call(this, new THREE.SphereBufferGeometry(1, 32, 32), material);
-};
-
-Sky.prototype = Object.create(THREE.Mesh.prototype);
-
-Sky.SkyShader = {
+const skyShader = {
     uniforms: {
         luminance: { value: 1 },
         turbidity: { value: 2 },
