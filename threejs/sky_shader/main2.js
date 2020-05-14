@@ -80,31 +80,29 @@ const createDirectionalLight = () => {
 };
 
 const createPlane = () => {
-    const geometry = new THREE.PlaneGeometry(100, 100, 1, 1);
+    const img = "./img/siena.png";
+    const loader = new THREE.TextureLoader();
+
+    const geometry = new THREE.PlaneBufferGeometry(100, 100, 1, 1);
     const material = new THREE.MeshLambertMaterial({
-        color: "green"
+        map: loader.load(img)
     });
 
     const mesh = new THREE.Mesh(geometry, material);
 
     mesh.receiveShadow = true;
     mesh.castShadow = true;
-    mesh.position.y = 0;
 
     return mesh;
 };
 
 const createTextureBox = () => {
-    const img =
-        "https://threejsfundamentals.org/threejs/resources/images/wall.jpg";
-
-    const loader = new THREE.TextureLoader();
-    const geometry = new THREE.BoxGeometry(10, 10, 10);
+    const geometry = new THREE.BoxBufferGeometry(10, 10, 10);
     /*
      * MeshBasicMaterial can cast shadows but it cannot recieve shadows
      */
     const material = new THREE.MeshLambertMaterial({
-        map: loader.load(img)
+        color: "red"
     });
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -128,9 +126,13 @@ const calculateSunPosition = () => {
     const inclineAzimuth = (object) => {
         const time = new Date("12/01/2020");
 
-        console.log('time', time)
+        console.log("time", time);
 
-        const position = SunCalc.getPosition(moment(time).add(10, "h"), lat, lng);
+        const position = SunCalc.getPosition(
+            moment(time).add(10, "h"),
+            lat,
+            lng
+        );
 
         const alpha =
             Math.cos(position.altitude) *
