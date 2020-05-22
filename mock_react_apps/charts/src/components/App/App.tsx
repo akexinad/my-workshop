@@ -2,7 +2,8 @@ import React, { FC } from "react";
 import "./App.css";
 // import TreemapChart from "../TreemapChart/TreemapChart";
 import data, { data2, data3 } from "../../data";
-import BarChartContainer from "../BarChart/BarChart";
+import BarChartRecharts from "../BarChartRecharts/BarChartRecharts";
+import BarChartGoogle from "../BarChartGoogle/BarChartGoogle";
 
 const COLORS = [
     "#8889DD",
@@ -20,7 +21,7 @@ const App: FC = () => {
         <div className="App">
             <header className="App-header">
                 <h2>Charts</h2>
-                <BarChartContainer
+                <BarChartRecharts
                     data={data3}
                     width={1000}
                     height={400}
@@ -29,6 +30,7 @@ const App: FC = () => {
                     barSize={30}
                     colors={["#d40000"]}
                 />
+                <BarChartGoogle />
                 {/* <TreemapChart data={data2} colors={COLORS2} /> */}
             </header>
         </div>

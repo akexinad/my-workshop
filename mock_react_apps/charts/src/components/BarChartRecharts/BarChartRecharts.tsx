@@ -12,13 +12,13 @@ interface BarChartContainerProps {
     colors: Array<string>;
 }
 
-const BarChartContainer: FC<BarChartContainerProps> = (props) => {
+const BarChartRecharts: FC<BarChartContainerProps> = (props) => {
     const {
         data,
         width,
         height,
         xAxisKey,
-        barKey: yAxisKey,
+        barKey,
         barSize,
         colors
     } = props;
@@ -30,11 +30,11 @@ const BarChartContainer: FC<BarChartContainerProps> = (props) => {
     return (
         <BarChart width={width} height={height} data={data}>
             <XAxis dataKey={xAxisKey} stroke="#8884d8" />
-            <YAxis />
+            <YAxis width={100} />
             <Tooltip />
             {/* <CartesianGrid stroke="#ccc" strokeDasharray="5 5" /> */}
             <Bar
-                dataKey={yAxisKey}
+                dataKey={barKey}
                 fill={colors[0]}
                 barSize={barSize}
                 radius={barSize / 2}
@@ -43,4 +43,4 @@ const BarChartContainer: FC<BarChartContainerProps> = (props) => {
     );
 };
 
-export default BarChartContainer;
+export default BarChartRecharts;
