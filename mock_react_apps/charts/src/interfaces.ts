@@ -1,24 +1,15 @@
 export interface INode {
   name: string;
-  size: number;
+  size?: number;
+  children?: Array<INode>;
 }
 
-export interface IParent {
-  name: string;
-  children: Array<INode>;
-}
-
-export interface IData {
-  name: string;
-  children: Array<IParent | INode> | null;
-}
-
-export interface ICustomTreemapRoot {
+export interface ITreemapNode {
   area: number;
   name: number;
   size: number;
-  root: ICustomTreemapRoot;
-  children: Array<ICustomTreemapRoot>;
+  root: ITreemapNode;
+  children: Array<ITreemapNode>;
   depth: number;
   height: number;
   index: number;
@@ -38,8 +29,8 @@ export interface ICustomTreemapProps {
   index: number;
   isAnimationActive: boolean;
   isUpdateAnimationActive: boolean;
-  root: ICustomTreemapRoot;
-  children: Array<ICustomTreemapRoot>;
+  root: ITreemapNode;
+  children: Array<ITreemapNode>;
   stroke: string;
   value: number;
   width: number;

@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Treemap } from "recharts";
 
-import { ICustomTreemapProps, IData } from "../../interfaces";
+import { ICustomTreemapProps, INode } from "../../interfaces";
 
-import TreemapContent from "../TreemapContent/TreemapContent";
+import TreemapContent from "./TreemapContent/TreemapContent";
 
 /**
  const COLORS = [
@@ -18,7 +18,7 @@ import TreemapContent from "../TreemapContent/TreemapContent";
  */
 
 interface TreemapChartProps {
-  data: Array<IData>;
+  data: Array<INode>;
   colors: string[];
 }
 
@@ -32,7 +32,7 @@ const TreemapChart: FC<TreemapChartProps> = ({ data, colors }) => {
       aspectRatio={4 / 3}
       stroke="#fff"
       fill="#8884d8"
-      content={(props: ICustomTreemapProps) => {
+      content={props => {
         return <TreemapContent {...props} colors={colors} />;
       }}
     />

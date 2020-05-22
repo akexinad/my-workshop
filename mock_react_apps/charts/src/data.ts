@@ -1,6 +1,31 @@
-import { IData } from "./interfaces";
+import { INode } from "./interfaces";
 
-const data: Array<IData> = [
+export const data3 = [
+  { name: "Page A", uv: 400, pv: 2400, amt: 3000 },
+  { name: "Page B", uv: 200, pv: 1000, amt: 200 },
+  { name: "Page C", uv: 100, pv: 3200, amt: 1400 },
+];
+
+export const data2: Array<INode> = [
+  {
+    name: "axis",
+    size: 100,
+  },
+  {
+    name: "hello",
+    size: 350,
+  },
+  {
+    name: "foo",
+    size: 200,
+  },
+  {
+    name: "bar",
+    size: 400,
+  },
+];
+
+const data: Array<INode> = [
   {
     name: "axis",
     children: [

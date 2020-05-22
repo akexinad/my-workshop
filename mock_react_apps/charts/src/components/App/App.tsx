@@ -1,38 +1,38 @@
-import React, { FC } from 'react';
-import logo from '../../logo.svg';
-import './App.css';
-import TreemapChart from '../TreemapChart/TreemapChart';
-import data from '../../data';
+import React, { FC } from "react";
+import "./App.css";
+// import TreemapChart from "../TreemapChart/TreemapChart";
+import data, { data2, data3 } from "../../data";
+import BarChartContainer from "../BarChart/BarChart";
 
 const COLORS = [
-  "#8889DD",
-  "#9597E4",
-  "#8DC77B",
-  "#A5D297",
-  "#E2CF45",
-  "#F8C12D",
+    "#8889DD",
+    "#9597E4",
+    "#8DC77B",
+    "#A5D297",
+    "#E2CF45",
+    "#d40000"
 ];
 
+const COLORS2 = ["#d40000", "#00ff00", "#000000", "#0000ff", "#ff9200"];
+
 const App: FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <TreemapChart data={data} colors={COLORS} />
-      </header>
-    </div>
-  );
-}
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h2>Charts</h2>
+                <BarChartContainer
+                    data={data3}
+                    width={1000}
+                    height={400}
+                    xAxisKey={"name"}
+                    barKey={"pv"}
+                    barSize={30}
+                    colors={["#d40000"]}
+                />
+                {/* <TreemapChart data={data2} colors={COLORS2} /> */}
+            </header>
+        </div>
+    );
+};
 
 export default App;
