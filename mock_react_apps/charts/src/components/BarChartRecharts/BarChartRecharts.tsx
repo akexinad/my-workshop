@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
-import { data3 } from "../../data";
+import { data3 } from "../../data/data";
 
 interface BarChartContainerProps {
     data: ReadonlyArray<any>;
