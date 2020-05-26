@@ -1,4 +1,4 @@
-import { INode } from "./interfaces";
+import { INode } from "../interfaces";
 
 export const data3 = [
   { name: "Page A", uv: 400, pv: 2400, amt: 3000 },
