@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Treemap } from "recharts";
 
-import { ICustomTreemapProps, INode } from "../../interfaces";
+import { INode } from "../../interfaces";
 
 import TreemapContent from "./TreemapCotent/TreemapContent";
 
