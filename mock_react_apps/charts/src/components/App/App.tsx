@@ -8,11 +8,11 @@ import "./App.css";
 import DonutChartVictory from "../DonutChartVictory/DonutChartVictory";
 import { mockRentalData } from "../../data/mockRentalData";
 
-const data = [
-    { type: "Studio", amount: "50000000" },
-    { type: "1 Bedroom", amount: "25000000" },
-    { type: "2 Bedrooms", amount: "25000000" }
-];
+// const data = [
+//     { type: "Studio", amount: "50000000" },
+//     { type: "1 Bedroom", amount: "25000000" },
+//     { type: "2 Bedrooms", amount: "25000000" }
+// ];
 
 const App: FC = () => {
     return (

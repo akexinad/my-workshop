@@ -19,12 +19,6 @@ const DonutChartVictory: FC<DonutChartVictoryProps> = (props) => {
     data.rows.forEach((row) => (row.amount = row.rates * row.qty));
 
     useEffect(() => {
-        // const copy = [...financeData];
-
-        // copy.forEach((item) => {
-        //     item.amount = item.rates * item.qty;
-        // });
-
         setFinanceData((prevState) => {
             prevState.forEach((item) => {
                 item.amount = item.rates * item.qty;
@@ -36,8 +30,6 @@ const DonutChartVictory: FC<DonutChartVictoryProps> = (props) => {
         console.log("financeData", financeData);
     }, [financeData]);
 
-    // console.log("data", data);
-
     const legendData = data.rows.map((item, index) => {
         return {
             name: item.name,
@@ -47,17 +39,18 @@ const DonutChartVictory: FC<DonutChartVictoryProps> = (props) => {
         };
     });
 
+    const SVG_HEIGHT = 400;
+
     return (
         <div style={{ width: chartWidth }}>
             <h2 style={{ color: "black" }}>
                 Victory Pie in the sky while im high
             </h2>
-            <svg viewBox="0 0 700 400">
+            <svg viewBox={"0 0 700 " + SVG_HEIGHT}>
                 <VictoryPie
                     standalone={false}
                     colorScale={ELI_COLORS}
                     data={data.rows}
-                    // data={newData}
                     innerRadius={120}
                     x={x}
                     y={y}
@@ -82,11 +75,12 @@ const DonutChartVictory: FC<DonutChartVictoryProps> = (props) => {
                 />
                 <VictoryLegend
                     standalone={false}
-                    itemsPerRow={10}
+                    itemsPerRow={15}
                     data={legendData}
                     rowGutter={-10}
                     x={370}
-                    y={150}
+                    y={(SVG_HEIGHT - legendData.length * 20) / 2}
+                    // y={0}
                 />
             </svg>
         </div>
