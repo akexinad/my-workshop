@@ -1,12 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import "./App.css";
 // import TreemapChart from "../TreemapChart/TreemapChart";
 // import data, { data2, data3 } from "../../data";
 // import BarChartRecharts from "../BarChartRecharts/BarChartRecharts";
 // import BarChartGoogle from "../BarChartGoogle/BarChartGoogle";
-// import BarChartVictory from "../BarChartVictory/BarChartVictory";
-import DonutChartVictory from "../DonutChartVictory/DonutChartVictory";
-import { mockRentalData } from "../../data/mockRentalData";
+import BarChartVictory from "../BarChartVictory/BarChartVictory";
+// import DonutChartVictory from "../DonutChartVictory/DonutChartVictory";
+// import { mockRentalData } from "../../data/mockRentalData";
+import { mockProfitData } from "../../data/mockProfitData";
 
 // const data = [
 //     { type: "Studio", amount: "50000000" },
@@ -15,18 +16,28 @@ import { mockRentalData } from "../../data/mockRentalData";
 // ];
 
 const App: FC = () => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        
+        
+        return () => {
+            
+        }
+    }, [])
+    
     return (
         <div className="App">
             <header className="App-header">
                 <h2>Charts</h2>
-                {/* <BarChartVictory /> */}
-                <DonutChartVictory
+                <BarChartVictory data={mockProfitData} />
+                {/* <DonutChartVictory
                     isGrouped={false}
                     data={mockRentalData}
                     chartWidth={600}
                     x={"name"}
                     y={"amount"}
-                />
+                /> */}
                 {/* <BarChartRecharts
                     data={data3}
                     width={1000}

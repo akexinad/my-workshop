@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 import { VictoryThemeDefinition } from "../../interfaces";
 
-const BarChartVictory = () => {
-    const x = "quarter";
-    const y = "earnings";
+interface IBarChartVictoryProps {
+    data: Array<any>;
+}
 
-    const data = [
-        { quarter: 1, earnings: 13000 },
-        { quarter: 2, earnings: 16500 },
-        { quarter: 3, earnings: 14250 },
-        { quarter: 4, earnings: 19000 }
-    ];
+const BarChartVictory: FC<IBarChartVictoryProps> = (props) => {
+    const { data } = props;
+
+    const BAR_RADIUS = 11;
+
+    const x = "year";
+    const y = "profit";
 
     useEffect(() => {
         if (!VictoryTheme.material.bar?.style?.data) return;
@@ -23,54 +24,41 @@ const BarChartVictory = () => {
         bar: {
             style: {
                 data: {
-                    fill: "#d40000"
+                    fill: "blue"
                 }
             }
         }
     };
 
     return (
-        <>
+        <div style={{ width: "50%" }}>
             <h2>BarChartVictory</h2>
-            <VictoryChart domainPadding={20} theme={theme}>
+            <VictoryChart domainPadding={20}>
                 <VictoryAxis
-                    tickValues={[1, 2, 3, 4]}
-                    tickFormat={[
-                        "Quarter 1",
-                        "Quarter 2",
-                        "Quarter 3",
-                        "Quarter 4"
-                    ]}
-                />
-                <VictoryAxis
-                    /**
-                     * The independent variables usually go on the x-axis,
-                     * which is why we flag the y-axis as dependent.
-                     */
-                    dependentAxis={true}
-                    tickFormat={(y, x, yArray) => {
-                        // console.log("y", y);
-                        // console.log("x", x);
-                        // console.log("foo", yArray);
-                        return `$${y / 1000}k`;
+                    style={{
+                        axis: {
+                            stroke: "none"
+                        }
                     }}
+                    tickFormat={data.map((item) => item.year)}
                 />
+                
                 <VictoryBar
                     data={data}
                     x={x}
                     y={y}
-                    // style={{
-                    //     data: {
-                    //         fill: "d40000"
-                    //     }
-                    // }}
+                    style={{
+                        data: {
+                            fill: "blue"
+                        }
+                    }}
                     cornerRadius={{
-                        top: 15,
-                        bottom: 15
+                        top: BAR_RADIUS,
+                        bottom: BAR_RADIUS
                     }}
                 />
             </VictoryChart>
-        </>
+        </div>
     );
 };
 
