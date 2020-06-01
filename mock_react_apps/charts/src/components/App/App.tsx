@@ -8,6 +8,7 @@ import BarChartVictory from "../BarChartVictory/BarChartVictory";
 // import DonutChartVictory from "../DonutChartVictory/DonutChartVictory";
 // import { mockRentalData } from "../../data/mockRentalData";
 import { mockProfitData } from "../../data/mockProfitData";
+import { IBarChartData } from "../../interfaces";
 
 // const data = [
 //     { type: "Studio", amount: "50000000" },
@@ -16,10 +17,17 @@ import { mockProfitData } from "../../data/mockProfitData";
 // ];
 
 const App: FC = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<Array<IBarChartData>>([]);
 
     useEffect(() => {
-        
+        const profitData = mockProfitData.map(item => {
+            return {
+                x: item.year,
+                y: item.profit
+            }
+        })
+
+        setData(profitData);
         
         return () => {
             
@@ -30,7 +38,8 @@ const App: FC = () => {
         <div className="App">
             <header className="App-header">
                 <h2>Charts</h2>
-                <BarChartVictory data={mockProfitData} />
+                <BarChartVictory data={data} color={"blue"} />
+                {/* <BarChartVictory data={mockProfitData} /> */}
                 {/* <DonutChartVictory
                     isGrouped={false}
                     data={mockRentalData}

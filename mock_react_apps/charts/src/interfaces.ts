@@ -184,51 +184,54 @@ export interface VictoryThemeDefinition {
     } & ThemeBaseProps;
 }
 
-
 export interface FinancialTableModel {
-  title: string;
-  columns: Column[];
-  type: string;
-  rows: Row[];
+    title: string;
+    columns: Column[];
+    type: string;
+    rows: Row[];
 }
 
 interface Row {
-  id: string;
-  name: string;
-  rates: number;
-  qty: number;
-  amount: number;
-  o: boolean;
+    id: string;
+    name: string;
+    rates: number;
+    qty: number;
+    amount: number;
+    o: boolean;
 }
 
 interface Column {
-  Header: string;
-  accessor?: string;
-  Footer?: string;
-  tooltip?: Tooltip;
-  aggregate?: string;
-  cellType?: string;
-  isEditable?: boolean;
+    Header: string;
+    accessor?: string;
+    Footer?: string;
+    tooltip?: Tooltip;
+    aggregate?: string;
+    cellType?: string;
+    isEditable?: boolean;
 }
 
 interface Tooltip {
-  title: Title;
-  placement: string;
-  arrowClass: string;
+    title: Title;
+    placement: string;
+    arrowClass: string;
 }
 
 interface Title {
-  type: string;
-  key?: any;
-  ref?: any;
-  props: Props;
-  _owner?: any;
-  _store: Store;
+    type: string;
+    key?: any;
+    ref?: any;
+    props: Props;
+    _owner?: any;
+    _store: Store;
 }
 
-interface Store {
-}
+interface Store {}
 
 interface Props {
-  children: string;
+    children: string;
+}
+
+export interface IBarChartData {
+    x: any;
+    y: any;
 }
