@@ -10,10 +10,11 @@ interface IBarChartVictoryProps {
 const BarChartVictory: FC<IBarChartVictoryProps> = (props) => {
     const { data, color } = props;
 
-    const BAR_RADIUS = 11;
+    const BAR_RADIUS = 7;
 
     return (
         <div style={{ width: "50%" }}>
+            <h2>Bar Chart</h2>
             <VictoryChart domainPadding={20}>
                 <VictoryAxis
                     style={{
@@ -24,6 +25,7 @@ const BarChartVictory: FC<IBarChartVictoryProps> = (props) => {
                     tickFormat={data.map((item) => item.x)}
                 />
                 <VictoryBar
+                    horizontal={true}
                     data={data}
                     x={"x"}
                     y={"y"}

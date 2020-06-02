@@ -235,3 +235,8 @@ export interface IBarChartData {
     x: any;
     y: any;
 }
+
+export interface ILineChartData {
+    x: any;
+    y: any;
+}

@@ -9,6 +9,8 @@ import BarChartVictory from "../BarChartVictory/BarChartVictory";
 // import { mockRentalData } from "../../data/mockRentalData";
 import { mockProfitData } from "../../data/mockProfitData";
 import { IBarChartData } from "../../interfaces";
+import LineChartVictory from "../LineChartVictory/LineChartVictory";
+import { WEIRD_BLUE } from "../../constants";
 
 // const data = [
 //     { type: "Studio", amount: "50000000" },
@@ -33,12 +35,13 @@ const App: FC = () => {
             
         }
     }, [])
-    
+
     return (
         <div className="App">
             <header className="App-header">
                 <h2>Charts</h2>
-                <BarChartVictory data={data} color={"blue"} />
+                {/* <LineChartVictory data={data} color={WEIRD_BLUE} /> */}
+                <BarChartVictory data={data} color={WEIRD_BLUE} />
                 {/* <BarChartVictory data={mockProfitData} /> */}
                 {/* <DonutChartVictory
                     isGrouped={false}

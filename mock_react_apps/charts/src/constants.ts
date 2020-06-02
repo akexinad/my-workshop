@@ -11,5 +11,9 @@ export const ELI_COLORS = [
     "#def6fc", // light blue
     "#a8de3c", // dark green
     "#23b4c3", // dark blue
-    "#0a7d89", // navy
+    "#0a7d89" // navy
 ];
+
+export const WEIRD_BLUE = "#23b4c3";
+
+export const CHART_BC_COLOR = "#f5fcfe";
