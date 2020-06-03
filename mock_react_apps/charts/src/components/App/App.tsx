@@ -11,6 +11,8 @@ import { mockProfitData } from "../../data/mockProfitData";
 import { IBarChartData } from "../../interfaces";
 import LineChartVictory from "../LineChartVictory/LineChartVictory";
 import { WEIRD_BLUE } from "../../constants";
+import BarChartHorizontal from "./BarChartHorizontal/BarChartHorizontal";
+import { mockRentalPredictionData } from "../../data/mockRentalPredictionData";
 
 // const data = [
 //     { type: "Studio", amount: "50000000" },
@@ -22,26 +24,28 @@ const App: FC = () => {
     const [data, setData] = useState<Array<IBarChartData>>([]);
 
     useEffect(() => {
-        const profitData = mockProfitData.map(item => {
+        const profitData = mockProfitData.map((item) => {
             return {
                 x: item.year,
                 y: item.profit
-            }
-        })
+            };
+        });
 
         setData(profitData);
-        
-        return () => {
-            
-        }
-    }, [])
+
+        return () => {};
+    }, []);
 
     return (
         <div className="App">
             <header className="App-header">
                 <h2>Charts</h2>
-                {/* <LineChartVictory data={data} color={WEIRD_BLUE} /> */}
-                <BarChartVictory data={data} color={WEIRD_BLUE} />
+                <LineChartVictory data={data} color={WEIRD_BLUE} />
+                {/* <BarChartVictory data={data} color={WEIRD_BLUE} /> */}
+                {/* <BarChartHorizontal
+                    data={mockRentalPredictionData}
+                    color={WEIRD_BLUE}
+                /> */}
                 {/* <BarChartVictory data={mockProfitData} /> */}
                 {/* <DonutChartVictory
                     isGrouped={false}
