@@ -23,4 +23,8 @@ export const mockProfitData = [
         year: 2020,
         profit: 10000000
     },
+    {
+        year: 2021,
+        profit: 50000000
+    }
 ]
