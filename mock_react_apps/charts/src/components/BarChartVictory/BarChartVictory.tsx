@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { VictoryBar, VictoryChart, VictoryAxis} from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 import { IBarChartData } from "../../interfaces";
 
 interface IBarChartVictoryProps {
@@ -24,8 +24,18 @@ const BarChartVictory: FC<IBarChartVictoryProps> = (props) => {
                     }}
                     tickFormat={data.map((item) => item.x)}
                 />
+                <VictoryAxis
+                    theme={VictoryTheme.material}
+                    dependentAxis
+                    style={{
+                        axis: {
+                            stroke: "none"
+                        }
+                    }}
+                    tickFormat={(tick) => `$${tick / 1000000}m`}
+                />
                 <VictoryBar
-                    horizontal={true}
+                    // horizontal
                     data={data}
                     x={"x"}
                     y={"y"}
