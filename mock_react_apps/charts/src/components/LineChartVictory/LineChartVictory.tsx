@@ -1,17 +1,14 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { ILineChartData } from "../../interfaces";
 import {
     VictoryChart,
     VictoryLine,
     VictoryAxis,
     VictoryScatter,
-    Background,
-    Rect,
-    VictoryTheme
 } from "victory";
 
 import { CHART_BC_COLOR } from "../../constants";
-import ChartBackground from "./ChartBackground";
+import StripedBackground from "./StripedBackground";
 
 interface ILineChartVictoryProps {
     data: Array<ILineChartData>;
@@ -22,60 +19,23 @@ const LineChartVictory: FC<ILineChartVictoryProps> = (props) => {
     const { data, color } = props;
 
     const [tickLength, setTickLength] = useState(0);
-    const [theme, setTheme] = useState(VictoryTheme.material)
-
-    useEffect(() => {
-
-        // setTheme(prevState => {
-        //     if (!prevState.axis?.style?.axis) return;
-            
-        //     prevState.axis.style.axis.stroke = "none";
-
-        //     return prevState;
-        // });
-        
-    }, [])
 
     return (
-        <div style={{width: "100%"}}>
+        <div style={{ width: "100%" }}>
+            <h2>Line Chart</h2>
             <VictoryChart
-                // theme={VictoryTheme.material}
-                // style={{
-                //     background: {
-                //         fill: "none"
-                //     }
-                // }}
-                // backgroundComponent={
-                //     <ChartBackground
-                //         key={1234}
-                //         tickLength={tickLength}
-                //         data={data}
-                //         {...props}
-                //     />
-                // }
+                /**
+                 * For some reason you need to declare an empty
+                 * background object for the backgroundComponent
+                 */
+                style={{ background: {} }}
+                backgroundComponent={
+                    <StripedBackground
+                        colors={[CHART_BC_COLOR, "white"]}
+                        tickLength={tickLength}
+                    />
+                }
             >
-                <VictoryAxis
-                    style={{
-                        axis: {
-                            stroke: "none"
-                        }
-                    }}
-                    tickFormat={data.map((item) => item.x)}
-                />
-                <VictoryAxis
-                    dependentAxis={true}
-                    style={{
-                        axis: {
-                            stroke: "none"
-                        }
-                    }}
-                    tickFormat={(tick, _, ticks) => {
-                        setTickLength(ticks.length);
-                        console.log('ticks', ticks)
-                        
-                        return `${tick / 1000000}m`;
-                    }}
-                />
                 <VictoryLine
                     style={{
                         data: {
@@ -89,6 +49,27 @@ const LineChartVictory: FC<ILineChartVictoryProps> = (props) => {
                     style={{ data: { fill: color } }}
                     size={7}
                     data={data}
+                />
+                <VictoryAxis
+                    style={{
+                        axis: {
+                            stroke: "none"
+                        }
+                    }}
+                    tickFormat={data.map((item) => item.x)}
+                    offsetY={30}
+                />
+                <VictoryAxis
+                    dependentAxis={true}
+                    style={{
+                        axis: {
+                            stroke: "none"
+                        }
+                    }}
+                    tickFormat={(tick, _, ticks) => {
+                        setTickLength(ticks.length);
+                        return `${tick / 1000000}m`;
+                    }}
                 />
             </VictoryChart>
         </div>
