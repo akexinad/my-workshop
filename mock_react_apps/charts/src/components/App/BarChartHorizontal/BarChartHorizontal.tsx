@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel, VictoryTheme } from "victory";
 import { mockRentalPredictionData } from "../../../data/mockRentalPredictionData";
 
 interface IBarChartHorizontalProps {
@@ -64,8 +64,6 @@ const BarChartHorizontal: FC<IBarChartHorizontalProps> = (props) => {
                         }
                     }}
                     tickFormat={tick => {
-                        console.log(tick);
-                        
                         return `$${tick / 1000}k`
                     }}
                 />
