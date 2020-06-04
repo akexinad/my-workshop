@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel, VictoryTheme } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel } from "victory";
 import { mockRentalPredictionData } from "../../../data/mockRentalPredictionData";
 
 interface IBarChartHorizontalProps {

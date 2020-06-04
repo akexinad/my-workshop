@@ -4,7 +4,7 @@ import "./App.css";
 // import data, { data2, data3 } from "../../data";
 // import BarChartRecharts from "../BarChartRecharts/BarChartRecharts";
 // import BarChartGoogle from "../BarChartGoogle/BarChartGoogle";
-import BarChartVictory from "../BarChartVictory/BarChartVictory";
+// import BarChartVictory from "../BarChartVictory/BarChartVictory";
 // import DonutChartVictory from "../DonutChartVictory/DonutChartVictory";
 // import { mockRentalData } from "../../data/mockRentalData";
 import { mockProfitData } from "../../data/mockProfitData";
