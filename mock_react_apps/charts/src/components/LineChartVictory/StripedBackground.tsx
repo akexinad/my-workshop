@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 
 import { Background } from "victory";
-import { ILineChartData } from "../../interfaces";
+import { calculateProperties } from "./calculateProperties";
 
 interface IChartBackgroundProps {
     colors: Array<string>;
@@ -11,43 +11,51 @@ interface IChartBackgroundProps {
 const StripedBackground: FC<IChartBackgroundProps> = (props) => {
     const { colors, tickLength } = props;
 
+    console.log('tickLength', tickLength)
+
     const WIDTH = 370;
-    const HEIGHT = 34;
-    const INITIAL_Y_POSITION = 16;
-    const Y_OFFSET = 33.5;
+    const properties = calculateProperties(tickLength);
+
+    const { height, initialYPosition, yOffset } = properties;
 
     const [positionArray, setPositionArray] = useState<Array<number>>([
-        INITIAL_Y_POSITION
+        initialYPosition
     ]);
 
     useEffect(() => {
-        const newState = [INITIAL_Y_POSITION];
+        if (height === 0) setPositionArray([]);
 
-        for (let i = 0; i < tickLength - 1; i++) {
-            const newOffset = INITIAL_Y_POSITION + (Y_OFFSET * (i + 1));
+        const newState = [initialYPosition];
+
+        for (let i = 0; i < tickLength; i++) {
+            const newOffset = initialYPosition + yOffset * (i + 1);
             newState.push(newOffset);
         }
 
-        console.log('newState', newState)
-
         setPositionArray(newState);
-    }, [tickLength]);
+    }, [tickLength, height, initialYPosition, yOffset]);
 
     const stripedBackground = positionArray.map((position, index) => {
         return (
             <Background
                 key={index}
                 {...props}
-                // style={{ fill: index % 2 === 0 ? colors[0] : colors[1] }}
-                style={{ fill: index % 2 === 0 ? "blue" : "red" }}
+                style={{ fill: index % 2 === 0 ? colors[0] : colors[1] }}
                 width={WIDTH}
-                height={HEIGHT}
+                height={height}
                 y={position}
             />
         );
     });
 
-    return <>{stripedBackground}</>;
+    return positionArray.length === 0 ? (
+        <>
+            <Background key={positionArray.length} {...props} style={{ fill: "white" }} width={WIDTH} />
+        </>
+    ) : (
+        <>{stripedBackground}</>
+    );
+
 };
 
 export default StripedBackground;
