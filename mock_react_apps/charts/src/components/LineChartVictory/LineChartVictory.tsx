@@ -31,6 +31,8 @@ const LineChartVictory: FC<ILineChartVictoryProps> = (props) => {
                 style={{ background: {} }}
                 backgroundComponent={
                     <StripedBackground
+                        // complains that it needs a key.
+                        key={1234}
                         colors={[CHART_BC_COLOR, "white"]}
                         tickLength={tickLength}
                     />
@@ -68,6 +70,7 @@ const LineChartVictory: FC<ILineChartVictoryProps> = (props) => {
                     }}
                     tickFormat={(tick, _, ticks) => {
                         setTickLength(ticks.length);
+                        console.log('ticks.length', ticks.length)
                         return `${tick / 1000000}m`;
                     }}
                 />
