@@ -1,8 +1,8 @@
 import { Vector3 } from "three";
 
 /**
- * This is just stringified GLSL script which is passed into 
- * the shader material object in the Sky.ts in order to give 
+ * This is just stringified GLSL script which is passed into
+ * the shader material object in the Sky.ts in order to give
  * the sky its particular look when the sun rises and sets.
  */
 
@@ -14,7 +14,7 @@ const shader = {
         mieCoefficient: { value: 0.005 },
         mieDirectionalG: { value: 0.8 },
         sunPosition: { value: new Vector3() },
-        up: { value: new Vector3(0, 0, 0) }
+        up: { value: new Vector3(0, 0, 1) },
     },
 
     vertexShader: [
@@ -87,7 +87,7 @@ const shader = {
         // mie coefficients
         "	vBetaM = totalMie( turbidity ) * mieCoefficient;",
 
-        "}"
+        "}",
     ].join("\n"),
 
     fragmentShader: [
@@ -190,8 +190,8 @@ const shader = {
 
         "	gl_FragColor = vec4( retColor, 1.0 );",
 
-        "}"
-    ].join("\n")
-}
+        "}",
+    ].join("\n"),
+};
 
 export default shader;

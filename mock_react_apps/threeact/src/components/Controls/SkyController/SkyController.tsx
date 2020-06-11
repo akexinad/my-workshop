@@ -1,12 +1,6 @@
 import React, { FC, useRef, useEffect, useState } from "react";
-import { ReactThreeFiber, useFrame } from "react-three-fiber";
-import {
-    Mesh,
-    DirectionalLight,
-    CameraHelper,
-    Vector3,
-    Object3D
-} from "three";
+import { ReactThreeFiber } from "react-three-fiber";
+import { Mesh, DirectionalLight, CameraHelper, Vector3, Object3D } from "three";
 import SunCalc, { GetSunPositionResult } from "suncalc";
 
 import Sky from "./Sky";
@@ -74,7 +68,7 @@ const getTrueNorth = (distance: number, lat: number, lng: number): Vector3 => {
 
     // console.log("euler", euler);
 
-    console.log('northVector', northVector)
+    console.log("northVector", northVector);
 
     return northVector;
 };
@@ -98,8 +92,8 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
     const handleChange = () => {
         const position = SunCalc.getPosition(
             // new Date(),
-            new Date("12/01/2020, 19:00:00"),
-            // new Date("05/12/2020, 15:00:00"),
+            // new Date("12/01/2020, 19:00:00"),
+            new Date("05/12/2020, 12:00:00"),
             lat,
             lng
         );
@@ -108,12 +102,15 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
             object: Object3D,
             sunPosition: GetSunPositionResult
         ) => {
+            const alpha =
+                Math.cos(sunPosition.altitude) *
+                Math.cos(Math.PI / 2 + sunPosition.azimuth);
 
-            const alpha = Math.cos(sunPosition.altitude) * Math.cos(Math.PI / 2 + sunPosition.azimuth);
+            const beta =
+                Math.cos(sunPosition.altitude) *
+                Math.sin(Math.PI / 2 + sunPosition.azimuth);
 
-            const beta = Math.cos(sunPosition.altitude) * Math.sin(Math.PI / 2 + sunPosition.azimuth);
-
-            const gamma = Math.sin(sunPosition.altitude)
+            const gamma = Math.sin(sunPosition.altitude);
 
             object.position.set(
                 // X
@@ -139,7 +136,7 @@ const SkyController: FC<ReactThreeFiber.Object3DNode<
     useEffect(() => {
         sky.current.scale.setScalar(2500);
         // sky.current.material.uniforms.up.value.set(0, 0, 1);
-        sky.current.rotation.z = Math.PI / 2;
+        // sky.current.rotation.z = Math.PI / 2;
 
         sunSphere.current.position.set(x, y, z);
         light.current.position.set(x, y, z);

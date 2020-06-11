@@ -18,6 +18,7 @@ import MapPlane from "../MapPlane/MapPlane";
 import SkyController from "../Controls/SkyController/SkyController";
 
 import "./App.css";
+import EliSphere from "../EliSphere/EliSphere";
 
 const App = () => {
     const axesHelper = useRef(new AxesHelper(10));
@@ -59,6 +60,7 @@ const App = () => {
                 />
                 {/* <Floor position={[0, 0, 0]} /> */}
                 <MapPlane position={[0, 0, 0]} />
+                <EliSphere position={[0, 0, 0]} />
                 {/* <Rectangle position={[3, 1, 3]} /> */}
                 {/* <Box position={[-1.2, 4, 0]} /> */}
                 {/* <Box position={[1.2, 4, 0]} /> */}
