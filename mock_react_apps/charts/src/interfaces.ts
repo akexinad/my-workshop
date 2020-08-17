@@ -1,4 +1,4 @@
-import { SeriesSunburstOptions, PlotSunburstLevelsOptions } from "highcharts";
+import { SeriesSunburstOptions, PlotSunburstLevelsOptions, SeriesSunburstDataLabelsOptionsObject } from "highcharts";
 
 interface ISunburstLevels extends PlotSunburstLevelsOptions {
     level: number;
@@ -8,6 +8,7 @@ interface ISunburstLevels extends PlotSunburstLevelsOptions {
 
 interface ISunburstOptionsSeries extends SeriesSunburstOptions {
     type: "sunburst";
+    allowDrillToNode: boolean;
     data: Array<ISunburstData>;
     levels: Array<ISunburstLevels>;
 }

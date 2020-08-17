@@ -8,6 +8,8 @@ import { ISunburstData, ISunburstChartOptions } from "../../interfaces";
 
 import { sunburstChartOptions } from "./sunburstChartOptions";
 
+import classes from "./SunburstHighcharts.module.scss";
+
 HighchartsSunburst(Highcharts);
 
 interface SunburstHighchartsProps {
@@ -15,8 +17,10 @@ interface SunburstHighchartsProps {
 }
 
 export const SunburstHighcharts: FC<SunburstHighchartsProps> = (props) => {
-    const { data} = props;
-    
+    const { data } = props;
+
+    console.log("sunburstChartOptions", sunburstChartOptions);
+
     const [options, setOptions] = useState<ISunburstChartOptions>(
         sunburstChartOptions
     );
@@ -27,7 +31,7 @@ export const SunburstHighcharts: FC<SunburstHighchartsProps> = (props) => {
         });
 
         setOptions(newOpts);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     const _handleClick = () => {

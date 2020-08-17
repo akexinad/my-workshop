@@ -18,25 +18,33 @@ export const sunburstChartOptions: ISunburstChartOptions = {
             allowDrillToNode: true,
             cursor: "pointer",
             dataLabels: {
-                format: "{point.name}",
-                filter: {
-                    property: "innerArcLength",
-                    operator: ">",
-                    value: 16
-                },
-                rotationMode: "auto"
+                align: undefined,
+                allowOverlap: undefined
             },
+            // dataLabels: {
+            //     format: "{point.name}",
+            //     filter: {
+            //         property: "innerArcLength",
+            //         operator: ">",
+            //         value: 16
+            //     },
+            //     rotationMode: "auto"
+            // },
             levels: [
                 {
                     level: 1,
                     levelIsConstant: false,
                     dataLabels: {
-                        filter: {
-                            property: "outerArcLength",
-                            operator: ">",
-                            value: 64
-                        }
+                        align: undefined,
+                        allowOverlap: undefined
                     }
+                    // dataLabels: {
+                    //     filter: {
+                    //         property: "outerArcLength",
+                    //         operator: ">",
+                    //         value: 64
+                    //     }
+                    // }
                 },
                 {
                     level: 2,
@@ -63,5 +71,28 @@ export const sunburstChartOptions: ISunburstChartOptions = {
         headerFormat: "",
         pointFormat:
             "The population of <b>{point.name}</b> is <b>{point.value}</b>"
+    },
+    drilldown: {
+        drillUpButton: {
+            position: {
+                align: "left",
+                verticalAlign: "bottom"
+            },
+            theme: {
+                fill: "red",
+                "stroke-width": 1,
+                stroke: "silver",
+                r: 0,
+                states: {
+                    hover: {
+                        fill: "#a4edba"
+                    },
+                    select: {
+                        stroke: "#039",
+                        fill: "#a4edba"
+                    }
+                }
+            }
+        }
     }
 };
