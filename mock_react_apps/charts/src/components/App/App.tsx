@@ -1,26 +1,35 @@
 import React, { FC, useState, useEffect } from "react";
-import "./App.css";
-// import TreemapChart from "../TreemapChart/TreemapChart";
+
+import { IBarChartData } from "../../interfaces";
+
 // import data, { data2, data3 } from "../../data";
+// import { mockRentalData } from "../../data/mockRentalData";
+// import { mockRentalPredictionData } from "../../data/mockRentalPredictionData";
+import { mockProfitData } from "../../data/mockProfitData";
+import { sunburstDataWorldPopulation } from "../../data/sunburstDataWorldPop";
+
+// import { WEIRD_BLUE } from "../../constants";
+import { sunburstChartOptions } from "../SunburstHighcharts/sunburstChartOptions";
+
+// import TreemapChart from "../TreemapChart/TreemapChart";
 // import BarChartRecharts from "../BarChartRecharts/BarChartRecharts";
 // import BarChartGoogle from "../BarChartGoogle/BarChartGoogle";
 // import BarChartVictory from "../BarChartVictory/BarChartVictory";
 // import DonutChartVictory from "../DonutChartVictory/DonutChartVictory";
-// import { mockRentalData } from "../../data/mockRentalData";
-import { mockProfitData } from "../../data/mockProfitData";
-import { IBarChartData } from "../../interfaces";
-import LineChartVictory from "../LineChartVictory/LineChartVictory";
-import { WEIRD_BLUE } from "../../constants";
-import BarChartHorizontal from "./BarChartHorizontal/BarChartHorizontal";
-import { mockRentalPredictionData } from "../../data/mockRentalPredictionData";
+// import LineChartVictory from "../LineChartVictory/LineChartVictory";
+// import BarChartHorizontal from "./BarChartHorizontal/BarChartHorizontal";
+import { SunburstHighcharts } from "../SunburstHighcharts/SunburstHighcharts";
 
-// const data = [
-//     { type: "Studio", amount: "50000000" },
-//     { type: "1 Bedroom", amount: "25000000" },
-//     { type: "2 Bedrooms", amount: "25000000" }
-// ];
+import "./App.css";
+import { sunburstDataFinance } from "../../data/sunburstDataFinance";
 
 const App: FC = () => {
+    // const data = [
+    //     { type: "Studio", amount: "50000000" },
+    //     { type: "1 Bedroom", amount: "25000000" },
+    //     { type: "2 Bedrooms", amount: "25000000" }
+    // ];
+
     const [data, setData] = useState<Array<IBarChartData>>([]);
 
     useEffect(() => {
@@ -40,7 +49,8 @@ const App: FC = () => {
         <div className="App">
             <header className="App-header">
                 <h2>Charts</h2>
-                <LineChartVictory data={data} color={WEIRD_BLUE} />
+                <SunburstHighcharts data={sunburstDataWorldPopulation} options={sunburstChartOptions} />
+                {/* <LineChartVictory data={data} color={WEIRD_BLUE} /> */}
                 {/* <BarChartVictory data={data} color={WEIRD_BLUE} /> */}
                 {/* <BarChartHorizontal
                     data={mockRentalPredictionData}
