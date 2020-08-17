@@ -7,9 +7,9 @@ import { IBarChartData } from "../../interfaces";
 // import { mockRentalPredictionData } from "../../data/mockRentalPredictionData";
 import { mockProfitData } from "../../data/mockProfitData";
 import { sunburstDataWorldPopulation } from "../../data/sunburstDataWorldPop";
+import { sunburstDataFinance } from "../../data/sunburstDataFinance";
 
 // import { WEIRD_BLUE } from "../../constants";
-import { sunburstChartOptions } from "../SunburstHighcharts/sunburstChartOptions";
 
 // import TreemapChart from "../TreemapChart/TreemapChart";
 // import BarChartRecharts from "../BarChartRecharts/BarChartRecharts";
@@ -21,7 +21,6 @@ import { sunburstChartOptions } from "../SunburstHighcharts/sunburstChartOptions
 import { SunburstHighcharts } from "../SunburstHighcharts/SunburstHighcharts";
 
 import "./App.css";
-import { sunburstDataFinance } from "../../data/sunburstDataFinance";
 
 const App: FC = () => {
     // const data = [
@@ -49,7 +48,8 @@ const App: FC = () => {
         <div className="App">
             <header className="App-header">
                 <h2>Charts</h2>
-                <SunburstHighcharts data={sunburstDataWorldPopulation} options={sunburstChartOptions} />
+                <SunburstHighcharts data={sunburstDataWorldPopulation} />
+                <SunburstHighcharts data={sunburstDataFinance} />
                 {/* <LineChartVictory data={data} color={WEIRD_BLUE} /> */}
                 {/* <BarChartVictory data={data} color={WEIRD_BLUE} /> */}
                 {/* <BarChartHorizontal
