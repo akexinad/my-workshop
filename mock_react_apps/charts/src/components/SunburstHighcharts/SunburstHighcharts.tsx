@@ -4,12 +4,12 @@ import HighchartsReact from "highcharts-react-official";
 import HighchartsSunburst from "highcharts/modules/sunburst";
 import { produce } from "immer";
 
-import { ISunburstData } from "../../interfaces";
+import { ISunburstData, ISunburstChartOptions } from "../../interfaces";
 
 HighchartsSunburst(Highcharts);
 
 interface SunburstHighchartsProps {
-    options: any;
+    options: ISunburstChartOptions;
     data: Array<ISunburstData>;
 }
 
@@ -17,24 +17,21 @@ export const SunburstHighcharts: FC<SunburstHighchartsProps> = ({
     options,
     data
 }) => {
-    const [sunburstOptions, setSunburstOptions] = useState(options);
+    const [opts, setOpts] = useState(options);
 
     useEffect(() => {
-        if (!sunburstOptions.series[0].data.length) {
-            const newOptions = produce(sunburstOptions, (draft: any) => {
+        if (!opts.series[0].data.length) {
+            const newOpts = produce(opts, (draft: any) => {
                 draft.series[0].data = data;
             });
 
-            console.log("newOptions", newOptions);
 
-            setSunburstOptions(newOptions);
+            setOpts(newOpts);
         }
-
-        console.log("sunburstOptions", sunburstOptions);
-    }, [data, sunburstOptions]);
+    }, [data, opts]);
 
     const _handleClick = () => {
-        const newOptions = produce(sunburstOptions, (draft: any) => {
+        const newOpts = produce(opts, (draft: any) => {
             draft.series[0].data.map((country: any) => {
                 if (country.name === "Italy") {
                     return (country.value = 1000000000);
@@ -44,12 +41,12 @@ export const SunburstHighcharts: FC<SunburstHighchartsProps> = ({
             });
         });
 
-        setSunburstOptions(newOptions);
+        setOpts(newOpts);
     };
 
     return (
         <>
-            <HighchartsReact highcharts={Highcharts} options={sunburstOptions} />
+            <HighchartsReact highcharts={Highcharts} options={opts} />
             <button onClick={_handleClick}>CHANGE DATA</button>
         </>
     );
