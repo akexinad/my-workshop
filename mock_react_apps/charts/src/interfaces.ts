@@ -1,3 +1,28 @@
+import { SeriesSunburstOptions, PlotSunburstLevelsOptions } from "highcharts";
+
+interface ISunburstLevels extends PlotSunburstLevelsOptions {
+    level: number;
+    levelIsConstant?: boolean;
+    colorByPoint?: boolean;
+}
+
+interface ISunburstOptionsSeries extends SeriesSunburstOptions {
+    type: "sunburst";
+    data: Array<ISunburstData>;
+    levels: Array<ISunburstLevels>;
+}
+
+export interface ISunburstChartOptions extends Highcharts.Options {
+    series: Array<ISunburstOptionsSeries>;
+}
+
+export interface ISunburstData {
+    id: string;
+    parent: ISunburstData["id"];
+    name: string;
+    value?: number;
+}
+
 export interface INode {
     name: string;
     size?: number;
