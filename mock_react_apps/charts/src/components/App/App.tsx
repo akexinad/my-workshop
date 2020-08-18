@@ -49,7 +49,7 @@ const App: FC = () => {
             <header className="App-header">
                 <h2>Charts</h2>
                 <SunburstHighcharts data={sunburstDataWorldPopulation} />
-                <SunburstHighcharts data={sunburstDataFinance} />
+                {/* <SunburstHighcharts data={sunburstDataFinance} /> */}
                 {/* <LineChartVictory data={data} color={WEIRD_BLUE} /> */}
                 {/* <BarChartVictory data={data} color={WEIRD_BLUE} /> */}
                 {/* <BarChartHorizontal

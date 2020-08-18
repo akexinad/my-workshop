@@ -17,34 +17,39 @@ export const sunburstChartOptions: ISunburstChartOptions = {
             data: [],
             allowDrillToNode: true,
             cursor: "pointer",
+            // dataLabels: {
+            //     align: undefined,
+            //     allowOverlap: undefined
+            // },
             dataLabels: {
                 align: undefined,
-                allowOverlap: undefined
+                allowOverlap: undefined,
+                format: "{point.name}",
+                filter: {
+                    property: "innerArcLength",
+                    operator: ">",
+                    value: 16
+                },
+                rotationMode: "auto"
             },
-            // dataLabels: {
-            //     format: "{point.name}",
-            //     filter: {
-            //         property: "innerArcLength",
-            //         operator: ">",
-            //         value: 16
-            //     },
-            //     rotationMode: "auto"
-            // },
             levels: [
                 {
                     level: 1,
                     levelIsConstant: false,
+                    // dataLabels: {
+                    //     align: undefined,
+                    //     allowOverlap: undefined
+                    // }
                     dataLabels: {
                         align: undefined,
-                        allowOverlap: undefined
+                        allowOverlap: undefined,
+
+                        filter: {
+                            property: "outerArcLength",
+                            operator: ">",
+                            value: 64
+                        }
                     }
-                    // dataLabels: {
-                    //     filter: {
-                    //         property: "outerArcLength",
-                    //         operator: ">",
-                    //         value: 64
-                    //     }
-                    // }
                 },
                 {
                     level: 2,

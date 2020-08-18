@@ -19,14 +19,12 @@ interface SunburstHighchartsProps {
 export const SunburstHighcharts: FC<SunburstHighchartsProps> = (props) => {
     const { data } = props;
 
-    console.log("sunburstChartOptions", sunburstChartOptions);
-
     const [options, setOptions] = useState<ISunburstChartOptions>(
         sunburstChartOptions
     );
 
     useEffect(() => {
-        const newOpts = produce(options, (draft: any) => {
+        const newOpts = produce(options, (draft: ISunburstChartOptions) => {
             draft.series[0].data = data;
         });
 
@@ -35,9 +33,11 @@ export const SunburstHighcharts: FC<SunburstHighchartsProps> = (props) => {
     }, [data]);
 
     const _handleClick = () => {
-        const newOpts = produce(options, (draft: any) => {
-            draft.series[0].data.map((country: any) => {
+        const newOpts = produce(options, (draft: ISunburstChartOptions) => {
+            draft.series[0].data.map((country: ISunburstData) => {
                 if (country.name === "Italy") {
+                    console.log("country", country);
+
                     return (country.value = 1000000000);
                 }
 
@@ -50,6 +50,7 @@ export const SunburstHighcharts: FC<SunburstHighchartsProps> = (props) => {
 
     return (
         <>
+            <h3 className={classes.heading}>Highcharts</h3>
             <HighchartsReact highcharts={Highcharts} options={options} />
             <button onClick={_handleClick}>CHANGE DATA</button>
         </>
