@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Func } from "./Func";
+import DatePicker from "./DatePicker";
 
 class App extends React.Component {
   state = {
@@ -67,6 +68,9 @@ class App extends React.Component {
           >
             Learn React
           </a>
+          <DatePicker date={"05/10/1950"} />
+          <DatePicker date={"foo bar"} />
+          <DatePicker date={null} />
           {this.renderData()}
           <h2>Hello</h2>
           <Func data={this.state.data} clicked={this._changeName} />
