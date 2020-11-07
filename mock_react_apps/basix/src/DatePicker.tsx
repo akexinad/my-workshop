@@ -9,9 +9,9 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   const { date } = props;
 
   const [formattedDate, setFormattedDate] = useState<dayjs.Dayjs | null>(null);
-  const [day, setDay] = useState<number>();
-  const [month, setMonth] = useState<number>();
-  const [year, setYear] = useState<number>();
+  const [day, setDay] = useState<string>();
+  const [month, setMonth] = useState<string>();
+  const [year, setYear] = useState<string>();
   const [validDate, setValidDate] = useState(true);
 
   const dayInputRef = useRef<HTMLInputElement>(null);
@@ -21,10 +21,10 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   useEffect(() => {
     if (!date) {
         setFormattedDate(dayjs(new Date()));
-        setDay(new Date().getDate());
+        setDay(new Date().getDate().toString());
         // months are indexed at 0
-        setMonth(new Date().getMonth() + 1);
-        setYear(new Date().getFullYear());
+        setMonth((new Date().getMonth() + 1).toString());
+        setYear(new Date().getFullYear().toString());
         return;
     }
 
@@ -34,26 +34,26 @@ const DatePicker: FC<DatePickerProps> = (props) => {
       if (!newDate.isValid()) {
         console.error("Date Is Not Valid!!!");
         setFormattedDate(dayjs(new Date()));
-        setDay(new Date().getDate());
+        setDay(new Date().getDate().toString());
         // months are indexed at 0
-        setMonth(new Date().getMonth() + 1);
-        setYear(new Date().getFullYear());
+        setMonth((new Date().getMonth() + 1).toString());
+        setYear(new Date().getFullYear().toString());
         return;
       }
 
       setFormattedDate(newDate);
 
-      setDay(newDate.date());
+      setDay(newDate.date().toString());
       // months are indexed at 0
-      setMonth(newDate.month() + 1);
-      setYear(newDate.year());
+      setMonth((newDate.month() + 1).toString());
+      setYear(newDate.year().toString());
     }
   }, [date, setDay, setMonth, setYear]);
 
   const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = +e.target.value;
+    const value = e.target.value;
 
-    if (isNaN(value)) return;
+    if (isNaN(+value)) return;
 
     setDay(value);
 
@@ -64,9 +64,9 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   };
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = +e.target.value;
+    const value = e.target.value;
 
-    if (isNaN(value)) return;
+    if (isNaN(+value)) return;
 
     setMonth(value);
 
@@ -77,9 +77,9 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   };
 
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = +e.target.value;
+    const value = e.target.value;
 
-    if (isNaN(value) || value.toString().length === 5) return;
+    if (isNaN(+value) || value.toString().length === 5) return;
 
     setYear(value);
 
@@ -89,9 +89,9 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   };
 
   const checkDate = (
-    dayToCheck: number = day as number,
-    monthToCheck: number = month as number,
-    yearToCheck: number = year as number
+    dayToCheck: string = day as string,
+    monthToCheck: string = month as string,
+    yearToCheck: string = year as string
   ) => {
     const dateToCheck = dayjs(`${monthToCheck}/${dayToCheck}/${yearToCheck}`);
 
@@ -104,21 +104,21 @@ const DatePicker: FC<DatePickerProps> = (props) => {
         value={month || ""}
         ref={monthInputRef}
         onChange={(e) => handleMonthChange(e)}
-        onBlur={(e) => checkDate(day, +e.target.value, year)}
+        onBlur={(e) => checkDate(day, e.target.value, year)}
       />
       <span>/</span>
       <input
         value={day || ""}
         ref={dayInputRef}
         onChange={(e) => handleDayChange(e)}
-        onBlur={(e) => checkDate(+e.target.value, month, year)}
+        onBlur={(e) => checkDate(e.target.value, month, year)}
       />
       <span>/</span>
       <input
         value={year || ""}
         ref={yearInputRef}
         onChange={(e) => handleYearChange(e)}
-        onBlur={(e) => checkDate(day, month, +e.target.value)}
+        onBlur={(e) => checkDate(day, month, e.target.value)}
       />
       {validDate ? null : <h3 style={{ color: "red" }}>Date Is Invalid</h3>}
     </div>
