@@ -20,10 +20,14 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   useEffect(() => {
     if (!date) {
       console.error("date is null");
-      setDay(new Date().getDate().toString());
+
+      const newDate = dayjs(new Date())
+      
+      setDay(newDate.date().toString());
       // months are indexed at 0
-      setMonth((new Date().getMonth() + 1).toString());
-      setYear(new Date().getFullYear().toString());
+      setMonth((newDate.month() + 1).toString());
+      setYear(newDate.year().toString());
+      
       return;
     }
 
@@ -31,10 +35,12 @@ const DatePicker: FC<DatePickerProps> = (props) => {
 
     if (!newDate.isValid()) {
       console.error("Date Is Not Valid!!!");
+      
       setDay(new Date().getDate().toString());
       // months are indexed at 0
       setMonth((new Date().getMonth() + 1).toString());
       setYear(new Date().getFullYear().toString());
+      
       return;
     }
 
