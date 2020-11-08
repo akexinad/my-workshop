@@ -8,9 +8,9 @@ interface DatePickerProps {
 const DatePicker: FC<DatePickerProps> = (props) => {
   const { date } = props;
 
-  const [day, setDay] = useState<string>();
-  const [month, setMonth] = useState<string>();
-  const [year, setYear] = useState<string>();
+  const [day, setDay] = useState<string>("");
+  const [month, setMonth] = useState<string>("");
+  const [year, setYear] = useState<string>("");
   const [validDate, setValidDate] = useState(true);
 
   const dayInputRef = useRef<HTMLInputElement>(null);
@@ -19,28 +19,36 @@ const DatePicker: FC<DatePickerProps> = (props) => {
 
   useEffect(() => {
     if (!date) {
-      console.error("date is null");
+      /**
+       * Setting it to today's date if there is no
+       * date passed down from pyodide.
+       */
+      console.error("No Date.");
 
-      const newDate = dayjs(new Date())
-      
+      const newDate = dayjs(new Date());
+
       setDay(newDate.date().toString());
       // months are indexed at 0
       setMonth((newDate.month() + 1).toString());
       setYear(newDate.year().toString());
-      
+
       return;
     }
 
     const newDate = dayjs(date);
 
     if (!newDate.isValid()) {
-      console.error("Date Is Not Valid!!!");
-      
+      /**
+       * Setting it to today's date if pyodide date
+       * is not valid.
+       */
+      console.error("Date Is Not Valid");
+
       setDay(new Date().getDate().toString());
       // months are indexed at 0
       setMonth((new Date().getMonth() + 1).toString());
       setYear(new Date().getFullYear().toString());
-      
+
       return;
     }
 
@@ -50,15 +58,33 @@ const DatePicker: FC<DatePickerProps> = (props) => {
     setYear(newDate.year().toString());
   }, [date, setDay, setMonth, setYear]);
 
+  const inputValidation = (
+    inputValue: string,
+    type: "day" | "month" | "year"
+  ) => {
+    if (isNaN(+inputValue)) return;
+
+    switch (type) {
+      case "day":
+        checkDate(inputValue, month, year);
+        return setDay(inputValue);
+      case "month":
+        checkDate(day, inputValue, year);
+        return setMonth(inputValue);
+      case "year":
+        checkDate(day, month, inputValue);
+        return setYear(inputValue);
+      default:
+        break;
+    }
+  };
+
   const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (isNaN(+value)) return;
-
-    setDay(value);
+    inputValidation(value, "day");
 
     if (value.toString().length === 2 && yearInputRef.current) {
-      checkDate(value);
       yearInputRef.current.focus();
     }
   };
@@ -66,12 +92,9 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (isNaN(+value)) return;
-
-    setMonth(value);
+    inputValidation(value, "month");
 
     if (value.toString().length === 2 && dayInputRef.current) {
-      checkDate(day, value, year);
       dayInputRef.current.focus();
     }
   };
@@ -79,19 +102,17 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (isNaN(+value) || value.toString().length === 5) return;
+    inputValidation(value, "year");
 
-    setYear(value);
-
-    if (value.toString().length === 4 && yearInputRef.current) {
-      checkDate(day, month, value);
+    if (value.toString().length !== 4) {
+      setValidDate(false);
     }
   };
 
   const checkDate = (
-    dayToCheck: string = day as string,
-    monthToCheck: string = month as string,
-    yearToCheck: string = year as string
+    dayToCheck: string,
+    monthToCheck: string,
+    yearToCheck: string
   ) => {
     const dateToCheck = dayjs(`${monthToCheck}/${dayToCheck}/${yearToCheck}`);
 
@@ -109,28 +130,24 @@ const DatePicker: FC<DatePickerProps> = (props) => {
 
     setValidDate(dateToCheck.isValid());
   };
-
   return (
     <div>
       <input
         value={month || ""}
         ref={monthInputRef}
         onChange={(e) => handleMonthChange(e)}
-        onBlur={(e) => checkDate(day, e.target.value, year)}
       />
       <span>/</span>
       <input
         value={day || ""}
         ref={dayInputRef}
         onChange={(e) => handleDayChange(e)}
-        onBlur={(e) => checkDate(e.target.value, month, year)}
       />
       <span>/</span>
       <input
         value={year || ""}
         ref={yearInputRef}
         onChange={(e) => handleYearChange(e)}
-        onBlur={(e) => checkDate(day, month, e.target.value)}
       />
       {validDate ? null : <h3 style={{ color: "red" }}>Date Is Invalid</h3>}
     </div>
