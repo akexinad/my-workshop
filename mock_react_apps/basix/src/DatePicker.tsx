@@ -28,26 +28,24 @@ const DatePicker: FC<DatePickerProps> = (props) => {
         return;
     }
 
-    if (!formattedDate) {
-      const newDate = dayjs(date);
+    const newDate = dayjs(date);
 
-      if (!newDate.isValid()) {
-        console.error("Date Is Not Valid!!!");
-        setFormattedDate(dayjs(new Date()));
-        setDay(new Date().getDate().toString());
-        // months are indexed at 0
-        setMonth((new Date().getMonth() + 1).toString());
-        setYear(new Date().getFullYear().toString());
-        return;
-      }
-
-      setFormattedDate(newDate);
-
-      setDay(newDate.date().toString());
+    if (!newDate.isValid()) {
+      console.error("Date Is Not Valid!!!");
+      setFormattedDate(dayjs(new Date()));
+      setDay(new Date().getDate().toString());
       // months are indexed at 0
-      setMonth((newDate.month() + 1).toString());
-      setYear(newDate.year().toString());
+      setMonth((new Date().getMonth() + 1).toString());
+      setYear(new Date().getFullYear().toString());
+      return;
     }
+
+    setFormattedDate(newDate);
+
+    setDay(newDate.date().toString());
+    // months are indexed at 0
+    setMonth((newDate.month() + 1).toString());
+    setYear(newDate.year().toString());
   }, [date, setDay, setMonth, setYear]);
 
   const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +92,11 @@ const DatePicker: FC<DatePickerProps> = (props) => {
     yearToCheck: string = year as string
   ) => {
     const dateToCheck = dayjs(`${monthToCheck}/${dayToCheck}/${yearToCheck}`);
+
+    if (dateToCheck.date() !== +dayToCheck || dateToCheck.month() + 1 !== +monthToCheck) {
+      setValidDate(false);
+      return;
+    }
 
     setValidDate(dateToCheck.isValid());
   };
