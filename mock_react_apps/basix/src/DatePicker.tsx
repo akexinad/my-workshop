@@ -8,7 +8,6 @@ interface DatePickerProps {
 const DatePicker: FC<DatePickerProps> = (props) => {
   const { date } = props;
 
-  const [formattedDate, setFormattedDate] = useState<dayjs.Dayjs | null>(null);
   const [day, setDay] = useState<string>();
   const [month, setMonth] = useState<string>();
   const [year, setYear] = useState<string>();
@@ -20,19 +19,7 @@ const DatePicker: FC<DatePickerProps> = (props) => {
 
   useEffect(() => {
     if (!date) {
-        setFormattedDate(dayjs(new Date()));
-        setDay(new Date().getDate().toString());
-        // months are indexed at 0
-        setMonth((new Date().getMonth() + 1).toString());
-        setYear(new Date().getFullYear().toString());
-        return;
-    }
-
-    const newDate = dayjs(date);
-
-    if (!newDate.isValid()) {
-      console.error("Date Is Not Valid!!!");
-      setFormattedDate(dayjs(new Date()));
+      console.error("date is null");
       setDay(new Date().getDate().toString());
       // months are indexed at 0
       setMonth((new Date().getMonth() + 1).toString());
@@ -40,7 +27,16 @@ const DatePicker: FC<DatePickerProps> = (props) => {
       return;
     }
 
-    setFormattedDate(newDate);
+    const newDate = dayjs(date);
+
+    if (!newDate.isValid()) {
+      console.error("Date Is Not Valid!!!");
+      setDay(new Date().getDate().toString());
+      // months are indexed at 0
+      setMonth((new Date().getMonth() + 1).toString());
+      setYear(new Date().getFullYear().toString());
+      return;
+    }
 
     setDay(newDate.date().toString());
     // months are indexed at 0
@@ -93,7 +89,14 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   ) => {
     const dateToCheck = dayjs(`${monthToCheck}/${dayToCheck}/${yearToCheck}`);
 
-    if (dateToCheck.date() !== +dayToCheck || dateToCheck.month() + 1 !== +monthToCheck) {
+    /**
+     * dayjs gives false positives for dates like 30/2 or 31/2 or months that only have 30 days.
+     * It just adds the times and moves the dates to march. We need to check for these values.
+     */
+    if (
+      dateToCheck.date() !== +dayToCheck ||
+      dateToCheck.month() + 1 !== +monthToCheck
+    ) {
       setValidDate(false);
       return;
     }
