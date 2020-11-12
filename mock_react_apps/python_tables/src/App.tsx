@@ -1,11 +1,12 @@
 import React from "react";
-import logo from "./logo.svg";
+import { Column, Row, UseTableInstanceProps } from "react-table";
 import "./App.css";
-import makeData from "./data/makeData";
 import { Table } from "./components/Table/Table";
+import { makeData } from "./data/makeData";
+import { PythonRow } from "./types";
 
 function App() {
-  const columns = React.useMemo(
+  const columns: Array<Column> = React.useMemo(
     () => [
       {
         Header: "Name",
@@ -30,9 +31,9 @@ function App() {
         columns: [
           {
             Header: "Age",
-            Footer: (info: any) => {
+            Footer: (info: UseTableInstanceProps<PythonRow>) => {
               const total = info.rows.reduce(
-                (sum: number, row: any) => row.values.age + sum,
+                (sum: number, row: Row<PythonRow>) => row.values.age + sum,
                 0
               );
               const average = Math.round(total / info.rows.length);
@@ -72,9 +73,11 @@ function App() {
 
   const data = React.useMemo(() => makeData(40), []);
 
+  console.log("data", data);
+
   return (
     <div className="App">
-        <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} />
     </div>
   );
 }

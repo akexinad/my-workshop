@@ -1,4 +1,5 @@
 import namor from 'namor'
+import { PythonRow } from '../types'
 
 const range = (len: number) => {
   const arr = []
@@ -8,7 +9,7 @@ const range = (len: number) => {
   return arr
 }
 
-const newPerson = () => {
+const newPerson = (): PythonRow => {
   const statusChance = Math.random()
   return {
     firstName: namor.generate({ words: 1, numbers: 0 }),
@@ -25,8 +26,8 @@ const newPerson = () => {
   }
 }
 
-export default function makeData(...lens: number[]) {
-  const makeDataLevel = (depth: number = 0): any => {
+export const makeData = (...lens: number[]) => {
+  const makeDataLevel = (depth: number = 0): Array<PythonRow> => {
     const len = lens[depth]
     return range(len).map(d => {
       return {
