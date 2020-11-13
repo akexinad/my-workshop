@@ -1,7 +1,7 @@
 import { capitalize } from "lodash";
 
-export default (item: string | number) => {
-  if (!item) return;
+const capitalizeEach = (item: string | number) => {
+  if (!item) return "";
 
   const string = item.toString();
 
@@ -10,3 +10,5 @@ export default (item: string | number) => {
     .map((word) => capitalize(word))
     .join(" ");
 };
+
+export default capitalizeEach;
