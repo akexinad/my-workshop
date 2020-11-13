@@ -1,7 +1,7 @@
-import { RegionTable } from "../types";
+import { PythonTable } from "../types";
 
-export const mockRegionTableData: RegionTable = {
-  header: [
+export const mockRegionTableData: PythonTable = {
+  headers: [
     "unit types",
     "yield",
     "monthly rent per sqft",
@@ -20,7 +20,7 @@ export const mockRegionTableData: RegionTable = {
     "nov, 2020",
     "dec, 2020",
   ],
-  footer: [
+  footers: [
     "total",
     140,
     "",
@@ -66,6 +66,7 @@ export const mockRegionTableData: RegionTable = {
         value: 6.21,
         pythonScript: "",
       },
+      // 6.21, // read only for now
       3125,
       375000,
       3125,
@@ -107,6 +108,7 @@ export const mockRegionTableData: RegionTable = {
         value: 4.71,
         pythonScript: "",
       },
+      // 4.71, // read only for now
       3333,
       1199880,
       3333,
@@ -129,6 +131,7 @@ export const mockRegionTableData: RegionTable = {
         value: 4.86,
         pythonScript: "",
       },
+      // 4.86, // read only for now
       3200,
       1199880,
       3200,
@@ -170,6 +173,7 @@ export const mockRegionTableData: RegionTable = {
         value: 3.2,
         pythonScript: "",
       },
+      // 3.2, // read only for now
       3458,
       207480,
       3458,
@@ -192,6 +196,7 @@ export const mockRegionTableData: RegionTable = {
         value: 3.68,
         pythonScript: "",
       },
+      // 3.68, // read only for now
       3350,
       1206000,
       3350,
@@ -214,6 +219,7 @@ export const mockRegionTableData: RegionTable = {
         value: 3.68,
         pythonScript: "",
       },
+      // 3.68, // read only for now
       3400,
       612000,
       3400,
@@ -255,6 +261,7 @@ export const mockRegionTableData: RegionTable = {
         value: 3.61,
         pythonScript: "",
       },
+      // 3,61, // read only for now
       5000,
       1200000,
       5000,
