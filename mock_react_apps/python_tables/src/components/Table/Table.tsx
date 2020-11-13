@@ -1,7 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { useTable, useBlockLayout } from "react-table";
+import React, { FC, useState } from "react";
+import { CellProps, useBlockLayout, useTable } from "react-table";
 import { useSticky } from "react-table-sticky";
+import styled from "styled-components";
+import { CB, RegionCell, RegionColumn, RegionTableRow } from "../../types";
+import EditableCell from "../EditableCell/EditableCell";
 
 const Styles = styled.div`
   padding: 1rem;
@@ -84,7 +86,12 @@ const Styles = styled.div`
   }
 `;
 
-export function Table({ columns, data }: any) {
+interface TableProps {
+  regionColumns: Array<RegionColumn>;
+  data: Array<RegionTableRow>;
+}
+
+export const Table: FC<TableProps> = ({ regionColumns, data }) => {
   const defaultColumn = React.useMemo(
     () => ({
       minWidth: 150,
@@ -99,16 +106,33 @@ export function Table({ columns, data }: any) {
     getTableBodyProps,
     headerGroups,
     rows,
+    columns,
     prepareRow,
   } = useTable(
     {
-      columns,
+      columns: regionColumns,
       data,
       defaultColumn,
     },
     useBlockLayout,
     useSticky
   );
+
+  columns.forEach((column) => {
+    column.Cell = (
+      props: React.PropsWithChildren<CellProps<RegionTableRow, RegionCell>>
+    ) => {
+      const codeBlock = props.value as CB;
+
+      if (codeBlock.value) {
+        return (
+          <EditableCell value={codeBlock.value} />
+        );
+      }
+
+      return props.value;
+    };
+  });
 
   // Workaround as react-table footerGroups doesn't provide the same internal data than headerGroups
   const footerGroups = headerGroups.slice().reverse();
@@ -118,7 +142,7 @@ export function Table({ columns, data }: any) {
       <div
         {...getTableProps()}
         className="table sticky"
-        style={{ width: 800, height: 400 }}
+        style={{ width: 1200, height: 400 }}
       >
         <div className="header">
           {headerGroups.map((headerGroup) => (
@@ -163,4 +187,4 @@ export function Table({ columns, data }: any) {
       </div>
     </Styles>
   );
-}
+};
