@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { CellProps, useBlockLayout, useTable } from "react-table";
 import { useSticky } from "react-table-sticky";
 import styled from "styled-components";
@@ -125,9 +125,7 @@ export const Table: FC<TableProps> = ({ regionColumns, data }) => {
       const codeBlock = props.value as CB;
 
       if (codeBlock.value) {
-        return (
-          <EditableCell value={codeBlock.value} />
-        );
+        return <EditableCell value={codeBlock.value} />;
       }
 
       return props.value;

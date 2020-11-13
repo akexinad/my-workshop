@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Table } from "./components/Table/Table";
 import { mockRegionTableData } from "./data/mockRegionTableData";
-import { RegionTableRow, RegionColumn } from "./types";
+import { RegionColumn, RegionTableRow } from "./types";
 import capitalizeEach from "./utils/capitalizeEach";
 
 function App() {
@@ -34,7 +34,6 @@ function App() {
    * that it is readable for react-table.
    */
   const data = mockRegionTableData.rows.map((row) => {
-    
     let regionCellObject: RegionTableRow = {};
 
     row.forEach((cell, index) => {
