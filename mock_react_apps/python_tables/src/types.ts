@@ -1,21 +1,26 @@
-export interface PythonRow {
-  firstName: string;
-  lastName: string;
-  age: number;
-  visits: number;
-  progress: number;
-  status: string;
-}
-
-type CB = {
+export type CB = {
   value: number;
   pythonScript: string;
 };
 
-export type TableRow = Array<string | number | CB>;
+export type RegionCell = string | CB | number;
 
-export interface RegionTable {
-  header: Array<string>;
-  rows: Array<TableRow>;
-  footer: Array<string | number>;
+export type RegionRow = Array<RegionCell>;
+
+export interface PythonTable {
+  headers: Array<string>;
+  rows: Array<RegionRow>;
+  footers: Array<string | number>;
+}
+
+export interface RegionColumn {
+  Header: string;
+  accessor: string;
+  Cell?: any;
+  Footer?: string;
+  sticky?: "left" | "right";
+}
+
+export interface RegionTableRow {
+  [key: string]: RegionCell;
 }
