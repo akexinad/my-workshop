@@ -1,23 +1,33 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { CellProps, useBlockLayout, useTable } from "react-table";
 import { useSticky } from "react-table-sticky";
-import { CB, RegionCell, RegionColumn, RegionTableRow } from "../../types";
+import { CB, RegionCell, RegionTable, RegionTableRow } from "../../types";
+import { createRegionTable } from "../../utils/createRegionTable";
 import EditableCell from "../EditableCell/EditableCell";
 import classes from "./Table.module.scss";
 
 interface TableProps {
-  regionColumns: Array<RegionColumn>;
-  data: Array<RegionTableRow>;
+  data: RegionTable;
+  frozenColumns: number;
 }
 
-export const Table: FC<TableProps> = ({ regionColumns, data }) => {
-  const defaultColumn = React.useMemo(
-    () => ({
-      minWidth: 150,
-      width: 150,
-      maxWidth: 400,
-    }),
-    []
+export const Table: FC<TableProps> = ({ data, frozenColumns }) => {
+  // const defaultColumn = React.useMemo(
+  //   () => ({
+  //     minWidth: 150,
+  //     width: 150,
+  //     maxWidth: 400,
+  //   }),
+  //   []
+  // );
+
+  const regionTableColumns = useMemo(
+    () => createRegionTable(data, frozenColumns).regionTableColumns,
+    [data, frozenColumns]
+  );
+  const regionData = useMemo(
+    () => createRegionTable(data, frozenColumns).regionTableRows,
+    [data, frozenColumns]
   );
 
   const {
@@ -29,9 +39,9 @@ export const Table: FC<TableProps> = ({ regionColumns, data }) => {
     prepareRow,
   } = useTable(
     {
-      columns: regionColumns,
-      data,
-      defaultColumn,
+      columns: regionTableColumns,
+      data: regionData,
+      // defaultColumn,
     },
     useBlockLayout,
     useSticky
@@ -63,19 +73,24 @@ export const Table: FC<TableProps> = ({ regionColumns, data }) => {
     <div
       {...getTableProps()}
       className={[classes.table, classes.sticky].join(" ")}
-      style={{ width: 1200, height: 400 }}
+      style={{
+        width: 1200,
+        // height: 800
+      }}
     >
-      <div className={classes.header}>
-        {headerGroups.map((headerGroup) => (
-          <div {...headerGroup.getHeaderGroupProps()} className={classes.tr}>
-            {headerGroup.headers.map((column) => (
-              <div {...column.getHeaderProps()} className={classes.th}>
-                {column.render("Header")}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+      {!data.headers ? null : (
+        <div className={classes.header}>
+          {headerGroups.map((headerGroup) => (
+            <div {...headerGroup.getHeaderGroupProps()} className={classes.tr}>
+              {headerGroup.headers.map((column) => (
+                <div {...column.getHeaderProps()} className={classes.th}>
+                  {column.render("Header")}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div {...getTableBodyProps()} className={classes.body}>
         {rows.map((row) => {
@@ -117,17 +132,19 @@ export const Table: FC<TableProps> = ({ regionColumns, data }) => {
         })}
       </div>
 
-      <div className={classes.footer}>
-        {footerGroups.map((footerGroup) => (
-          <div {...footerGroup.getHeaderGroupProps()} className={classes.tr}>
-            {footerGroup.headers.map((column) => (
-              <div {...column.getHeaderProps()} className={classes.td}>
-                {column.render("Footer")}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+      {!data.footers ? null : (
+        <div className={classes.footer}>
+          {footerGroups.map((footerGroup) => (
+            <div {...footerGroup.getHeaderGroupProps()} className={classes.tr}>
+              {footerGroup.headers.map((column) => (
+                <div {...column.getHeaderProps()} className={classes.td}>
+                  {column.render("Footer")}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

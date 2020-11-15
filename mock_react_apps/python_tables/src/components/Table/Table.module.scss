@@ -46,7 +46,7 @@
     }
 
     &.sticky {
-        overflow: scroll;
+        overflow-x: scroll;
         .header,
         .footer {
             position: sticky;
@@ -54,15 +54,15 @@
             width: fit-content;
         }
 
-        .header {
-            top: 0;
-            box-shadow: 0px 3px 3px #ccc;
-        }
+        // .header {
+        //     top: 0;
+        //     box-shadow: 0px 3px 3px #ccc;
+        // }
 
-        .footer {
-            bottom: 0;
-            box-shadow: 0px -3px 3px #ccc;
-        }
+        // .footer {
+        //     bottom: 0;
+        //     box-shadow: 0px -3px 3px #ccc;
+        // }
 
         .body {
             position: relative;

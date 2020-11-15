@@ -7,17 +7,17 @@ export type RegionCell = string | CB | number;
 
 export type RegionRow = Array<RegionCell>;
 
-export interface PythonTable {
-  headers: Array<string>;
+export interface RegionTable {
+  headers?: Array<string>;
   rows: Array<RegionRow>;
-  footers: Array<string | number>;
+  footers?: Array<string | number>;
 }
 
-export interface RegionColumn {
+export interface RegionTableColumn {
   Header: string;
   accessor: string;
   Cell?: any;
-  Footer?: string;
+  Footer?: string | null;
   sticky?: "left" | "right";
 }
 
