@@ -3,7 +3,7 @@ export type CB = {
   pythonScript: string;
 };
 
-export type RegionCell = string | CB | number;
+export type RegionCell = string | CB | number | undefined;
 
 export type RegionRow = Array<RegionCell>;
 

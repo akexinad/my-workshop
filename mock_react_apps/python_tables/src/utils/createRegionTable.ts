@@ -46,8 +46,8 @@ export const createRegionTable = (data: RegionTable, frozenColumns: number) => {
    */
   if (!data.headers) {
     regionTableColumnsNoHeader = data.rows.map((row, index) => ({
-      Header: row[0].toString(),
-      accessor: row[0].toString() + index,
+      Header: row[0] ? row[0].toString() : "header" + index,
+      accessor: row[0] ? row[0].toString() : "accessor" + index,
     }));
 
     return {
