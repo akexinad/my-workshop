@@ -1,0 +1,9 @@
+.cell {
+    width: 90px;
+    border: none;
+    background-color: inherit;
+
+    &:focus {
+        outline: none;
+    }
+}

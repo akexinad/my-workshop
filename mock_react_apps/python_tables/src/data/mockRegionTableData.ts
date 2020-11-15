@@ -66,7 +66,7 @@ export const mockRegionTableData: PythonTable = {
         value: 6.21,
         pythonScript: "",
       },
-      // 6.21, // read only for now
+      // 6.21, // read-only value
       3125,
       375000,
       3125,
@@ -108,7 +108,7 @@ export const mockRegionTableData: PythonTable = {
         value: 4.71,
         pythonScript: "",
       },
-      // 4.71, // read only for now
+      // 4.71, // read-only value
       3333,
       1199880,
       3333,
@@ -131,7 +131,7 @@ export const mockRegionTableData: PythonTable = {
         value: 4.86,
         pythonScript: "",
       },
-      // 4.86, // read only for now
+      // 4.86, // read-only value
       3200,
       1199880,
       3200,
@@ -173,7 +173,7 @@ export const mockRegionTableData: PythonTable = {
         value: 3.2,
         pythonScript: "",
       },
-      // 3.2, // read only for now
+      // 3.2, // read-only value
       3458,
       207480,
       3458,
@@ -196,7 +196,7 @@ export const mockRegionTableData: PythonTable = {
         value: 3.68,
         pythonScript: "",
       },
-      // 3.68, // read only for now
+      // 3.68, // read-only value
       3350,
       1206000,
       3350,
@@ -219,7 +219,7 @@ export const mockRegionTableData: PythonTable = {
         value: 3.68,
         pythonScript: "",
       },
-      // 3.68, // read only for now
+      // 3.68, // read-only value
       3400,
       612000,
       3400,
@@ -261,7 +261,7 @@ export const mockRegionTableData: PythonTable = {
         value: 3.61,
         pythonScript: "",
       },
-      // 3,61, // read only for now
+      // 3,61, // read-only value
       5000,
       1200000,
       5000,

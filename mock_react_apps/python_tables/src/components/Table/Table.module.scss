@@ -9,6 +9,10 @@
         }
     }
 
+    .trBold {
+        font-weight: bold;
+    }
+
     .th,
     .td {
         padding: 5px;
@@ -35,6 +39,10 @@
                 background: red;
             }
         }
+    }
+
+    .editable {
+        background-color: lightblue;
     }
 
     &.sticky {

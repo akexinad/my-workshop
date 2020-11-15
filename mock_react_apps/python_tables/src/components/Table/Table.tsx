@@ -78,13 +78,36 @@ export const Table: FC<TableProps> = ({ regionColumns, data }) => {
       </div>
 
       <div {...getTableBodyProps()} className={classes.body}>
-        {rows.map((row, i) => {
+        {rows.map((row) => {
+          /**
+           * Add custom styling to rows that display the unit mix summaries.
+           * Values is actually an array of RegionCells, not just
+           * CB, but is casted as an array of CB to avoid type errors when looking
+           * for rows that contain code blocks.
+           */
+          const values: Array<CB> = Object.values(row.values);
+
+          const detailRow = values.find((value) => value.value);
+
           prepareRow(row);
           return (
-            <div {...row.getRowProps()} className={classes.tr}>
+            <div
+              {...row.getRowProps()}
+              className={detailRow ? classes.tr : classes.trBold}
+            >
               {row.cells.map((cell) => {
+                /**
+                 * Add custom styling to editable cells
+                 */
+                const codeBlockCell = cell.value as CB;
+
                 return (
-                  <div {...cell.getCellProps()} className={classes.td}>
+                  <div
+                    {...cell.getCellProps()}
+                    className={
+                      codeBlockCell.value ? classes.editable : classes.td
+                    }
+                  >
                     {cell.render("Cell")}
                   </div>
                 );
