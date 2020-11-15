@@ -16,9 +16,13 @@ export const createRegionTable = (data: RegionTable, frozenColumns: number) => {
          * If there are more rows than columns. Shouldn't happen
          * but we still need to check.
          */
-        if (!regionTableColumns[index]) return;
+        if (!regionTableColumnsNoHeader[index]) return;
 
-        const columnAccessor = regionTableColumns[index].accessor;
+        /**
+         * The accessor is the common denominator between the column
+         * and the data in react table.
+         */
+        const columnAccessor = regionTableColumnsNoHeader[index].accessor;
 
         const value = {
           [columnAccessor]: cell === 0 ? "-" : cell,
@@ -34,25 +38,25 @@ export const createRegionTable = (data: RegionTable, frozenColumns: number) => {
     });
   };
 
-  let regionTableColumns: Array<RegionTableColumn>;
+  let regionTableColumnsNoHeader: Array<RegionTableColumn>;
 
   /**
    * React table's useTable hook requires the column object
    * for it's accessor property.
    */
   if (!data.headers) {
-    regionTableColumns = data.rows.map((row, index) => ({
+    regionTableColumnsNoHeader = data.rows.map((row, index) => ({
       Header: row[0].toString(),
       accessor: row[0].toString() + index,
     }));
 
     return {
-      regionTableColumns,
+      regionTableColumns: regionTableColumnsNoHeader,
       regionTableRows: createRows(data),
     };
   }
 
-  regionTableColumns = data.headers.map((header, index) => {
+  regionTableColumnsNoHeader = data.headers.map((header, index) => {
     // Make the first set of columns freeze on the left
     while (index < frozenColumns) {
       return {
@@ -75,7 +79,7 @@ export const createRegionTable = (data: RegionTable, frozenColumns: number) => {
   });
 
   return {
-    regionTableColumns,
+    regionTableColumns: regionTableColumnsNoHeader,
     regionTableRows: createRows(data),
   };
 };
