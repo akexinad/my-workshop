@@ -63,7 +63,7 @@ export const createRegionTable = (data: RegionTable, frozenColumns: number) => {
         Header: capitalizeEach(header.toString()),
         accessor: header.toString(),
         Footer: data.footers
-          ? capitalizeEach(data.footers.toString()[index])
+          ? capitalizeEach(data.footers[index].toString())
           : null,
         sticky: "left",
       };
@@ -73,7 +73,7 @@ export const createRegionTable = (data: RegionTable, frozenColumns: number) => {
       Header: capitalizeEach(header.toString()),
       accessor: header.toString(),
       Footer: data.footers
-        ? capitalizeEach(data.footers.toString()[index])
+        ? capitalizeEach(data.footers[index].toString())
         : null,
     };
   });
