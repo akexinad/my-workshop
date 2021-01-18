@@ -1,6 +1,4 @@
-console.log('hello world');
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1eGsyZmhlYSJ9.5M9Nprzz59r7--kUgE_BWA';
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 var map = window.map = new mapboxgl.Map({
     container: 'map',

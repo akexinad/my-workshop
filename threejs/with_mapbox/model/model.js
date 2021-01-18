@@ -1,4 +1,5 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWtleGluYWQiLCJhIjoiY2p0aWJ1b3d1MG53dzQzcGY1eGsyZmhlYSJ9.5M9Nprzz59r7--kUgE_BWA';
+mapboxgl.accessToken = MAPBOX_TOKEN;
+
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
@@ -58,10 +59,10 @@ const customLayer = {
         scene.add(directionalLight2);
 
         // use the three.js GLTF loader to add the 3D model to the three.js scene
-        // var loader = new THREE.GLTFLoader();
-        // loader.load('https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf', (function (gltf) {
-        //     scene.add(gltf.scene);
-        // }).bind(this));
+        var loader = new THREE.GLTFLoader();
+        loader.load('https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf', (function (gltf) {
+            scene.add(gltf.scene);
+        }).bind(this));
 
         renderer.autoClear = false;
     },
