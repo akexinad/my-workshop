@@ -32,7 +32,7 @@ map.on("load", () => {
         renderingMode: "3d",
         onAdd: function (map, mbxContext) {
             // instantiate threebox
-            window.tb = new Threebox(map, mbxContext, { defaultLights: true });
+            tb = new Threebox(map, mbxContext, { defaultLights: true });
 
             const geo = new THREE.BoxGeometry(10, 10, 178);
             const mat = new THREE.MeshLambertMaterial({ color: "blue" });
@@ -52,7 +52,6 @@ map.on("load", () => {
                     },
                 });
 
-
             //instantiate a red sphere and position it at the origin lnglat
             var sphere = tb
                 .sphere({ color: "red", material: "MeshBasicMaterial" })
@@ -60,8 +59,7 @@ map.on("load", () => {
             // add sphere to the scene
             tb.add(sphere);
 
-            tb.add(tbObject)
-
+            tb.add(tbObject);
         },
 
         render: function () {
