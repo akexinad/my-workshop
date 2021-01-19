@@ -34,7 +34,7 @@ map.on("load", () => {
             // instantiate threebox
             window.tb = new Threebox(map, mbxContext, { defaultLights: true });
 
-            const geo = new THREE.BoxGeometry(10, 10, 10);
+            const geo = new THREE.BoxGeometry(10, 10, 178);
             const mat = new THREE.MeshLambertMaterial({ color: "blue" });
             const mesh = new THREE.Mesh(geo, mat);
 
