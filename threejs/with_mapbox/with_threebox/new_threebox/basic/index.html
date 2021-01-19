@@ -8,10 +8,18 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css"
       rel="stylesheet"
     />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
     <title>New Threebox</title>
   </head>
   <body>
+
+    <div id='map'></div>
+    
     <script src="./lib/threebox.min.js"></script>
+    <script src="../../../key.js"></script>
     <script src="./index.js"></script>
   </body>
 </html>
