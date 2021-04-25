@@ -21,7 +21,17 @@ function App() {
     // Pyodide is now ready to use...
     window.pyodide.runPython(`
         import sys
+        from traceback import format_exception
+        
         sys.version
+
+        def reformat_exception():
+          from traceback import format_exception
+          # Format a modified exception here
+          # this just prints it normally but you could for instance filter some frames
+          return "".join(
+              format_exception(sys.last_type, sys.last_value, sys.last_traceback)
+          )
     `);
 
     setIsLoading(false);
@@ -33,16 +43,7 @@ function App() {
 
   const runScript = (code: string) => {
     const pyodide = window.pyodide;
-    pyodide.runPython(`
-      def reformat_exception():
-          from traceback import format_exception
-          # Format a modified exception here
-          # this just prints it normally but you could for instance filter some frames
-          return "".join(
-              traceback.format_exception(sys.last_type, sys.last_value, sys.last_traceback)
-          )
-    `);
-    let reformat_exception = pyodide.globals.get("reformat_exception");
+    
 
     try {
       const result = pyodide.runPython(code);
@@ -56,10 +57,16 @@ function App() {
 
       setOutput(result);
     } catch (error) {
-      // console.error(`There was error running script`, error);
+      const reformat_exception = pyodide.globals.get("reformat_exception");
+      console.error(`There was error running script`, error);
       //@ts-ignore
       error.message = reformat_exception()
-      throw error;
+      console.log(`error.message`, error.message)
+      console.log(`error.message`, error.message.split(" "))
+
+      const errorStart = error.message.split(" ").find((str: string) => str.includes(""))
+
+      // throw error;
     }
   };
 
