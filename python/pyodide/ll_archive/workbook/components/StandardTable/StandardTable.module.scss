@@ -1,0 +1,45 @@
+@import "../../../../styling/variables";
+
+.table {
+    width: 100%;
+    /*
+    collapse the border at the table level to
+    be able to add borders to tr elements
+    */
+    border-collapse: collapse;
+
+    tr {
+        &:first-child {
+            border-top: 2px solid black;
+        }
+        
+        &:last-child {
+            border-bottom: 2px solid black;
+        }
+
+        border-bottom: 1px solid $eli-utility-dark;
+    }
+    
+    th {
+        padding: 15px 15px;
+        text-align: right;
+        line-height: 1.4;
+        color: $eli-font-color-header-light;
+        border-bottom: 2px solid black;
+    }
+
+    td {
+        padding: 15px 15px;
+        width: 500px;
+        text-align: right;
+    
+        :last-child {
+            border-right: 0;
+        }
+
+    }
+
+    .firstColumn {
+        text-align: left;
+    }
+}

@@ -1,0 +1,23 @@
+@import "../../../../styling/_variables";
+
+.addBlockButton {
+    cursor: pointer;
+    background-color: $eli-podium-blue;
+    height: 36px;
+    border: none;
+    border-radius: 4px;
+    transition: .5s;
+    box-shadow: 3px 3px 5px lightgray;
+
+    &:hover {
+        background-color: $eli-highlight-yellow;
+    }
+
+    /*
+    This pseudo-class removes the black border
+    that appears after you click the icon.
+    */
+    &:focus {
+        outline: none;
+    }
+}

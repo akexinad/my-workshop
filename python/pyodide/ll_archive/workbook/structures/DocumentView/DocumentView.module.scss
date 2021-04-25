@@ -1,0 +1,46 @@
+@import "../../../../styling/_variables";
+
+.container {
+    background-color: #E6EBF0;
+}
+
+.blocks {
+    display: flex;
+    margin-left: 12px;
+
+    .addBlock {
+        min-width: 30px;
+    }
+}
+
+.summaryDiv {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.buttons {
+    /* Primary CTA Background */
+    display: inline-block;
+    font-family: "Roboto", Arial, Verdana, Tahoma, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1.7px;
+    line-height: 34px;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 20px;
+    min-width: 130px;
+    cursor: pointer;
+    color: #120b31;
+
+    /* All Devices / Colours / Primary / Podium Blue */
+
+    background: #23B4C3;
+    border-radius: 100px;
+
+    &:hover {
+        transition: 0.6s;
+        background: #fce809;
+    }
+}

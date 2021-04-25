@@ -7,12 +7,14 @@ require("codemirror/mode/python/python");
 /**
  * https://pyodide.org/en/stable/usage/quickstart.html
  * https://github.com/pyodide/pyodide/issues/552
+ * https://github.com/xhlulu/react-pyodide-template
  */
 
 function App() {
   const [value, setValue] = useState("");
   const [output, setOutput] = useState<PyodideResult>("");
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const loadPyodide = async () => {
     await window.loadPyodide({
@@ -43,7 +45,6 @@ function App() {
 
   const runScript = (code: string) => {
     const pyodide = window.pyodide;
-    
 
     try {
       const result = pyodide.runPython(code);
@@ -57,14 +58,18 @@ function App() {
 
       setOutput(result);
     } catch (error) {
-      const reformat_exception = pyodide.globals.get("reformat_exception");
-      console.error(`There was error running script`, error);
-      //@ts-ignore
-      error.message = reformat_exception()
-      console.log(`error.message`, error.message)
-      console.log(`error.message`, error.message.split(" "))
+      const reformat_exception = pyodide.globals.get(
+        "reformat_exception"
+      ) as CallableFunction;
+      error.message = reformat_exception();
 
-      const errorStart = error.message.split(" ").find((str: string) => str.includes(""))
+      const errorMessage = error.message
+        .split("\n")
+        .find((line: string) => line.includes("Error"));
+
+      console.log(`errorArray`, errorMessage);
+
+      setError(errorMessage);
 
       // throw error;
     }
@@ -97,6 +102,7 @@ function App() {
         <div>
           <h2>Result</h2>
           <h3>{output}</h3>
+          {error ? <h2 style={{ color: "red" }}>{error}</h2> : null}
         </div>
       </header>
     </div>

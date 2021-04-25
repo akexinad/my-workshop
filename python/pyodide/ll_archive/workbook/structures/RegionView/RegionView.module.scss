@@ -1,0 +1,16 @@
+@import "../../../../styling/variables";
+
+.container {
+    margin: 40px;
+    padding: 20px 40px;
+    background-color: $white;
+    border-radius: $box-border-radius;
+
+    .title {
+        margin: 24px 0px;
+    }
+}
+
+.dateContainer {
+    display: flex;
+}

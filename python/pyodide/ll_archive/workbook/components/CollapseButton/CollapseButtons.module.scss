@@ -1,0 +1,21 @@
+@import "../../../../styling/_variables";
+
+.collapseButton {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    transition: .5s;
+    
+    &:hover {
+        svg {
+            path {
+                transition: .5s;
+                fill: $eli-highlight-yellow;
+            }
+        }
+    }
+
+    &:focus {
+        outline: none;
+    }
+}

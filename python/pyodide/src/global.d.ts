@@ -3,7 +3,6 @@ declare global {
     pyodide: Pyodide;
     loadPyodide: ({ indexURL: string }) => Proimse<void>;
     __pyodideLoading: boolean
-    // languagePluginLoader: Promise<void>;
   }
 
   interface Pyodide {
@@ -20,8 +19,6 @@ declare global {
   
   type PyodideResult = string | number | object | CallableFunction
 }
-
-declare module "./pythonScripts/*.py";
 
 // Adding this exports the declaration file which Typescript/CRA can now pickup:
 export {};

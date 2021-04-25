@@ -1,0 +1,63 @@
+@import "../../../../styling/variables";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 28px 40px 0px;
+
+    h4 {
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
+}
+
+.inputsContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    border-radius: 4px;
+    width: 164px;
+    height: 50px;
+
+    .dateInputs {
+        display: flex;
+        align-items: center;    
+        margin: auto;
+    }
+    
+    .dateInput {
+        border: none;
+        margin: auto;
+        text-align: center;
+        height: 40px;
+        width: 34px;                
+        font-size: 16px;
+        font-weight: bold;
+        background-color: inherit;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:last-child {
+            width: 48px;
+        }
+    }
+    
+    .forwardSlash {
+        font-size: 32px;
+        font-weight: 50;
+        color: $eli-mid-grey;
+    }
+}
+
+
+.valid {
+    border: 2px solid $eli-mid-grey;
+}
+
+.invalid {
+    border: 2px solid #e04538;
+    background-color: #ffdedb;
+}

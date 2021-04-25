@@ -1,0 +1,19 @@
+.deleteButton {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    height: 20px;
+
+    &:hover {
+        svg {
+            path {
+                transition: .5s;
+                fill: red;
+            }
+        }
+    }
+
+    &:focus {
+        outline: none;
+    }
+}

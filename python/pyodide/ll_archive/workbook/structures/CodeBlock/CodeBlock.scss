@@ -1,0 +1,70 @@
+
+.codeblock {
+    display: flex;
+    padding: 1rem 2rem;
+    width: 100%;
+    max-width: 80vw;
+
+    &.no-padding {
+        padding: 0;
+    }
+}
+
+.codeblock-left {
+    flex: 3;
+    margin-right: 2rem;
+
+    .holder {
+        display: flex;
+        align-items: center;
+    }
+
+    label {
+        display: flex;
+    }
+
+    input, select {
+        display: flex;
+        margin: 0.5rem 0.25rem;
+        padding: 5px;
+        // width: 100%;
+    }
+
+    &.no-padding {
+        flex: 1;
+        display: flex;
+
+        input {
+            margin: 0;
+            margin-left: 10px;
+        }
+    }
+}
+
+.codeblock-right {
+    flex: 12;
+
+    width: 100%;
+
+    .CodeMirror {
+        height: 150px;
+    }
+
+    .mini-editor {
+        display: block;
+        width: 100%;
+    }
+
+    .mini-editor .CodeMirror {
+        height: 30px;
+        padding: 3px;
+    }
+}
+
+.codeblock-delete {
+    flex: 1;
+}
+
+.data-grid-container .data-grid {
+    width: 100%;
+}

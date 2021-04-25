@@ -1,0 +1,17 @@
+@import "../../../../styling/_variables";
+
+.contextMenu {
+    position: absolute;
+    z-index: 9000;
+    background: white;
+    border: 1px solid $eli-light-grey;
+
+    .item {
+        padding: 1rem;
+
+        &:hover {
+            background: darken($eli-hr-color, 10%);
+            cursor: pointer;
+        }
+    }
+}
