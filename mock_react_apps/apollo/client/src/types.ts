@@ -6,7 +6,7 @@ export type IModule = {
   content: string;
 };
 
-export type ITrack = {
+export type ITrack = { 
   title: string;
   modules: IModule[];
   description: string;

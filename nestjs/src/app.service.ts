@@ -7,6 +7,6 @@ export class AppService {
     }
 
     getWtf(): string {
-        return 'what the fuck is going on';
+        return 'well thats fun';
     }
 }

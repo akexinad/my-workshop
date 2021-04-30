@@ -1,7 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpCode, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('foo')
 export class AppController {
     constructor(private readonly appService: AppService) {}
 
@@ -11,7 +12,13 @@ export class AppController {
     }
 
     @Get('/wtf')
-    getFoo(): string {
-        return this.appService.getWtf();
+    @HttpCode(876)
+    getFoo() {
+        // return this.appService.getWtf();
+        const data = this.appService.getWtf();
+
+        return data;
+
+        // res.status(700).send(data);
     }
 }
