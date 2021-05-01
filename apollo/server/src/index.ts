@@ -2,7 +2,6 @@ import { ApolloServer } from "apollo-server";
 import env from "dotenv";
 import "reflect-metadata"; // Package required for decorators to work.
 import { buildSchema } from "type-graphql";
-// import { buildSchema } from "type-graphql";
 // import { mocks } from "./data/mockData";
 import { LaunchAPI } from "./dataSources/launch";
 import { TrackResolver } from "./resolvers/track";
@@ -16,11 +15,9 @@ const main = async () => {
             validate: false
         }),
         // mocks: mocks,
-        context: {
-            dataSources: () => ({
-                launchAPI: new LaunchAPI()
-            })
-        }
+        dataSources: () => ({
+            launchAPI: new LaunchAPI()
+        })
     });
 
     apolloServer.listen().then(() => {

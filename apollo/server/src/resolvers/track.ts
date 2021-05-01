@@ -1,22 +1,15 @@
-import { Track } from "../entities/Track";
+import { MyCtx } from "src/types";
 import { Ctx, Query, Resolver } from "type-graphql";
-import { LaunchAPI } from "../dataSources/launch";
 import { Launch } from "../entities/Launch";
-
-type MyCtx = {
-    dataSources: () => {
-        launchAPI: LaunchAPI
-    }
-}
+import { Track } from "../entities/Track";
 
 @Resolver(Track)
 export class TrackResolver {
     @Query(() => [Launch])
-    async tracksForHome(
-        @Ctx() ctx: MyCtx
-    ) {
-        return await ctx.dataSources().launchAPI.getAllLaunches()
-        
+    async tracksForHome(@Ctx() ctx: MyCtx) {
+
+        return await ctx.dataSources.launchAPI.getAllLaunches();
+
         // const track: Track = {
         //     id: "13h8f138hf0183274r017234",
         //     author: {
@@ -26,7 +19,7 @@ export class TrackResolver {
         //     },
         //     length: 5,
         //     modulesCount: 4,
-        //     thumbnail: "thumbnail", 
+        //     thumbnail: "thumbnail",
         //     title: "title"
         // };
 

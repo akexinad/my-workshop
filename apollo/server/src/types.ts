@@ -1,3 +1,5 @@
+import { LaunchAPI } from "./dataSources/launch";
+
 export type LaunchData = {
     flight_number: number;
     launch_date_unix: string;
@@ -13,5 +15,11 @@ export type LaunchData = {
         rocket_id: string;
         rocket_name: string;
         rocket_type: string;
+    };
+};
+
+export type MyCtx = {
+    dataSources: {
+        launchAPI: LaunchAPI;
     };
 };

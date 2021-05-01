@@ -1,27 +1,10 @@
-// import { DataSourceConfig } from "apollo-datasource";
-import { HTTPCache, RESTDataSource } from "apollo-datasource-rest";
+import { RESTDataSource } from "apollo-datasource-rest";
 import { LaunchData } from "src/types";
 
 export class LaunchAPI extends RESTDataSource {
     constructor() {
         super();
         this.baseURL = "https://api.spacexdata.com/v2/";
-        /**
-         * See: https://github.com/apollographql/apollo-server/issues/3429
-         *
-         * I think the issue arises from the fact that apollo is being paired with
-         * type-graphql whose buildSchema function is asynchronous,
-         * compared to the non-asynchronous buildSchema function of the
-         * normal graphql library.
-         *
-         * Thus we need to call initialize in the constructor to initialise the connection:
-         * 
-         * this.initialize({} as DataSourceConfig<any>);
-         * 
-         * You can also initialize httpCache() as is dont here:
-         * https://github.com/apollographql/apollo-server/issues/2240#issuecomment-508516969
-         */
-        this.httpCache = new HTTPCache()
     }
 
     async getAllLaunches() {
