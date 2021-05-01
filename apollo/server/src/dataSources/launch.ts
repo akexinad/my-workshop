@@ -1,5 +1,5 @@
 // import { DataSourceConfig } from "apollo-datasource";
-import { HTTPCache, RESTDataSource } from "apollo-datasource-rest";
+import { RESTDataSource } from "apollo-datasource-rest";
 import { LaunchData } from "src/types";
 
 export class LaunchAPI extends RESTDataSource {
@@ -21,7 +21,7 @@ export class LaunchAPI extends RESTDataSource {
          * You can also initialize httpCache() as is dont here:
          * https://github.com/apollographql/apollo-server/issues/2240#issuecomment-508516969
          */
-        this.httpCache = new HTTPCache()
+        // this.httpCache = new HTTPCache()
     }
 
     async getAllLaunches() {
