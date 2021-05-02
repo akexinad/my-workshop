@@ -4,6 +4,7 @@ import "reflect-metadata"; // Package required for decorators to work.
 import { buildSchema } from "type-graphql";
 // import { mocks } from "./data/mockData";
 import { LaunchAPI } from "./dataSources/launch";
+import { LaunchResolver } from "./resolvers/launch";
 import { TrackResolver } from "./resolvers/track";
 
 const main = async () => {
@@ -11,7 +12,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [TrackResolver],
+            resolvers: [TrackResolver, LaunchResolver],
             validate: false
         }),
         // mocks: mocks,

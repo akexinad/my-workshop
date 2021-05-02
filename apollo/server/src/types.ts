@@ -19,6 +19,7 @@ export type LaunchData = {
 };
 
 export type MyCtx = {
+    launchAPI: LaunchAPI;
     dataSources: {
         launchAPI: LaunchAPI;
     };
