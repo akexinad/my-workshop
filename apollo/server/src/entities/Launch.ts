@@ -2,10 +2,10 @@ import { Field, ID, ObjectType } from "type-graphql";
 
 @ObjectType()
 class Mission {
-    @Field(() => String, { nullable: true })
+    @Field({ nullable: true })
     name: string;
 
-    @Field(() => String, { nullable: true })
+    @Field({ nullable: true })
     missionPatch: string;
 }
 
@@ -14,10 +14,10 @@ class Rocket {
     @Field(() => ID)
     id: string;
 
-    @Field(() => String, { nullable: true })
+    @Field({ nullable: true })
     name: string;
 
-    @Field(() => String, { nullable: true })
+    @Field({ nullable: true })
     type: string;
 }
 
@@ -26,10 +26,10 @@ export class Launch {
     @Field(() => ID)
     id: number;
 
-    @Field(() => String)
+    @Field()
     cursor: string;
 
-    @Field(() => String, { nullable: true })
+    @Field({ nullable: true })
     site: string;
 
     @Field(() => Mission, { nullable: true })
