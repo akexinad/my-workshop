@@ -1,6 +1,6 @@
-import { Launch } from "../entities/Launch";
 import { MyCtx } from "src/types";
 import { Ctx, Query, Resolver } from "type-graphql";
+import { Launch } from "../entities/Launch";
 
 @Resolver(Launch)
 export class LaunchResolver {
