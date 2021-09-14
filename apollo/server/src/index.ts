@@ -1,32 +1,48 @@
 import { ApolloServer } from "apollo-server";
-import env from "dotenv";
-import "reflect-metadata"; // Package required for decorators to work.
-import { buildSchema } from "type-graphql";
-// import { mocks } from "./data/mockData";
-import { LaunchAPI } from "./dataSources/launch";
-import { LaunchResolver } from "./resolvers/launch";
-import { TrackResolver } from "./resolvers/track";
+import IsEmail from "isemail";
+import { LaunchAPI } from "./datasources/launch";
+import { UserAPI } from "./datasources/user";
+import { resolvers } from "./resolvers";
+import { typeDefs } from "./schema";
+import { createStore } from "./utils";
 
-const main = async () => {
-    env.config();
+const store = createStore();
 
-    const apolloServer = new ApolloServer({
-        schema: await buildSchema({
-            resolvers: [TrackResolver, LaunchResolver],
-            validate: false
-        }),
-        // mocks: mocks,
-        dataSources: () => ({
-            launchAPI: new LaunchAPI()
-        })
-    });
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    /**
+     * although we defined dataSources outside of context, 
+     * it is automatically included for each operation.
+     */
+    dataSources: () => ({
+        launchAPI: new LaunchAPI(),
+        userAPI: new UserAPI({ store }),
+    }),
+    context: async (ctx) => {
+        const auth = (ctx.req.headers && ctx.req.headers.authorization) || "";
 
-    apolloServer.listen().then(() => {
-        console.log(
-            `\nServer is running on http://localhost:${process.env.PORT}`,
-            `\nYou can also query at https://studio.apollographql.com/dev\n`
-        );
-    });
-};
+        const email = Buffer.from(auth, "base64").toString("ascii");
 
-main();
+        if (!IsEmail.validate(email))
+            return {
+                user: null,
+            };
+
+        const users = await store.users.findOrCreate({ where: { email } });
+
+        const user = (users && users[0]) || null;
+
+        return {
+            user: { ...user.dataValues },
+        };
+    },
+});
+
+server.listen().then(({ port }) => {
+    console.log(`
+      Server is running!
+      Listening on port ${port}
+      Explore at https://studio.apollographql.com/sandbox
+    `);
+});
