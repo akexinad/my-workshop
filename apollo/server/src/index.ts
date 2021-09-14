@@ -1,4 +1,5 @@
 import { ApolloServer } from "apollo-server";
+import dotenv from "dotenv";
 import IsEmail from "isemail";
 import { LaunchAPI } from "./datasources/launch";
 import { UserAPI } from "./datasources/user";
@@ -6,13 +7,15 @@ import { resolvers } from "./resolvers";
 import { typeDefs } from "./schema";
 import { createStore } from "./utils";
 
+dotenv.config();
+
 const store = createStore();
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     /**
-     * although we defined dataSources outside of context, 
+     * Although we defined dataSources outside of context,
      * it is automatically included for each operation.
      */
     dataSources: () => ({
