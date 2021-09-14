@@ -13,8 +13,9 @@ module.exports = {
     semi: true,
     singleQuote: false,
     tabWidth: 4,
-    trailingComma: "none",
+    trailingComma: "es5",
     useTabs: false,
     vueIndentScriptAndStyle: false,
-    parser: "typescript"
+    filepath: "c:\\code\\workshop\\apollo\\server\\src\\types\\types.ts",
+    parser: "typescript",
 };
