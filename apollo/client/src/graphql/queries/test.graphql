@@ -1,0 +1,8 @@
+query Test {
+    launch(id: 56) {
+        id
+        mission {
+            name
+        }
+    }
+}
