@@ -1,5 +1,6 @@
 import { DataSource } from "apollo-datasource";
 import isEmail from "isemail";
+import { Store } from "../types/types";
 
 export class UserAPI extends DataSource {
     store: any;
@@ -8,6 +9,10 @@ export class UserAPI extends DataSource {
     constructor({ store }: any) {
         super();
         this.store = store;
+
+        this.store.users.findOrCreate
+
+        store.users
     }
 
     /**
@@ -37,8 +42,6 @@ export class UserAPI extends DataSource {
     }
 
     async bookTrips({ launchIds }: any) {
-        console.log(`this.context`, this.context)
-
         const userId = this.context.user.id;
         
         if (!userId) return;

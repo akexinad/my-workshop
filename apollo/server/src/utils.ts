@@ -1,4 +1,5 @@
 import SQL from "sequelize";
+import { Store } from "./types/types";
 
 export const paginateResults = ({
     after: cursor,
@@ -7,7 +8,7 @@ export const paginateResults = ({
     // can pass in a function to calculate an item's cursor
     getCursor = (item: any) => null,
 }: any) => {
-    if (pageSize < 1) return [];
+    if (pageSize! < 1) return [];
 
     if (!cursor) return results.slice(0, pageSize);
     const cursorIndex = results.findIndex((item: any) => {

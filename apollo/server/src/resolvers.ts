@@ -15,8 +15,6 @@ export const resolvers: Resolvers<ApolloContext> = {
 
             allLaunches.reverse();
 
-            console.log(`args`, args);
-
             const launches = paginateResults({
                 after: args.after,
                 pageSize: args.pageSize,
